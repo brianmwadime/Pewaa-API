@@ -1,0 +1,21 @@
+{
+  "dev": {
+    "driver": "pg",
+    "user": "mwakima",
+    "password": "",
+    "database": "pewaa"
+  },
+  "travis": {
+    "driver": "pg",
+    "user": "postgres",
+    "password": "",
+    "database": "pewaa_dev"
+  },
+  "staging": {
+    "driver": "pg",
+    "user": {"ENV": "HEROKU_PG_USER"},
+    "password": {"ENV": "HEROKU_PG_PASSWORD"},
+    "host": {"ENV": "HEROKU_PG_HOST"},
+    "database": {"ENV": "HEROKU_PG_DB"}
+  }
+}
