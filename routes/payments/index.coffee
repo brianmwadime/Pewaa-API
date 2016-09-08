@@ -1,44 +1,38 @@
 'use strict'
 require("#{__dirname}/../../environment")
-PaymentsController     = require "#{__dirname}/../../controllers/payments"
-Payment                = require "#{__dirname}/../../models/payment"
+# PaymentsController      = require "#{__dirname}/../../controllers/payments"
+Payment                 = require "#{__dirname}/../../models/payment"
 
-_                   = require 'underscore'
-apiVersion 	        = process.env.API_VERSION
+PaymentRequest          = require "#{__dirname}/../../controllers/mpesa/PaymentRequest"
+ConfirmPayment          = require "#{__dirname}/../../controllers/mpesa/ConfirmPayment"
+PaymentStatus           = require "#{__dirname}/../../controllers/mpesa/PaymentStatus"
+PaymentSuccess          = require "#{__dirname}/../../controllers/mpesa/PaymentSuccess"
+checkForRequiredParams  = require "#{__dirname}/../../validators/checkForRequiredParams"
+
+_                       = require 'underscore'
+apiVersion 	            = process.env.API_VERSION
 
 handler = (app) ->
 
-  app.get "/api/v#{apiVersion}/payments", authenticate(), (req, res) ->
-    if typeof req.query.wishlistId isnt 'undefined'
-      PaymentsController.getForWishlist req.query.wishlistId, (err, gifts)->
-        res.send _.map gifts, (t) -> (new Payment t).publicObject()
-    else
-      res.send 404
+  # check the status of the API system
+  app.get "/api/v#{apiVersion}/status", (req, res) ->
+    res.json({ status: 200 })
 
-  app.post "/api/v#{apiVersion}/payments", authenticate(), (req, res) ->
-    req.body.userId = req.user.user.id
-    te = new Payment req.body
-    if te.validate()
-      PaymentsController.create te, (err, gift)->
-        if err
-          res.send 400, error: 'some error'
-        else
-          res.send gift.publicObject()
-    else
-      res.send 400, error: 'some error'
+  app.post "/api/v#{apiVersion}/payments/request", checkForRequiredParams, (req, res) -> 
+    PaymentRequest.handler(req, res)
+  
+  app.get "/api/v#{apiVersion}/payments/confirm/:id", (req, res) -> 
+    ConfirmPayment.handler(req, res)
 
-  app.get "/api/v#{apiVersion}/payments/:id", authenticate(), (req, res) ->
-    PaymentsController.getOne req.params.id, (err, gift)->
-      if err or not gift.validate()
-        res.send 404, error: "#{req.params.id} not found"
-      else
-        res.send gift.publicObject()
+  app.get "/api/v#{apiVersion}/payments/status/:id", (req, res) -> 
+    PaymentStatus.handler(req, res)
 
-  app.delete "/api/v#{apiVersion}/payments/:id", authenticate(), (req, res) ->
-    PaymentsController.deleteOne req.params.id, (err)->
-      if err
-        res.send 404, error: "#{req.params.id} not found"
-      else
-        res.send 200
+  app.all "/api/v#{apiVersion}/payments/success", (req, res) -> 
+    PaymentSuccess.handler(req, res)
+
+  # for testing last POST response
+  # if MERCHANT_ENDPOINT has not been provided
+  app.all "/api/v#{apiVersion}/thumbs/up", (req, res) -> 
+    res.sendStatus(200)
 
 module.exports = handler

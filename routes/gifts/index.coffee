@@ -4,6 +4,7 @@ GiftsController     = require "#{__dirname}/../../controllers/gifts"
 Gift                = require "#{__dirname}/../../models/gift"
 
 _                   = require 'underscore'
+authenticate 		    = require "#{__dirname}/../../components/oauth/authenticate"
 apiVersion 	        = process.env.API_VERSION
 
 handler = (app) ->
