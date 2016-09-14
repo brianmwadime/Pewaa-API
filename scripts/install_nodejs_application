@@ -12,7 +12,7 @@ set -e
 
 # pushd "$PKG_DIR" >/dev/null
 
-# sudo npm install
+sudo npm install
 
 # if [ -f "bower.json" ];
 # then
