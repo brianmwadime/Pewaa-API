@@ -1,0 +1,7 @@
+#!/bin/bash
+#
+# Validate a PM2-managed service is up and running.
+#
+################################################################################
+
+set -e

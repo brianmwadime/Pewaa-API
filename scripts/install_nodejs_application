@@ -1,0 +1,22 @@
+#!/bin/bash
+#
+# Install package dependencies for a Node.js package
+#
+################################################################################
+
+set -e
+
+# Deploy hooks are run via absolute path, so taking dirname of this script will give us the path to
+# our deploy_hooks directory.
+# . "$(dirname "$0")"/../aws_codedeploy_variables.sh
+
+pushd "$PKG_DIR" >/dev/null
+
+npm install
+
+# if [ -f "bower.json" ];
+# then
+#     bower --allow-root install
+# fi
+
+popd >/dev/null

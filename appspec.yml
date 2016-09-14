@@ -9,11 +9,19 @@ permissions:
     group: www-data
     mode: 755
 hooks:
-  BeforeInstall:
-    - location: scripts/install_dependencies
+  AfterInstall:
+    - location: scripts/install_nodejs_application
+      timeout: 1000
       runas: ubuntu
-    - location: scripts/start_server
+  ApplicationStart:
+    - location: scripts/start_pm2_application
+      timeout: 300
       runas: ubuntu
   ApplicationStop:
-    - location: scripts/stop_server
+    - location: scripts/stop_pm2_application
+      timeout: 300
+      runas: ubuntu
+  ValidateService:
+    - location: scripts/validate_pm2_application
+      timeout: 15
       runas: ubuntu
