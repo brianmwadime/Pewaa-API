@@ -12,16 +12,16 @@ hooks:
   AfterInstall:
     - location: scripts/install_nodejs_application
       timeout: 1000
-      runas: ubuntu
+      runas: www-data
   ApplicationStart:
     - location: scripts/start_pm2_application
       timeout: 300
-      runas: ubuntu
+      runas: www-data
   ApplicationStop:
     - location: scripts/stop_pm2_application
       timeout: 300
-      runas: ubuntu
+      runas: www-data
   ValidateService:
     - location: scripts/validate_pm2_application
       timeout: 15
-      runas: ubuntu
+      runas: www-data
