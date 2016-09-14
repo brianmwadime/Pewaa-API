@@ -3,7 +3,8 @@
   "version": "1.5.0",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./node_modules/.bin/coffee index.coffee"
+    // "start": "nodemon ./node_modules/.bin/coffee index.coffee"
+      "start": "supervisor index.coffee"
   },
   "dependencies": {
     "async": "^2.0.1",
