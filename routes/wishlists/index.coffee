@@ -4,7 +4,7 @@ WishlistsController = require "#{__dirname}/../../controllers/wishlists"
 GiftsController     = require "#{__dirname}/../../controllers/gifts"
 Wishlist            = require "#{__dirname}/../../models/wishlist"
 _                   = require 'underscore'
-authenticate 		= require "#{__dirname}/../../components/oauth/authenticate"
+authenticate 		    = require "#{__dirname}/../../components/oauth/authenticate"
 apiVersion 	        = process.env.API_VERSION
 
 

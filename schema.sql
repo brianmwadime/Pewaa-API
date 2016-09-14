@@ -73,7 +73,9 @@ CREATE TABLE users (
     description text NULL,
     avatar varchar NULL,
     created_on timestamp DEFAULT current_timestamp,
-    updated_on timestamp
+    updated_on timestamp,
+    resetPasswordToken text,
+    resetPasswordExpires timestamp
 );
 
 --

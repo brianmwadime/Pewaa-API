@@ -1,0 +1,19 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /usr/share/nginx/html/api
+permissions:
+  - object: /usr/share/nginx/html/api
+    owner: ubuntu
+    group: www-data
+    mode: 755
+hooks:
+  BeforeInstall:
+    - location: scripts/install_dependencies
+      runas: ubuntu
+    - location: scripts/start_server
+      runas: ubuntu
+  ApplicationStop:
+    - location: scripts/stop_server
+      runas: ubuntu
