@@ -3,3 +3,5 @@
 # Stop a Node.js application managed by PM2
 #
 ################################################################################
+
+forever stopall
