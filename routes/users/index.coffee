@@ -19,7 +19,7 @@ apiVersion 	        	= process.env.API_VERSION
 
 handler = (app) ->
 
-	app.post "/api/v#{apiVersion}/oauth/token", (req, res, next) ->
+	app.post "/v#{apiVersion}/oauth/token", (req, res, next) ->
 		response = new Response(res)
 		request = new Request(req)
 		#   new Request(req), new Response(res)
@@ -28,7 +28,7 @@ handler = (app) ->
 		).catch (err) ->
 			res.status(500).json err
 
-	app.post "/api/v#{apiVersion}/register", (req, res) ->
+	app.post "/v#{apiVersion}/register", (req, res) ->
 		user = new User req.body
 		if user.validate()
 			UsersController.create user, (err, user)->
