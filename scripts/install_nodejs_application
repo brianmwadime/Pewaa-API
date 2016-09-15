@@ -3,7 +3,7 @@
 # Install package dependencies for a Node.js package
 #
 ################################################################################
-
+cd /usr/share/nginx/html/api
 set -e
 
 # Deploy hooks are run via absolute path, so taking dirname of this script will give us the path to
