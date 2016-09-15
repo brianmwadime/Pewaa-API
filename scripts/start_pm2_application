@@ -3,5 +3,8 @@
 # Start a Node.js application managed by PM2
 #
 ################################################################################
+cd /usr/share/nginx/html/api
 
 set -e
+
+npm start
