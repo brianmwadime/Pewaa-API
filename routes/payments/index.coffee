@@ -15,24 +15,24 @@ apiVersion 	            = process.env.API_VERSION
 handler = (app) ->
 
   # check the status of the API system
-  app.get "/api/v#{apiVersion}/status", (req, res) ->
+  app.get "/v#{apiVersion}/status", (req, res) ->
     res.json({ status: 200 })
 
-  app.post "/api/v#{apiVersion}/payments/request", checkForRequiredParams, (req, res) -> 
+  app.post "/v#{apiVersion}/payments/request", checkForRequiredParams, (req, res) -> 
     PaymentRequest.handler(req, res)
   
-  app.get "/api/v#{apiVersion}/payments/confirm/:id", (req, res) -> 
+  app.get "/v#{apiVersion}/payments/confirm/:id", (req, res) -> 
     ConfirmPayment.handler(req, res)
 
-  app.get "/api/v#{apiVersion}/payments/status/:id", (req, res) -> 
+  app.get "/v#{apiVersion}/payments/status/:id", (req, res) -> 
     PaymentStatus.handler(req, res)
 
-  app.all "/api/v#{apiVersion}/payments/success", (req, res) -> 
+  app.all "/v#{apiVersion}/payments/success", (req, res) -> 
     PaymentSuccess.handler(req, res)
 
   # for testing last POST response
   # if MERCHANT_ENDPOINT has not been provided
-  app.all "/api/v#{apiVersion}/thumbs/up", (req, res) -> 
+  app.all "/v#{apiVersion}/thumbs/up", (req, res) -> 
     res.sendStatus(200)
 
 module.exports = handler
