@@ -6,4 +6,4 @@
 cd /usr/share/nginx/html/api
 set -e
 
-forever stopall
+# forever stopall
