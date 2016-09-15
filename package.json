@@ -3,8 +3,7 @@
   "version": "1.5.0",
   "main": "index.js",
   "scripts": {
-    // "start": "nodemon ./node_modules/.bin/coffee index.coffee"
-      "start": "supervisor index.coffee"
+    "start": "supervisor index.coffee"
   },
   "dependencies": {
     "async": "^2.0.1",
@@ -35,7 +34,8 @@
   },
   "devDependencies": {
     "db-migrate": "^0.10.0-beta.15",
-    "nodemon": "^1.10.2"
+    "nodemon": "^1.10.2",
+    "supervisor": "^0.11.0"
   },
   "engines": {
     "node": "^4.3.2",

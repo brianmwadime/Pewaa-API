@@ -10,13 +10,13 @@ set -e
 # our deploy_hooks directory.
 # . "$(dirname "$0")"/../aws_codedeploy_variables.sh
 
-# pushd "$PKG_DIR" >/dev/null
+pushd "$PKG_DIR" >/dev/null
 
-sudo npm install
+npm install
 
 # if [ -f "bower.json" ];
 # then
 #     bower --allow-root install
 # fi
 
-# popd >/dev/null
+popd >/dev/null
