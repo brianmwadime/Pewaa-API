@@ -1,8 +1,7 @@
 version: 0.0
 os: linux
 files:
-  - source: /api
-    destination: /usr/share/nginx/html/api
+    - destination: /usr/share/nginx/html/api
 hooks:
   AfterInstall:
     - location: scripts/install_nodejs_application
