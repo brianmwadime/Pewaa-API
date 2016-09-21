@@ -7,8 +7,6 @@ _                   = require 'underscore'
 authenticate 		    = require "#{__dirname}/../../components/oauth/authenticate"
 apiVersion 	        = process.env.API_VERSION
 
-
-
 handler = (app) ->
   
   app.get "/v#{apiVersion}/wishlists", authenticate(), (req, res) ->
@@ -60,6 +58,5 @@ handler = (app) ->
             res.send 400, error: 'Error'
           else
             res.send gifts
-
 
 module.exports = handler

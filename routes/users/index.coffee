@@ -1,20 +1,19 @@
 'use strict'
 require("#{__dirname}/../../environment")
-_ 						= require "underscore"
-express 				= require "express"
+_ 						= require 'underscore'
+express 				= require 'express'
 oauthServer   			= require 'oauth2-server'
 Request 				= oauthServer.Request;
 Response 				= oauthServer.Response;
-checkForRequiredParams 	= require "#{__dirname}/../../validators/checkForRequiredParams"
-# Users
-UsersController 		= require "#{__dirname}/../../controllers/users"
-User 					= require "#{__dirname}/../../models/user"
-WishlistsController 	= require "#{__dirname}/../../controllers/wishlists"
-GiftsController 		= require "#{__dirname}/../../controllers/gifts"
+checkForRequiredParams 	= require '#{__dirname}/../../validators/checkForRequiredParams'
+UsersController 		= require '#{__dirname}/../../controllers/users'
+User 					= require '#{__dirname}/../../models/user'
+WishlistsController 	= require '#{__dirname}/../../controllers/wishlists'
+GiftsController 		= require '#{__dirname}/../../controllers/gifts'
 
-Wishlist 				= require "#{__dirname}/../../models/wishlist"
-Gift 					= require "#{__dirname}/../../models/gift"
-authenticate 			= require "#{__dirname}/../../components/oauth/authenticate"
+Wishlist 				= require '#{__dirname}/../../models/wishlist'
+Gift 					= require '#{__dirname}/../../models/gift'
+authenticate 			= require '#{__dirname}/../../components/oauth/authenticate'
 apiVersion 	        	= process.env.API_VERSION
 
 handler = (app) ->
