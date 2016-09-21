@@ -1,9 +1,10 @@
 #!/bin/bash
 #
-# Stop a Node.js application managed by PM2
+# Stop a Node.js application managed by Forever
 #
 ################################################################################
 cd /usr/share/nginx/html/api
-set -e
+
+# set -e
 
 npm stop
