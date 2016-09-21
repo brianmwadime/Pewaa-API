@@ -33,4 +33,7 @@ handler = (app) ->
   app.all "/v#{apiVersion}/thumbs/up", (req, res) -> 
     res.sendStatus(200)
 
+  app.all "/v#{apiVersion}/payments/complete", (req, res) -> 
+    res.sendStatus(200)
+
 module.exports = handler
