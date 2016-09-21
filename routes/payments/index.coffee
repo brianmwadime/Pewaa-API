@@ -1,14 +1,12 @@
 'use strict'
 require("#{__dirname}/../../environment")
-# PaymentsController      = require "#{__dirname}/../../controllers/payments"
-Payment                 = require "#{__dirname}/../../models/payment"
+Payment                 = require '#{__dirname}/../../models/payment'
 
-PaymentRequest          = require "#{__dirname}/../../controllers/mpesa/PaymentRequest"
-ConfirmPayment          = require "#{__dirname}/../../controllers/mpesa/ConfirmPayment"
-PaymentStatus           = require "#{__dirname}/../../controllers/mpesa/PaymentStatus"
-PaymentSuccess          = require "#{__dirname}/../../controllers/mpesa/PaymentSuccess"
-checkForRequiredParams  = require "#{__dirname}/../../validators/checkForRequiredParams"
-
+PaymentRequest          = require '#{__dirname}/../../controllers/mpesa/PaymentRequest'
+ConfirmPayment          = require '#{__dirname}/../../controllers/mpesa/ConfirmPayment'
+PaymentStatus           = require '#{__dirname}/../../controllers/mpesa/PaymentStatus'
+PaymentSuccess          = require '#{__dirname}/../../controllers/mpesa/PaymentSuccess'
+checkForRequiredParams  = require '#{__dirname}/../../validators/checkForRequiredParams'
 _                       = require 'underscore'
 apiVersion 	            = process.env.API_VERSION
 
