@@ -61,10 +61,10 @@ CREATE TABLE oauth_clients (
 );
 
 --
--- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: admins; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
-CREATE TABLE users (
+CREATE TABLE admins (
     id uuid DEFAULT uuid_generate_v4(),
     username varchar(100) NOT NULL UNIQUE,
     hash varchar NOT NULL,
@@ -76,6 +76,37 @@ CREATE TABLE users (
     updated_on timestamp,
     resetPasswordToken text,
     resetPasswordExpires timestamp
+);
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace:
+--
+
+CREATE TABLE users (
+    id uuid DEFAULT uuid_generate_v4(),
+    username varchar(100) DEFAULT NULL,
+    phone varchar(100) NOT NULL UNIQUE,
+    country varchar(255) DEFAULT NULL,
+    email varchar(100) NOT NULL UNIQUE,
+    name varchar(200) DEFAULT NULL,
+    description text DEFAULT NULL,
+    avatar varchar DEFAULT NULL,
+    apikey varchar NOT NULL,
+    created_on timestamp DEFAULT current_timestamp,
+    updated_on timestamp,
+    is_activated int(1) NOT NULL DEFAULT '0'
+);
+
+--
+-- Name: sms_codes; Type: TABLE; Schema: public; Owner: -; Tablespace:
+--
+
+CREATE TABLE sms_codes (
+    id uuid DEFAULT uuid_generate_v4(),
+    user_id uuid NOT NULL,
+    code varchar(6) NOT NULL UNIQUE,
+    status int(1) NOT NULL DEFAULT '0',
+    created_on timestamp DEFAULT current_timestamp
 );
 
 --
@@ -159,6 +190,13 @@ ALTER TABLE ONLY users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
 
 --
+-- Name: admins_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+--
+
+ALTER TABLE ONLY admins
+    ADD CONSTRAINT admins_pkey PRIMARY KEY (id);
+
+--
 -- Name: wishlists_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
@@ -201,6 +239,13 @@ ALTER TABLE ONLY wishlist_contributors
 ALTER TABLE ONLY wishlist_contributors
     ADD CONSTRAINT wishlist_contributors_user_fkey FOREIGN KEY (user_id) REFERENCES users(id);
 
+--
+-- Name: sms_codes_user_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+--
+
+ALTER TABLE ONLY sms_codes
+    ADD CONSTRAINT sms_codes_user_fkey FOREIGN KEY (user_id) REFERENCES users(id);
+    
 --
 -- Name: payments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --

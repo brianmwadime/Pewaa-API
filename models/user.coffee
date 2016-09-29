@@ -6,28 +6,23 @@ class User extends BaseModel
   constructor: (options) ->
     super options
 
-    @required = ['username', 'name', 'email', 'hash']
+    @required = ['phone', 'apikey']
     @public = ['description', 'avatar', 'created_on']
-    @public = _.without @required, 'required', 'hash', 'required', 'public'
+    @public = _.without @required, 'required', 'public'
 
-    emailPattern = /// ^ #begin of line
-      ([\w.-]+)         #one or more letters, numbers, _ . or -
-      @                 #followed by an @ sign
-      ([\w.-]+)         #then one or more letters, numbers, _ . or -
-      \.                #followed by a period
-      ([a-zA-Z.]{2,6})  #followed by 2 to 6 letters or periods
+    phonePattern = /// ^ #begin of line
+      (\+254|^){1}[ ]?[7]{1}([0-3]{1}[0-9]{1})[ ]?[0-9]{3}[ ]?[0-9]{3}\z
       $ ///i
 
     @validator =
-      email: ()=>
-        matched = @email.match emailPattern
+      phone: ()=>
+        matched = @phone.match phonePattern
         matched isnt null
 
-    if @password
-      @makeCredentials @password
-      delete @password
+    if @phone
+      @makeCredentials @phone
 
-  makeCredentials: (password) ->
-    @hash = bcrypt.hashSync password, bcrypt.genSaltSync(10)
+  makeCredentials: (phone) ->
+    @apikey = bcrypt.hashSync phone, bcrypt.genSaltSync(10)
 
 module.exports = User
