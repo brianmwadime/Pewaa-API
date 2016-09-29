@@ -30,25 +30,4 @@ class AdminsController extends BaseController
       else
         callback err, new Admin rows[0]
 
-#   deleteOne: (key, callback)->
-#     t = @transaction()
-#     deleteAdmin = @admin.delete()
-#       .where @admin.id.equals key
-#     deleteAdminCredentials = AdminCredentialsController.deleteSql key
-#     start = ->
-#       async.eachSeries [deleteAdminCredentials, deleteAdmin],
-#         (s, cb)->
-#           t.query s, () ->
-#             cb()
-#         , ->
-#           t.commit()
-
-#     t.on 'begin', start
-#     t.on 'error', console.log
-#     t.on 'commit', ->
-#       callback()
-#     t.on 'rollback', ->
-#       callback new Error "Could not delete admin with id #{key}"
-
-
 module.exports = AdminsController.get()
