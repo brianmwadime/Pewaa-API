@@ -8,7 +8,7 @@ authenticate 		    = require "#{__dirname}/../../components/oauth/authenticate"
 apiVersion 	        = process.env.API_VERSION
 
 handler = (app) ->
-  
+
   app.get "/v#{apiVersion}/wishlists", authenticate(), (req, res) ->
     WishlistsController.getWishlistsForUser req.user.user.id, (err, wishlists) ->
       if err
