@@ -6,11 +6,11 @@ files:
 hooks:
   AfterInstall:
     - location: scripts/install_nodejs_application
-      timeout: 1000
+      timeout: 300
       runas: ubuntu
   ApplicationStart:
     - location: scripts/start_pm2_application
-      timeout: 1000
+      timeout: 300
       runas: ubuntu
   ApplicationStop:
     - location: scripts/stop_pm2_application
