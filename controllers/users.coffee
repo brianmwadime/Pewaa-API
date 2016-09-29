@@ -103,14 +103,14 @@ class UsersController extends BaseController
           console.info responseData.body
           # outputs "word to your mother."
           result = 
-            'success' => true,
-            'message' => 'SMS request is Resend! You will be receiving it shortly.',
+            'success' : true,
+            'message' : 'SMS request is Resend! You will be receiving it shortly.',
           
           callback null, result
         else
           error = 
-            'success' => false,
-            'message' => 'Sorry! Error occurred.',
+            'success' : false,
+            'message' : 'Sorry! Error occurred.',
           callback error
 
     t.on 'rollback', ->
