@@ -2,9 +2,8 @@ BaseController  = require "#{__dirname}/base"
 sql             = require 'sql'
 async           = require 'async'
 User            = require "#{__dirname}/../models/user"
-twilio          = require '#{__dirname}/../config/twilio' # get db config file
+twilio          = require "#{__dirname}/../config/twilio" # get twilio config file
 client          = require('twilio')(twilio.ACCOUNT_SID, twilio.AUTH_TOKEN)
-# UserCredentialsController = require "#{__dirname}/../controllers/user_credentials"
 
 class UsersController extends BaseController
 
