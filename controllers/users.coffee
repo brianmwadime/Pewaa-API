@@ -61,16 +61,8 @@ class UsersController extends BaseController
         callback err, new User rows[0]
 
   create: (userParam, callback)->
-    statement = (@user.insert userParam.requiredObject()).returning '*'
-    @query statement, (err, rows)->
-      if err
-        callback err
-      else
-        callback err, new User rows[0]
-
     t = @transaction()
     start = =>
-      statementNewProject = (@project.insert spec.requiredObject()).returning '*'
       statementNewUser = (@user.insert userParam.requiredObject()).returning '*'
       t.query statementNewUser, (results) =>
         user = new User results?.rows[0]
