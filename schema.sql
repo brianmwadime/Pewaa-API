@@ -272,13 +272,13 @@ ALTER TABLE ONLY payments
 --
 
 ALTER TABLE ONLY oauth_clients
-    ADD CONSTRAINT oauth_clients_user_fkey FOREIGN KEY (user_id) REFERENCES users(id);
+    ADD CONSTRAINT oauth_clients_user_fkey FOREIGN KEY (user_id) REFERENCES admins(id);
 
 --
--- Name: users_username_password; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: admins_username_password; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
-CREATE INDEX users_username_password ON users USING btree (username, hash);
+CREATE INDEX admins_username_password ON admins USING btree (username, hash);
 
 --
 -- PostgreSQL database dump complete
