@@ -6,18 +6,18 @@ class User extends BaseModel
   constructor: (options) ->
     super options
 
-    @required = ['phone']
-    @public = ['description', 'avatar', 'created_on']
-    @public = _.without @required, 'required', 'public'
+    @required = ['phone', 'apikey', 'is_activated']
+    @public = ['description', 'avatar', 'created_on', 'is_activated']
+    @public = _.without @required, 'required', 'public', 'is_activated'
 
     phonePattern = /// ^ #begin of line
-      (\+254|^){1}[ ]?[7]{1}([0-3]{1}[0-9]{1})[ ]?[0-9]{3}[ ]?[0-9]{3}\z
+      (0|\+?254)7([0-3|7])(\d){7}
       $ ///i
 
-    # @validator =
-    #   phone: ()=>
-    #     matched = @phone.match phonePattern
-    #     matched isnt null
+    @validator =
+      phone: ()=>
+        matched = @phone.match phonePattern
+        matched isnt null
 
     if @phone
       @makeCredentials @phone

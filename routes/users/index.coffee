@@ -11,33 +11,33 @@ handler = (app) ->
 	app.post "/v#{apiVersion}/users/join", (req, res) ->
 		user = new User req.body
 		if user.validate()
-			UsersController.create user, (err, user)->
+			UsersController.create user, (err, result)->
 				if err
 					res.json 
 						status: 400
-						error: 'user already exists'
+						error: err
 
 				else
-					pub_user = user.publicObject()
+					# pub_user = user.publicObject()
 					res.json
 						status: 200
-						data: pub_user
+						data: result
 		else
 			res.json 
 				status: 400
 				error: "Invalid parameters."
 
-	app.post "/v#{apiVersion}/users/verify/:code", (req, res) ->
-		UsersController.verify req.params.id, (err, user)->
+	app.post "/v#{apiVersion}/users/verify", (req, res) ->
+		UsersController.verify req.body.code, (err, result)->
 			if err
 				res.json 
 					status: 400
-					error: 'Invalid code'
+					error: err
 
 			else
-				pub_user = user.publicObject()
+				# pub_user = user.publicObject()
 				res.json
 					status: 200
-					data: pub_user
+					data: result
 
 module.exports = handler
