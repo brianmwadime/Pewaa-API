@@ -14,10 +14,10 @@ class User extends BaseModel
       (\+254|^){1}[ ]?[7]{1}([0-3]{1}[0-9]{1})[ ]?[0-9]{3}[ ]?[0-9]{3}\z
       $ ///i
 
-    @validator =
-      phone: ()=>
-        matched = @phone.match phonePattern
-        matched isnt null
+    # @validator =
+    #   phone: ()=>
+    #     matched = @phone.match phonePattern
+    #     matched isnt null
 
     if @phone
       @makeCredentials @phone
