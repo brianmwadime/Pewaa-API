@@ -53,15 +53,8 @@ app.oauth = new OAuthServer({
   model: require "#{__dirname}/models/session", # See https://github.com/thomseddon/node-oauth2-server for specification
 });
 
-# get an instance of the router for api routes
-
-# app.get "/api/v#{apiVersion}", (req, res)-> res.send version:info.version
-
-
-
 _.each [users, wishlists, gifts, payments], (s) ->
   s app
-
 
 
 app.use app.router
