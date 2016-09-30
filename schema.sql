@@ -94,7 +94,7 @@ CREATE TABLE users (
     apikey varchar NOT NULL,
     created_on timestamp DEFAULT current_timestamp,
     updated_on timestamp,
-    is_activated int(1) NOT NULL DEFAULT '0'
+    is_activated BOOLEAN NOT NULL DEFAULT false
 );
 
 --
@@ -105,7 +105,7 @@ CREATE TABLE sms_codes (
     id uuid DEFAULT uuid_generate_v4(),
     user_id uuid NOT NULL,
     code varchar(6) NOT NULL UNIQUE,
-    status int(1) NOT NULL DEFAULT '0',
+    status BOOLEAN NOT NULL DEFAULT false,
     created_on timestamp DEFAULT current_timestamp
 );
 
