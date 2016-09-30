@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "start": "pm2 start index.coffee --env production",
-    "stop": "pm2 stop all"
+    "stop": "pm2 stop all",
+    "test": "supervisor index.coffee"
   },
   "dependencies": {
     "async": "^2.0.1",
@@ -36,6 +37,7 @@
   },
   "devDependencies": {
     "db-migrate": "^0.10.0-beta.15",
+    "forever": "^0.15.2",
     "nodemon": "^1.10.2",
     "supervisor": "^0.11.0"
   },
