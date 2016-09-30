@@ -87,7 +87,7 @@ CREATE TABLE users (
     username varchar(100) DEFAULT NULL,
     phone varchar(100) NOT NULL UNIQUE,
     country varchar(255) DEFAULT NULL,
-    email varchar(100) NOT NULL UNIQUE,
+    email varchar(100) DEFAULT NULL,
     name varchar(200) DEFAULT NULL,
     description text DEFAULT NULL,
     avatar varchar DEFAULT NULL,
