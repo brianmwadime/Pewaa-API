@@ -6,7 +6,7 @@ class User extends BaseModel
   constructor: (options) ->
     super options
 
-    @required = ['phone', 'apikey']
+    @required = ['phone']
     @public = ['description', 'avatar', 'created_on']
     @public = _.without @required, 'required', 'public'
 
