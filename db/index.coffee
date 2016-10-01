@@ -5,7 +5,7 @@ devConfig = "postgres://#{dev.user}:#{dev.password}@localhost/#{dev.database}"
 constring = "postgres://#{dev.user}:#{dev.password}@localhost/#{dev.database}"
 
 if process.env.NODE_ENV == 'production'
-  constring = "postgres://mwakima:bandit@localhost/pewaa"
+  constring = "postgres://mwakima:@!_^%Mwakima@localhost/pewaa"
 
 {EventEmitter} = require 'events'
 
