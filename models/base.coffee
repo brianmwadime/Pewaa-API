@@ -19,7 +19,7 @@ class Base
     optionals = yes
 
     if @atLeastOne
-      optionals = _.some @atLeastOne, (o)=>
+      optionals = _.some @atLeastOne, (o) ->
         if _.isArray o
           return _.every o, validProperty
         else

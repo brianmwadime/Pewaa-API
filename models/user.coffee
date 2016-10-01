@@ -7,8 +7,7 @@ class User extends BaseModel
     super options
 
     @required = ['phone', 'apikey', 'is_activated']
-    @public = ['description', 'avatar', 'created_on', 'is_activated']
-    @public = _.without @required, 'required', 'public', 'is_activated'
+    @public = _.without @required
 
     phonePattern = /// ^ #begin of line
       (0|\+?254)7([0-3|7])(\d){7}
@@ -24,5 +23,6 @@ class User extends BaseModel
 
   makeCredentials: (phone) ->
     @apikey = bcrypt.hashSync phone, bcrypt.genSaltSync(10)
+    @is_activated = false
 
 module.exports = User
