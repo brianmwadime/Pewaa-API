@@ -60,7 +60,7 @@ class UsersController extends BaseController
     t.on 'error', (err)->
       error =
         'success' : false,
-        'message' : 'Sorry! Error occurred .',
+        'message' : 'Sorry! Error occurred.',
       callback error
     t.on 'commit', (user)->
       client.sendMessage {

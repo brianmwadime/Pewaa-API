@@ -1,7 +1,11 @@
 pg = require 'pg'
 {dev} = require "#{__dirname}/../database"
 devConfig = "postgres://#{dev.user}:#{dev.password}@localhost/#{dev.database}"
-constring = process.env.HEROKU_POSTGRESQL_NAVY_URL or process.env.TRAVIS_DB_URL or devConfig
+
+constring = "postgres://#{dev.user}:#{dev.password}@localhost/#{dev.database}"
+
+if process.env.NODE_ENV == 'production'
+  constring = "postgres://mwakima:bandit@localhost/pewaa"
 
 {EventEmitter} = require 'events'
 
