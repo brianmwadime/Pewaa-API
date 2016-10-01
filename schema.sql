@@ -240,7 +240,14 @@ ALTER TABLE ONLY wishlist_contributors
     ADD CONSTRAINT wishlist_contributors_user_fkey FOREIGN KEY (user_id) REFERENCES users(id);
 
 --
--- Name: sms_codes_user_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: sms_codes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+--
+
+ALTER TABLE ONLY sms_codes
+    ADD CONSTRAINT sms_codes_pkey PRIMARY KEY (id);
+
+--
+-- Name: sms_codes_user_fkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY sms_codes
@@ -279,6 +286,12 @@ ALTER TABLE ONLY oauth_clients
 --
 
 CREATE INDEX admins_username_password ON admins USING btree (username, hash);
+
+--
+-- Name: smscodes_userid_code; Type: INDEX; Schema: public; Owner: -; Tablespace:
+--
+
+CREATE INDEX smscodes_userid_code ON sms_codes USING btree (user_id, code);
 
 --
 -- PostgreSQL database dump complete
