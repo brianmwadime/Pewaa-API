@@ -13,41 +13,27 @@ handler = (app) ->
     if user.validate()
       UsersController.create user, (err, result)->
         if err
-          res.json
-            status: 400
-            error: err
+          res.send 400, error: err
 
         else
-          res.json
-            status: 200
-            data: result
+          res.send 200, data: result
     else
-      res.json
-        status: 400
-        error: "Invalid parameters."
+      res.json 400, error: "Invalid parameters."
 
   app.post "/v#{apiVersion}/users/verify", (req, res) ->
     UsersController.verify req.body.code, (err, result)->
       if err
-        res.json
-          status: 400
-          error: err
+        res.json 400, error: err
 
       else
-        res.json
-          status: 200
-          data: result
+        res.json 200, data: result
 
   app.post "/v#{apiVersion}/users/resend", (req, res) ->
     UsersController.resend req.body.phone, (err, result)->
       if err
-        res.json
-          status: 400
-          error: err
+        res.json 400, error: err
 
       else
-        res.json
-          status: 200
-          data: result
+        res.json 200, data: result
 
 module.exports = handler
