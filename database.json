@@ -2,7 +2,7 @@
   "dev": {
     "driver": "pg",
     "user": "mwakima",
-    "password": "",
+    "password": "@!_^%Mwakima",
     "database": "pewaa"
   },
   "travis": {
