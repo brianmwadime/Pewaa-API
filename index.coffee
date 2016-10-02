@@ -18,8 +18,8 @@ users         = require './routes/users'
 wishlists     = require './routes/wishlists'
 gifts         = require './routes/gifts'
 {
-    not_found_handler
-    uncaught_error_handler
+  not_found_handler
+  uncaught_error_handler
 } = require './handlers'
 
 payments      = require './routes/payments'
@@ -50,17 +50,14 @@ app.use "/api/v#{apiVersion}/payments/", genTransactionPassword
 
 # get our request parameters
 app.oauth = new OAuthServer({
-  model: require "#{__dirname}/models/session", # See https://github.com/thomseddon/node-oauth2-server for specification
-});
+  model: require "#{__dirname}/models/session"
+})
 
 _.each [users, wishlists, gifts, payments], (s) ->
   s app
 
 
 app.use app.router
-
-# app.use not_found_handler
-# app.use uncaught_error_handler
 
 # use this prettify the error stack string into an array of stack traces
 
@@ -79,7 +76,7 @@ app.use (err, req, res, next) ->
   if typeof err == 'undefined'
     next()
   console.log 'An error occured: ', err.message
-  errorResponse = 
+  errorResponse =
     status_code: err.statusCode
     request_url: req.originalUrl
     message: err.message
