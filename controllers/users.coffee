@@ -76,6 +76,7 @@ class UsersController extends BaseController
             'mobile'          : user.phone,
             'smsVerification' : true,
             'code'            : code
+
           callback null, result
         else
           error =
@@ -111,7 +112,6 @@ class UsersController extends BaseController
         from: '+12132925019'
         body: "Hello, Welcome to PEWAA. Your Verification code is #{code}"
       }, (err, responseData) ->
-        # this function is executed when a response is received from Twilio
         if !err
           result =
             'success' : true,
