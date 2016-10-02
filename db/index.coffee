@@ -2,10 +2,11 @@ pg = require 'pg'
 {dev} = require "#{__dirname}/../database"
 devConfig = "postgres://#{dev.user}:#{dev.password}@localhost/#{dev.database}"
 
-constring = "postgres://#{dev.user}:#{dev.password}@localhost/#{dev.database}"
-
 if process.env.NODE_ENV == 'production'
   constring = "postgres://postgres:@!_^%Mwakima@localhost/pewaa"
+else
+  constring = devConfig
+
 
 {EventEmitter} = require 'events'
 
