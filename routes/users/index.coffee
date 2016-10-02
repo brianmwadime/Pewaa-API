@@ -1,10 +1,10 @@
 'use strict'
 require("#{__dirname}/../../environment")
-_ 						= require 'underscore'
-express 				= require 'express'
-UsersController 		= require '#{__dirname}/../../controllers/users'
-User 					= require '#{__dirname}/../../models/user'
-apiVersion 	        	= process.env.API_VERSION
+_ 						    = require 'underscore'
+express 				  = require 'express'
+UsersController 	= require '#{__dirname}/../../controllers/users'
+User 					    = require '#{__dirname}/../../models/user'
+apiVersion 	      = process.env.API_VERSION
 
 handler = (app) ->
 
@@ -18,7 +18,6 @@ handler = (app) ->
             error: err
 
         else
-          # pub_user = user.publicObject()
           res.json
             status: 200
             data: result
@@ -35,7 +34,6 @@ handler = (app) ->
           error: err
 
       else
-        # pub_user = user.publicObject()
         res.json
           status: 200
           data: result

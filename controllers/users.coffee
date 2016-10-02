@@ -71,9 +71,11 @@ class UsersController extends BaseController
         # this function is executed when a response is received from Twilio
         if !err
           result =
-            'success' : true,
-            'message' : 'SMS request is sent! You will be receiving it shortly.'
-
+            'success'         : true,
+            'message'         : 'SMS verification request initiated! You will be receiving it shortly.'
+            'mobile'          : user.phone,
+            'smsVerification' : true,
+            'code'            : code
           callback null, result
         else
           error =
@@ -232,5 +234,14 @@ class UsersController extends BaseController
                 'token'   : rows[0].apikey
 
               callback null, result
+
+  exists: (phone, callback) ->
+    findUser = @user.select(@user.id)
+                    .where(@user.phone.equals(phone)).limit(1)
+    @query findUser, (err, rows) ->
+      if err or rows.length isnt 1
+        callback new Error "#{phone} not found"
+      else
+        callback null, yes
 
 module.exports = UsersController.get()
