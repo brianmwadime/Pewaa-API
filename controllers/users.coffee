@@ -244,4 +244,23 @@ class UsersController extends BaseController
       else
         callback null, yes
 
+  comparePhoneNumbers: (contacts, callback) ->
+    return
+
+  deleteAccount: (phone, callback) ->
+
+    if @exists
+      deleteAccount = @user.delete().where(@user.phone.equals(phone))
+      @query deleteAccount, (err) ->
+        if err
+          result =
+            'success' : false
+            'message' : 'Failed to delete your account'
+
+          callback result
+        else
+          result =
+            'success' : true
+            'message' : 'Your account is deleted successfully'
+
 module.exports = UsersController.get()

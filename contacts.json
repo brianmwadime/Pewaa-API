@@ -1,0 +1,943 @@
+{
+    "contactsModelList": [
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 6,
+            "phone": "+18664065154",
+            "username": "#Warranty Center"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10742,
+            "phone": "+254736751789",
+            "username": "Agosta Liko"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 11289,
+            "phone": "+447990917029",
+            "username": "Alex Dolgov"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 11012,
+            "phone": "+254722463794",
+            "username": "Alexander Nganga"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10763,
+            "phone": "+254710363409",
+            "username": "Allela"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10679,
+            "phone": "+254720239792",
+            "username": "Andrew Kinai"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 5161,
+            "phone": "+254729703858",
+            "username": "Angawa"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 9572,
+            "phone": "+254733205460",
+            "username": "Angela Mwirigi - KCB"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 9573,
+            "phone": "+254722205460",
+            "username": "Angela Mwirigi - KCB"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10542,
+            "phone": "+254723603314",
+            "username": "Ansel Melly"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10585,
+            "phone": "+254706268427",
+            "username": "Beverly Jiang"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 11033,
+            "phone": "+254722512697",
+            "username": "Braisaac"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 9130,
+            "phone": "+254713402398",
+            "username": "Brenda Cuz"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10644,
+            "phone": "+254728956895",
+            "username": "Brian Mwakima"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10686,
+            "phone": "+254710584935",
+            "username": "Brian Towett"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 11227,
+            "phone": "+254788171025",
+            "username": "Brighton Ariepa"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 12713,
+            "phone": "+254722002222",
+            "username": "Business M-Pesa"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10770,
+            "phone": "+254723746945",
+            "username": "Cars"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 12961,
+            "phone": "+254736714523",
+            "username": "Chania Ave"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 11117,
+            "phone": "+254721482047",
+            "username": "Charismatic Events"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 11066,
+            "phone": "+254722935030",
+            "username": "Churchill Llb"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10194,
+            "phone": "+18888582546",
+            "username": "Cleo - Law Firm App"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 11176,
+            "phone": "+254729824506",
+            "username": "Comic Amiran Nyanza"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 11241,
+            "phone": "+254723963970",
+            "username": "Dan Roomy"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 5795,
+            "phone": "+447443073773",
+            "username": "David Opar"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10167,
+            "phone": "+254728749594",
+            "username": "Debra Mami"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10168,
+            "phone": "+254790499637",
+            "username": "Debra Mami"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 9148,
+            "phone": "+254700414944",
+            "username": "Dennis Cuz"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 5637,
+            "phone": "+254710487275",
+            "username": "Dennis Mwangi"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 9587,
+            "phone": "+254722219614",
+            "username": "Dennis Njau - KCB"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 11205,
+            "phone": "+254206925120",
+            "username": "DHL"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10889,
+            "phone": "+254737762653",
+            "username": "Eddy Kili"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 5692,
+            "phone": "+254725768721",
+            "username": "elsie ngina"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 12626,
+            "phone": "+254721779246",
+            "username": "Eric Asiago"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 7751,
+            "phone": "+254711782435",
+            "username": "Erick Ayara"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 8204,
+            "phone": "+254711863516",
+            "username": "Ethel"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 5708,
+            "phone": "+254712731828",
+            "username": "Eugene Kariba"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 9320,
+            "phone": "+254725481867",
+            "username": "FrelancePesa"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10672,
+            "phone": "+254715003975",
+            "username": "Gabantu Spielworks"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 9865,
+            "phone": "+254726742902",
+            "username": "George Vizoh"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 8352,
+            "phone": "+254723868999",
+            "username": "Georgez Cab"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10665,
+            "phone": "+254728669501",
+            "username": "Githinjì"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10735,
+            "phone": "+254723423504",
+            "username": "Gore"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10721,
+            "phone": "+254722407858",
+            "username": "Hair Extensions"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 9580,
+            "phone": "+254722817895",
+            "username": "Harris Macharia - KCB"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 11190,
+            "phone": "+254702218728",
+            "username": "Hussain"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 5771,
+            "phone": "+254724454978",
+            "username": "Ian Madege"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10630,
+            "phone": "+254723800506",
+            "username": "Identified As Spam"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10749,
+            "phone": "+254723695275",
+            "username": "Identified As Spam"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 8232,
+            "phone": "+254725829693",
+            "username": "Isaboke"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 9964,
+            "phone": "+250720114348",
+            "username": "Ivan Lumalla - Microsoft"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10959,
+            "phone": "+254723643721",
+            "username": "Jacob - iHub"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10400,
+            "phone": "+254770630711",
+            "username": "Jacob Chencha"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 5301,
+            "phone": "+254726877031",
+            "username": "Jakki Odongo"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 11601,
+            "phone": "+254700182377",
+            "username": "James Muritu"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 12330,
+            "phone": "+254723584216",
+            "username": "James Mwai"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 12791,
+            "phone": "+254706787144",
+            "username": "Jezebel L."
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 5834,
+            "phone": "+254700099114",
+            "username": "Jisas LEMA"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10132,
+            "phone": "+254721941651",
+            "username": "John Gakingo - Google"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10637,
+            "phone": "+254725274191",
+            "username": "John Spacekenya"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 11059,
+            "phone": "+254716463215",
+            "username": "Johny Dave"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 11251,
+            "phone": "+254714948340",
+            "username": "Josfin Wairimu Thiongo"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10969,
+            "phone": "+254722277422",
+            "username": "Joy Kendi - iHub"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10651,
+            "phone": "+254720374990",
+            "username": "Juma Braisaac"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10623,
+            "phone": "+254202287000",
+            "username": "KCB Contact Centre"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10606,
+            "phone": "+254736434477",
+            "username": "Kcg Van Kiota"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 8225,
+            "phone": "+254724281528",
+            "username": "Kelvin @ BrainWave"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 11482,
+            "phone": "+254723729828",
+            "username": "Ken Munyendo"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 6491,
+            "phone": "+254717605031",
+            "username": "Kevin Gachari"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 11608,
+            "phone": "+254733395485",
+            "username": "Kevin Kibiego"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10977,
+            "phone": "+254729959485",
+            "username": "Kinyua Fundi"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10139,
+            "phone": "+256792529741",
+            "username": "Kraiba Team"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 9905,
+            "phone": "+254723241024",
+            "username": "Lazaro"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 5778,
+            "phone": "+254720845264",
+            "username": "Lee Maina"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 8782,
+            "phone": "+254727169320",
+            "username": "Leo Towett"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 8106,
+            "phone": "+254705292668",
+            "username": "Leornadi Cuzo"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 11594,
+            "phone": "+254712929344",
+            "username": "Lincey Wanjiku"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 9670,
+            "phone": "+254725803737",
+            "username": "Mami Printing/Stamps"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 12882,
+            "phone": "+254780774224",
+            "username": "Margaret Wanjiru"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 11864,
+            "phone": "+254722709900",
+            "username": "Marie Githinji"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 11073,
+            "phone": "+254727274938",
+            "username": "Mark"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 9957,
+            "phone": "+254722844201",
+            "username": "Mark Adoyo - KCB"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 8239,
+            "phone": "+254725177305",
+            "username": "Marurah Opps"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 9459,
+            "phone": "+254737067393",
+            "username": "Melly Mami"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 12641,
+            "phone": "+254710199526",
+            "username": "Michael Kimathi"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10707,
+            "phone": "+254721372823",
+            "username": "Mike Verviant"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10948,
+            "phone": "+254707595789",
+            "username": "Morris FUNDI"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 8000,
+            "phone": "+254721289142",
+            "username": "Mr. Mwandoe"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 11004,
+            "phone": "+254722770135",
+            "username": "Mwihaki Gachanja"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 9801,
+            "phone": "+254724031542",
+            "username": "Nancy Mwamburi"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 9786,
+            "phone": "+254729149946",
+            "username": "Neema Aroni"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 5716,
+            "phone": "+254729717321",
+            "username": "nelson amugongo"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10693,
+            "phone": "+254720036606",
+            "username": "Ng'etich Illuminum"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 9256,
+            "phone": "+254710589215",
+            "username": "Nick Scio"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 6118,
+            "phone": "+254710817897",
+            "username": "Njui Josphat"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 9565,
+            "phone": "+254722371028",
+            "username": "Nkatha - KCB"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 11026,
+            "phone": "+254715089585",
+            "username": "Nora Cousin"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 11041,
+            "phone": "+254770902705",
+            "username": "Nyambu"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 8058,
+            "phone": "+254721976179",
+            "username": "Oliver - circleksutions"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 12946,
+            "phone": "+254717845316",
+            "username": "Oscar Limoke"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 9558,
+            "phone": "+254727837923",
+            "username": "Owen - Kocela"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 5601,
+            "phone": "+254722862000",
+            "username": "Rahab"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 5650,
+            "phone": "+923234383432",
+            "username": "Ramiz Raja Raja"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 8218,
+            "phone": "+254711111386",
+            "username": "Remmy"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 9488,
+            "phone": "+254706909038",
+            "username": "Rolex"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 12896,
+            "phone": "+254715876132",
+            "username": "Rose Munee"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 5670,
+            "phone": "+254710556436",
+            "username": "Rowlings Odhiambo"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 11615,
+            "phone": "+254733273242",
+            "username": "Rufus BRCK"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10714,
+            "phone": "+254720899815",
+            "username": "Sally Mwembe"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10860,
+            "phone": "+254721427763",
+            "username": "Samuel Gachuhi"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10898,
+            "phone": "+254422120194",
+            "username": "Scorpio Villaz"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 11531,
+            "phone": "+254770859797",
+            "username": "Shar"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 7993,
+            "phone": "+254724438320",
+            "username": "Sheryll"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 11401,
+            "phone": "+254728824917",
+            "username": "Shiko Gigi"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 5616,
+            "phone": "+254710966180",
+            "username": "Somet Kipchilat"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 8065,
+            "phone": "+254721260566",
+            "username": "Stephen : KenyaWeddings"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 8066,
+            "phone": "+254702041113",
+            "username": "Stephen : KenyaWeddings"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10996,
+            "phone": "+254705270640",
+            "username": "Stone Monzi"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 11110,
+            "phone": "+254718032065",
+            "username": "Sweech Macbooks"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10259,
+            "phone": "+254203501349",
+            "username": "Symon - Seminary"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 27,
+            "phone": "+18009220204",
+            "username": "Technical Support"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10756,
+            "phone": "+254722358594",
+            "username": "Terbie TJ&U Garage"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 8211,
+            "phone": "+254717570523",
+            "username": "Tina Cuz"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10700,
+            "phone": "+254727615139",
+            "username": "Toda"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 11382,
+            "phone": "+254723383855",
+            "username": "Tom Mwenda"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 11393,
+            "phone": "+254724072577",
+            "username": "Treazer"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 24,
+            "phone": "+18668946848",
+            "username": "Verizon Wireless Accessories"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 30,
+            "phone": "+18776237433",
+            "username": "VZ Roadside Assistance"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 9415,
+            "phone": "+254723979773",
+            "username": "Wakesho Cuz"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 9422,
+            "phone": "+254711620013",
+            "username": "Winnie Karuga"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 7736,
+            "phone": "+254727639474",
+            "username": "Yvonne Aoll"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 9950,
+            "phone": "+254722475888",
+            "username": "Yvonne Musila - KCB"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10111,
+            "phone": "+254701442434",
+            "username": "Zaveris"
+        },
+        {
+            "Exist": false,
+            "Linked": false,
+            "contactID": 10325,
+            "phone": "+254205205205",
+            "username": "Zuku"
+        }
+    ],
+    "userID": "15d34170-61da-4408-878f-340a0ddb1147"
+}
