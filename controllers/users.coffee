@@ -1,6 +1,6 @@
 BaseController  = require "#{__dirname}/base"
 sql             = require 'sql'
-async           = require 'async'
+async           = require('async-if-else')(require('async'))
 User            = require "#{__dirname}/../models/user"
 SmsCode         = require "#{__dirname}/../models/sms_code"
 twilio          = require "#{__dirname}/../config/twilio"
@@ -248,19 +248,24 @@ class UsersController extends BaseController
     return
 
   deleteAccount: (phone, callback) ->
+    deleteAccount = @user.delete().where(@user.phone.equals(phone))
+    @query deleteAccount, (err) ->
+      if err
+        result =
+          'success' : false
+          'message' : 'Failed to delete your account'
 
-    if @exists
-      deleteAccount = @user.delete().where(@user.phone.equals(phone))
-      @query deleteAccount, (err) ->
-        if err
-          result =
-            'success' : false
-            'message' : 'Failed to delete your account'
+        callback result
+      else
+        result =
+          'success' : true
+          'message' : 'Your account is deleted successfully'
 
-          callback result
-        else
-          result =
-            'success' : true
-            'message' : 'Your account is deleted successfully'
+  prepareDeleteAccount: (phone, callback) ->
+    async.waterfall [
+      async.constant(phone: phone)
+      async.if(exists, deleteAccount)
+      publishToQueue
+    ], handler
 
 module.exports = UsersController.get()
