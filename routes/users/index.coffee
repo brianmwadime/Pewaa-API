@@ -40,7 +40,7 @@ handler = (app) ->
 
 
   app.post "/v#{apiVersion}/users/deleteAccount", (req, res) ->
-    UsersController.deleteAccount req.body.phone, (err, result)->
+    UsersController.prepareDeleteAccount req.body.phone, (err, result)->
       if err
         res.json 400, err
 

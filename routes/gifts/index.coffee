@@ -22,23 +22,23 @@ handler = (app) ->
     if te.validate()
       GiftsController.create te, (err, gift)->
         if err
-          res.send 400, error: 'some error'
+          res.send 400, 'some error'
         else
           res.send gift.publicObject()
     else
-      res.send 400, error: 'some error'
+      res.send 400, 'some error'
 
   app.get "/v#{apiVersion}/gifts/:id", authenticate(), (req, res) ->
     GiftsController.getOne req.params.id, (err, gift)->
       if err or not gift.validate()
-        res.send 404, error: "#{req.params.id} not found"
+        res.send 404, "#{req.params.id} not found"
       else
         res.send gift.publicObject()
 
   app.delete "/v#{apiVersion}/gifts/:id", authenticate(), (req, res) ->
     GiftsController.deleteOne req.params.id, (err)->
       if err
-        res.send 404, error: "#{req.params.id} not found"
+        res.send 404, "#{req.params.id} not found"
       else
         res.send 200
 
