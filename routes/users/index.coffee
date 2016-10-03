@@ -36,4 +36,15 @@ handler = (app) ->
       else
         res.json 200, result
 
+  app.post "/v#{apiVersion}/users/sendContacts", (req, res) ->
+
+
+  app.post "/v#{apiVersion}/users/deleteAccount", (req, res) ->
+    UsersController.deleteAccount req.body.phone, (err, result)->
+      if err
+        res.json 400, err
+
+      else
+        res.json 200, result
+
 module.exports = handler
