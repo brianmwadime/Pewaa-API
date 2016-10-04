@@ -4,6 +4,7 @@ _ 						    = require 'underscore'
 express 				  = require 'express'
 UsersController 	= require '#{__dirname}/../../controllers/users'
 User 					    = require '#{__dirname}/../../models/user'
+validate          = require '#{__dirname}/../../validators/tokenValidator'
 apiVersion 	      = process.env.API_VERSION
 
 handler = (app) ->
@@ -28,7 +29,7 @@ handler = (app) ->
       else
         res.json 200, result
 
-  app.post "/v#{apiVersion}/users/resend", (req, res) ->
+  app.post "/v#{apiVersion}/users/resend", validate, (req, res) ->
     UsersController.resend req.body.phone, (err, result)->
       if err
         res.send 400, err
@@ -36,10 +37,10 @@ handler = (app) ->
       else
         res.send 200, result
 
-  app.post "/v#{apiVersion}/users/sendContacts", (req, res) ->
+  app.post "/v#{apiVersion}/users/sendContacts", validate, (req, res) ->
 
 
-  app.post "/v#{apiVersion}/users/deleteAccount", (req, res) ->
+  app.post "/v#{apiVersion}/users/deleteAccount", validate, (req, res) ->
     UsersController.prepareDeleteAccount req.body.phone, (err, result)->
       if err
         res.send 400, err
