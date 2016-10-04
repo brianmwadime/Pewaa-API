@@ -16,6 +16,10 @@ class UsersController extends BaseController
     name: 'sms_codes'
     columns: (new SmsCode).columns()
 
+  bind: (fn, scope) ->
+    ->
+      fn.apply scope, arguments
+
   getAll: (callback)->
     statement = @user.select(@user.star()).from(@user)
     @query statement, callback
@@ -46,7 +50,11 @@ class UsersController extends BaseController
         callback err, new User rows[0]
 
   create: (userParam, callback)->
+    bind = @bind
+    self = @
     code = Math.floor(Math.random() * 999999 + 111111)
+    user = null
+    reCreateCode = @reCreateCode
     t = @transaction()
     start = =>
       statementNewUser = @user.insert(userParam.requiredObject()).returning '*'
@@ -86,7 +94,11 @@ class UsersController extends BaseController
           callback error
 
     t.on 'rollback', ->
-      callback "Couldn't create new user"
+      error =
+        'success' : false,
+        'message' : 'User exists.'
+
+      callback error
 
   reCreateCode: (user, callback) ->
     statementDeleteCode = @smscode.delete()
@@ -193,18 +205,14 @@ class UsersController extends BaseController
               )
 
   verify: (code, callback)->
-
     userTable = @user
     smsTable = @smscode
-
     statement = @smscodeSql code
     updateQuery = @query
     @query statement, (err, rows)->
       if err
         callback err
       else
-        console.info "user to verify", rows[0]
-        # start = =>
         updateUser = (userTable.update {is_activated:true})
                           .where userTable.id.equals rows[0].user_id
         updateQuery updateUser, (err)->
@@ -236,36 +244,48 @@ class UsersController extends BaseController
               callback null, result
 
   exists: (phone, callback) ->
-    findUser = @user.select(@user.id)
-                    .where(@user.phone.equals(phone)).limit(1)
-    @query findUser, (err, rows) ->
+    statement = @user.select(@user.id)
+                  .where(@user.phone.equals(phone)).limit(1)
+    @query statement, (err, rows) ->
       if err or rows.length isnt 1
         callback new Error "#{phone} not found"
       else
-        callback null, yes
+        callback null, rows[0].id # yes
 
   comparePhoneNumbers: (contacts, callback) ->
     return
 
   deleteAccount: (phone, callback) ->
-    deleteAccount = @user.delete().where(@user.phone.equals(phone))
+    deleteAccount = @user.delete().
+                      where(@user.phone.equals(phone))
     @query deleteAccount, (err) ->
       if err
         result =
           'success' : false
-          'message' : 'Failed to delete your account'
-
+          'message' : "Could not delete account. Please try again."
         callback result
       else
         result =
           'success' : true
           'message' : 'Your account is deleted successfully'
+        callback null, result
+
+  deleteCompleted: (completeParams, callback) ->
+    console.info "Deleted"
+    result =
+      'success' : false
+      'message' : "Your account is deleted successfully."
+    callback result
 
   prepareDeleteAccount: (phone, callback) ->
     async.waterfall [
-      async.constant(phone: phone)
-      async.if(exists, deleteAccount)
-      publishToQueue
-    ], handler
+      async.constant(phone)
+      async.if((@bind @exists, @), (@bind @deleteAccount, @))
+    ], (error, success) ->
+      console.info error, success
+      if error
+        callback error
+      else
+        callback success
 
 module.exports = UsersController.get()

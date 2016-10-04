@@ -1,8 +1,8 @@
 {
   "dev": {
     "driver": "pg",
-    "user": "postgres",
-    "password": "bandit",
+    "user": "mwakima",
+    "password": "",
     "database": "pewaa"
   },
   "travis": {

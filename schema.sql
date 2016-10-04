@@ -215,7 +215,7 @@ ALTER TABLE ONLY wishlist_items
 --
 
 ALTER TABLE ONLY wishlist_items
-    ADD CONSTRAINT wishlist_items_fkey FOREIGN KEY (wishlist_id) REFERENCES wishlists(id);
+    ADD CONSTRAINT wishlist_items_fkey FOREIGN KEY (wishlist_id) REFERENCES wishlists(id) ON DELETE CASCADE;
 
 
 --
@@ -230,14 +230,14 @@ ALTER TABLE ONLY wishlist_contributors
 --
 
 ALTER TABLE ONLY wishlist_contributors
-    ADD CONSTRAINT wishlist_contributors_fkey FOREIGN KEY (wishlist_id) REFERENCES wishlists(id);
+    ADD CONSTRAINT wishlist_contributors_fkey FOREIGN KEY (wishlist_id) REFERENCES wishlists(id) ON DELETE CASCADE;
 
 --
 -- Name: wishlist_contributors_user_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY wishlist_contributors
-    ADD CONSTRAINT wishlist_contributors_user_fkey FOREIGN KEY (user_id) REFERENCES users(id);
+    ADD CONSTRAINT wishlist_contributors_user_fkey FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
 
 --
 -- Name: sms_codes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
@@ -251,8 +251,8 @@ ALTER TABLE ONLY sms_codes
 --
 
 ALTER TABLE ONLY sms_codes
-    ADD CONSTRAINT sms_codes_user_fkey FOREIGN KEY (user_id) REFERENCES users(id);
-    
+    ADD CONSTRAINT sms_codes_user_fkey FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+
 --
 -- Name: payments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
@@ -265,21 +265,21 @@ ALTER TABLE ONLY payments
 --
 
 ALTER TABLE ONLY payments
-    ADD CONSTRAINT payments_wishlist_items_fkey FOREIGN KEY (wishlist_item_id) REFERENCES wishlist_items(id);
+    ADD CONSTRAINT payments_wishlist_items_fkey FOREIGN KEY (wishlist_item_id) REFERENCES wishlist_items(id) ON DELETE CASCADE;
 
 --
 -- Name: wishlist_items_user_fkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY payments
-    ADD CONSTRAINT payments_user_fkey FOREIGN KEY (user_id) REFERENCES users(id);
+    ADD CONSTRAINT payments_user_fkey FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
 
 --
 -- Name: oauth_clients_user_fkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY oauth_clients
-    ADD CONSTRAINT oauth_clients_user_fkey FOREIGN KEY (user_id) REFERENCES admins(id);
+    ADD CONSTRAINT oauth_clients_user_fkey FOREIGN KEY (user_id) REFERENCES admins(id) ON DELETE CASCADE;
 
 --
 -- Name: admins_username_password; Type: INDEX; Schema: public; Owner: -; Tablespace:
