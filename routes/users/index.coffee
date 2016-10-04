@@ -38,7 +38,12 @@ handler = (app) ->
         res.send 200, result
 
   app.post "/v#{apiVersion}/users/sendContacts", validate, (req, res) ->
+    UsersController.sendContacts req.body.phone, (err, result)->
+      if err
+        res.send 400, err
 
+      else
+        res.send 200, result
 
   app.post "/v#{apiVersion}/users/deleteAccount", validate, (req, res) ->
     UsersController.prepareDeleteAccount req.body.phone, (err, result)->
