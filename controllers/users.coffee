@@ -252,8 +252,62 @@ class UsersController extends BaseController
       else
         callback null, rows[0].id # yes
 
-  comparePhoneNumbers: (contacts, callback) ->
-    return
+  userLinked: (phone, callback) ->
+    statement = @user.select(@user.id)
+                  .where(@user.phone.equals(phone) AND @user.is_activated.equals(true)).limit(1)
+    @query statement, (err, rows) ->
+      if err or rows.length isnt 1
+        callback null, no
+      else
+        callback null, yes
+
+  comparePhoneNumbers: (phoneNumbers, callback) ->
+    results = []
+    async.each phoneNumbers.contactsModelList, ((contact, callback) ->
+      # Call an asynchronous function, often a save() to DB
+      statement = @user.select(@user.star())
+                          .where(@user.phone.equals(phone) AND @user.is_activated.equals(true)).limit(1)
+      @query statement, (err, rows) ->
+        if err or rows.length isnt 1
+          matched =
+            'id': contact.contactID
+            'contactID': contact.contactID
+            'Linked': true
+            'Exist': true
+            'status': contact.phone
+            'phone': contact.phone
+            'username': contact.username
+
+          results.push matched
+        else
+          matched =
+            'id': contact.contactID
+            'contactID': contact.contactID
+            'Linked': false
+            'Exist': true
+            'status': contact.phone
+            'phone': contact.phone
+            'username': rows[0].username
+            'avatar': rows[0].avatar
+
+          results.push matched
+          # callback null, results
+
+    ), (err) ->
+      if err
+        callback err
+      else
+        callback null, results
+
+  sendContacts: (contacts, callback) ->
+    async.waterfall [
+      async.constant(phone)
+      async.if((@bind @userLinked, @), (@bind @deleteAccount, @))
+    ], (error, success) ->
+      if error
+        callback error
+      else
+        callback null, success
 
   deleteAccount: (phone, callback) ->
     deleteAccount = @user.delete().
