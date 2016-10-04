@@ -29,7 +29,7 @@ handler = (app) ->
       else
         res.json 200, result
 
-  app.post "/v#{apiVersion}/users/resend", validate, (req, res) ->
+  app.post "/v#{apiVersion}/users/resend", (req, res) ->
     UsersController.resend req.body.phone, (err, result)->
       if err
         res.send 400, err
