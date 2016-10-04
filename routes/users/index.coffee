@@ -31,10 +31,10 @@ handler = (app) ->
   app.post "/v#{apiVersion}/users/resend", (req, res) ->
     UsersController.resend req.body.phone, (err, result)->
       if err
-        res.json 400, err
+        res.send 400, err
 
       else
-        res.json 200, result
+        res.send 200, result
 
   app.post "/v#{apiVersion}/users/sendContacts", (req, res) ->
 
@@ -42,9 +42,9 @@ handler = (app) ->
   app.post "/v#{apiVersion}/users/deleteAccount", (req, res) ->
     UsersController.prepareDeleteAccount req.body.phone, (err, result)->
       if err
-        res.json 400, err
+        res.send 400, err
 
       else
-        res.json 200, result
+        res.send 200, result
 
 module.exports = handler
