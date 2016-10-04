@@ -267,25 +267,18 @@ class UsersController extends BaseController
       else
         result =
           'success' : true
-          'message' : 'Your account is deleted successfully'
-        callback null, result
+          'message' : 'Your account is deleted successfully.'
 
-  deleteCompleted: (completeParams, callback) ->
-    console.info "Deleted"
-    result =
-      'success' : false
-      'message' : "Your account is deleted successfully."
-    callback result
+        callback null, result
 
   prepareDeleteAccount: (phone, callback) ->
     async.waterfall [
       async.constant(phone)
       async.if((@bind @exists, @), (@bind @deleteAccount, @))
     ], (error, success) ->
-      console.info error, success
       if error
         callback error
       else
-        callback success
+        callback null, success
 
 module.exports = UsersController.get()
