@@ -71,10 +71,23 @@ app.use (req, res, next) ->
   err.statusCode = 404
   next err
   return
+
+# Authorization errors
+app.use (err, req, res, next) ->
+  if err.name == 'UnauthorizedError'
+    result =
+      'success' : false
+      'message' : err.message
+    res.status(401).send result
+  return
+
 # error handlers
 app.use (err, req, res, next) ->
   if typeof err == 'undefined'
     next()
+    return
+  return
+
   console.log 'An error occured: ', err.message
   errorResponse =
     status_code: err.statusCode
