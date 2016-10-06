@@ -7,13 +7,13 @@ parseResponse   = new ParseResponse("processcheckoutresponse")
 soapRequest     = new SOAPRequest()
 
 class PaymentRequest
-    constructor: (request, parser) ->
-        @parser = parser
-        @soapRequest = request
-        @callbackMethod = 'POST';
+  constructor: (request, parser) ->
+    @parser = parser
+    @soapRequest = request
+    @callbackMethod = 'POST'
 
-    buildSoapBody: (data) ->
-        @body = "<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:tns='tns:ns'>
+  buildSoapBody: (data) ->
+    @body = "<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:tns='tns:ns'>
       <soapenv:Header>
         <tns:CheckOutHeader>
           <MERCHANT_ID>#{process.env.PAYBILL_NUMBER}</MERCHANT_ID>
@@ -35,40 +35,39 @@ class PaymentRequest
         </tns:processCheckOutRequest>
       </soapenv:Body>
     </soapenv:Envelope>"
-        this
+    @
 
-    handler: (req, res) ->
-        paymentDetails = 
-            referenceID: req.body.referenceID or uuid.v4()
-            merchantTransactionID: req.body.merchantTransactionID or uuid.v1()
-            amountInDoubleFloat: req.body.totalAmount
-            clientPhoneNumber: req.body.phoneNumber
-            extraPayload: req.body.extraPayload
-            timeStamp: req.timeStamp
-            encryptedPassword: req.encryptedPassword
-            callbackURL: "#{req.protocol}://#{req.hostname}/api/v#{process.env.API_VERSION}/payment/success"
+  handler: (req, res) ->
+    paymentDetails =
+        referenceID: req.body.referenceID or uuid.v4()
+        merchantTransactionID: req.body.merchantTransactionID or uuid.v1()
+        amountInDoubleFloat: req.body.totalAmount
+        clientPhoneNumber: req.body.phoneNumber
+        extraPayload: req.body.extraPayload
+        timeStamp: req.timeStamp
+        encryptedPassword: req.encryptedPassword
+        callbackURL: "#{req.protocol}://#{req.hostname}/v#{process.env.API_VERSION}/payments/success"
 
-        payment = @buildSoapBody(paymentDetails)
-        
-        request = @soapRequest.construct(payment, @parser)
+      payment = @buildSoapBody(paymentDetails)
+      @request = @soapRequest.construct(payment, @parser)
 
-        # remove encryptedPassword
-        delete paymentDetails.encryptedPassword
-        # convert paymentDetails properties to underscore notation
-        returnThesePaymentDetails = {}
-        for key in Object.keys(paymentDetails)
-            newkey = key.replace /[A-Z]{1,}/g, (match) -> '_' + match.toLowerCase()
-            returnThesePaymentDetails[newkey] = paymentDetails[key]
-            delete paymentDetails[key]
+      # remove encryptedPassword
+      delete paymentDetails.encryptedPassword
+      # convert paymentDetails properties to underscore notation
+      returnThesePaymentDetails = {}
+      for key in Object.keys(paymentDetails)
+        newkey = key.replace /[A-Z]{1,}/g, (match) -> '_' + match.toLowerCase()
+        returnThesePaymentDetails[newkey] = paymentDetails[key]
+        delete paymentDetails[key]
 
-        # make the payment requets and process response
-        request.post()
-            .then (result) ->
-                res.status(200).json response: Object.assign({}, result, returnThesePaymentDetails)
-                return
-            
-            .catch (error) ->
-                responseError error, res
-                return
-        
+      # make the payment requets and process response
+      @request.post()
+        .then (result) ->
+          res.status(200).json response: Object.assign({}, result, returnThesePaymentDetails)
+          return
+
+        .catch (error) ->
+          responseError error, res
+          return
+
 module.exports = new PaymentRequest(soapRequest, parseResponse)

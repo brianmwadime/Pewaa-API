@@ -28,7 +28,7 @@ class PaymentStatus
         this
 
     handler: (req, res) ->
-        paymentDetails = 
+        paymentDetails =
             transactionID: req.params.id
             timeStamp: req.timeStamp
             encryptedPassword: req.encryptedPassword
@@ -42,5 +42,6 @@ class PaymentStatus
         ).catch(error) ->
             responseError error, res
             return
+
 
 module.exports = new PaymentStatus(soapRequest, parseResponse)
