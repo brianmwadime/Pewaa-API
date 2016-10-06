@@ -37,7 +37,7 @@ handler = (app) ->
       else
         res.send 200, result
 
-  app.post "/v#{apiVersion}/users/sendContacts", validate, (req, res) ->
+  app.post "/v#{apiVersion}/users/sendContacts", validate({secret: 'pewaa'}), (req, res) ->
     UsersController.comparePhoneNumbers req.body, (err, result)->
       if err
         res.send 400, err
@@ -45,7 +45,7 @@ handler = (app) ->
       else
         res.send 200, result
 
-  app.post "/v#{apiVersion}/users/deleteAccount", validate, (req, res) ->
+  app.post "/v#{apiVersion}/users/deleteAccount", validate({secret: 'pewaa'}), (req, res) ->
     UsersController.prepareDeleteAccount req.body.phone, (err, result)->
       if err
         res.send 400, err

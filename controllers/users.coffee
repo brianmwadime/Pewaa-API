@@ -243,12 +243,21 @@ class UsersController extends BaseController
 
               callback null, result
 
+  getUserByToken:(token, callback) ->
+    statement = @user.select(@user.id)
+                  .where(@user.apikey.equals(token)).limit(1)
+    @query statement, (err, rows) ->
+      if err or rows.length isnt 1
+        callback "#{token} not found"
+      else
+        callback null, rows[0].id
+
   exists: (phone, callback) ->
     statement = @user.select(@user.id)
                   .where(@user.phone.equals(phone)).limit(1)
     @query statement, (err, rows) ->
       if err or rows.length isnt 1
-        callback new Error "#{phone} not found"
+        callback "#{phone} not found"
       else
         callback null, rows[0].id # yes
 
@@ -260,7 +269,7 @@ class UsersController extends BaseController
       # Call an asynchronous function, often a save() to DB
       console.info contact.phone
       statement = user.select(user.star())
-                          .where(user.phone.equals(contact.phone), user.is_activated.equals(true)).limit(1)
+                    .where(user.phone.equals(contact.phone), user.is_activated.equals(true)).limit(1)
 
       query statement, (err, rows) ->
         if err or rows.length isnt 1
@@ -286,12 +295,10 @@ class UsersController extends BaseController
             'avatar': rows[0].avatar
 
           results.push matched
-          # callback null, results
-        console.info results
+
         callback null, results
 
     ), (err) ->
-      console.info "finished comparing"
       if err
         callback err
       else
