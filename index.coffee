@@ -61,16 +61,9 @@ app.use app.router
 
 # use this prettify the error stack string into an array of stack traces
 
-prettifyStackTrace = (stackTrace) ->
-  stackTrace.replace(/\s{2,}/g, ' ').trim()
-  return
-
-# catch 404 and forward to error handler
-app.use (req, res, next) ->
-  err = new Error('Not Found')
-  err.statusCode = 404
-  next err
-  return
+# prettifyStackTrace = (stackTrace) ->
+#   stackTrace.replace(/\s{2,}/g, ' ').trim()
+#   return
 
 # Authorization errors
 app.use (err, req, res, next) ->
@@ -81,23 +74,19 @@ app.use (err, req, res, next) ->
     res.status(401).send result
   return
 
-# error handlers
-app.use (err, req, res, next) ->
-  if typeof err == 'undefined'
-    next()
-    return
-  return
+# catch 404 and forward to error handler
+app.use not_found_handler
+app.use uncaught_error_handler
 
-  console.log 'An error occured: ', err.message
-  errorResponse =
-    status_code: err.statusCode
-    request_url: req.originalUrl
-    message: err.message
-  # Only send back the error stack if it's on development mode
-  if process.env.NODE_ENV == 'development'
-    stack = err.stack.split(/\n/).map(prettifyStackTrace)
-    errorResponse.stack_trace = stack
-  res.status(err.statusCode or 500).json()
+  # errorResponse =
+  #   status_code: err.statusCode
+  #   request_url: req.originalUrl
+  #   message: err.message
+  # # Only send back the error stack if it's on development mode
+  # if process.env.NODE_ENV == 'development'
+  #   stack = err.stack.split(/\n/).map(prettifyStackTrace)
+  #   errorResponse.stack_trace = stack
+  # res.status(err.statusCode or 500).json()
 
 # Start the server
 server = app.listen(process.env.PORT or 8080, ->
