@@ -1,7 +1,6 @@
-# 'use strict'
+'use strict'
 cheerio     = require "cheerio"
 statusCodes = require "#{__dirname}/../../config/statusCodes"
-json        = {}
 
 module.exports = class ParseResponse
   constructor: (@bodyTagName) ->
@@ -11,11 +10,12 @@ module.exports = class ParseResponse
     soapHeaderPrefixes = /(<([\w\-]+:[\w\-]+\s)([\w=\-:"'\\\/\.]+\s?)+?>)/gi
     # Remove the XML header tag
     soapResponse = soapResponse.replace(XMLHeader, '')
+
     # Get the element PREFIXES from the soap wrapper
     soapInstance = soapResponse.match(soapHeaderPrefixes)
     soapPrefixes = soapInstance[0].match(/((xmlns):[\w\-]+)+/gi)
-
-    soapPrefixes = soapPrefixes.map((prefix) -> prefix.split(':')[1].replace(/\s+/gi, ''))
+    soapPrefixes = soapPrefixes.map((prefix) ->
+      prefix.split(':')[1].replace(/\s+/gi, ''))
     # Now clean the SOAP elements in the response
     soapPrefixes.forEach (prefix) ->
       xmlPrefixes = new RegExp(prefix + ':', 'gmi')
@@ -25,26 +25,27 @@ module.exports = class ParseResponse
     soapResponse = soapResponse.replace /(xmlns):/gmi, ''
     # lowercase and trim before returning it
     @response = soapResponse.toLowerCase().trim()
-    this
+    @
 
   toJSON: () ->
-    # @json = {}
+    @json = {}
     $ = cheerio.load(@response, xmlMode: true)
     # Get the children tagName and its values
+    json = @json
     $(@bodyTagName).children().each (i, el) ->
       if el.children.length == 1
         value = el.children[0].data.replace(/\s{2,}/gi, ' ')
         value = value.replace(/\n/gi, '').trim()
-        # @json[el.name] = {}
         json[el.name] = value
       return
     # delete the enc_params value
-    delete json.enc_params
+    delete @json.enc_params
     # Get the equivalent HTTP CODE to respond with
-    
-    json = Object.assign({}, @extractCode(), json)
-    json
+    @json = Object.assign({}, @extractCode(), @json)
+
+    @json
 
   extractCode: () ->
+    json = @json
     statusCodes.find (sts) -> sts.return_code == parseInt(json.return_code, 10)
     return

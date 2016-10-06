@@ -46,7 +46,7 @@ app.use session(
 
 # on payment transaction requests,
 # generate and password to req object
-app.use "/api/v#{apiVersion}/payments/", genTransactionPassword
+app.use "/v#{apiVersion}/payments/", genTransactionPassword
 
 # get our request parameters
 app.oauth = new OAuthServer({

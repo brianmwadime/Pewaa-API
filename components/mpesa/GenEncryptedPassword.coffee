@@ -1,5 +1,4 @@
 'use strict'
-# require("#{__dirname}/../../environment")
 crypto = require 'crypto'
 
 module.exports = class GenEncryptedPassword
@@ -10,6 +9,5 @@ module.exports = class GenEncryptedPassword
         @timeStamp
     ].join('')
     hash = crypto.createHash 'sha256'
-    @hashedPassword = hash.update(concatenatedString).digest 'hex' # or 'binary'
+    @hashedPassword = hash.update(concatenatedString).digest 'hex'
     @hashedPassword = new Buffer(@hashedPassword).toString 'base64'
-    console.info 'hashedPassword ==> ', this.hashedPassword
