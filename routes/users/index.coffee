@@ -6,8 +6,19 @@ UsersController 	= require "#{__dirname}/../../controllers/users"
 User 					    = require "#{__dirname}/../../models/user"
 validate          = require "#{__dirname}/../../validators/tokenValidator"
 multer            = require ("multer")
-upload            = multer(dest: "#{__dirname}/../../uploads/").single('image')
 apiVersion 	      = process.env.API_VERSION
+
+storage = multer.diskStorage(
+  destination: (req, file, cb) ->
+    cb null, '#{__dirname}/../../uploads/'
+    return
+  filename: (req, file, cb) ->
+    crypto.pseudoRandomBytes 16, (err, raw) ->
+      cb null, raw.toString('hex') + Date.now() + '.' + mime.extension(file.mimetype)
+      return
+    return
+)
+upload = multer(storage: storage).single('image')
 
 handler = (app) ->
 
