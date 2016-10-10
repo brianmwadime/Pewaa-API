@@ -21,6 +21,14 @@ handler = (app) ->
     else
       res.json 400, error: "Invalid parameters."
 
+  app.get "/v#{apiVersion}/users/:id", (req, res) ->
+    UsersController.getOne req.params.id, (err, result)->
+      if err
+        res.send 400, err
+
+      else
+        res.send 200, result
+
   app.post "/v#{apiVersion}/users/verify", (req, res) ->
     UsersController.verify req.body.code, (err, result)->
       if err

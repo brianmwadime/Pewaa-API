@@ -31,7 +31,15 @@ class UsersController extends BaseController
       if err
         callback err
       else
-        callback err, new User rows[0]
+        userRecord =
+          'id': rows[0].id
+          'Linked': if rows[0].is_activated then true else false
+          'status': rows[0].phone
+          'status_date': rows[0].created_on
+          'phone': contact.phone
+          'username': rows[0].username
+          'image': rows[0].avatar
+        callback err, userRecord
 
   getOneWithCredentials: (key, callback)->
     {user_credential} = UserCredentialsController
@@ -267,9 +275,9 @@ class UsersController extends BaseController
     query = @query
     async.each phoneNumbers.contactsModelList, ((contact, callback) ->
       # Call an asynchronous function, often a save() to DB
-      console.info contact.phone
       statement = user.select(user.star())
-                    .where(user.phone.equals(contact.phone), user.is_activated.equals(true)).limit(1)
+                    .where(user.phone.equals(contact.phone), user.is_activated.equals(true))
+                    .limit(1)
 
       query statement, (err, rows) ->
         if err or rows.length isnt 1
@@ -303,16 +311,6 @@ class UsersController extends BaseController
         callback err
       else
         callback null, results
-
-  sendContacts: (contacts, callback) ->
-    async.waterfall [
-      async.constant(phone)
-      async.if((@bind @userLinked, @), (@bind @deleteAccount, @))
-    ], (error, success) ->
-      if error
-        callback error
-      else
-        callback null, success
 
   deleteAccount: (phone, callback) ->
     deleteAccount = @user.delete().
