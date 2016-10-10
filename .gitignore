@@ -229,6 +229,7 @@ DerivedData/
 !default.perspectivev3
 xcuserdata/
 
+uploads/*
 ## Other
 *.moved-aside
 *.xccheckout
