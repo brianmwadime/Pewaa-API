@@ -25,11 +25,9 @@ module.exports = (options) ->
     UsersController.getUserByToken token, (err, result)->
       if err
         return next(new UnauthorizedError('invalid_token', message: 'Invalid authorization token'))
-
       else
         set req, _requestProperty, result
-        next()
-        return
+        return next()
 
     return
 
