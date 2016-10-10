@@ -1,10 +1,12 @@
 'use strict'
 require("#{__dirname}/../../environment")
-_ 						    = require 'underscore'
-express 				  = require 'express'
-UsersController 	= require '#{__dirname}/../../controllers/users'
-User 					    = require '#{__dirname}/../../models/user'
-validate          = require '#{__dirname}/../../validators/tokenValidator'
+_ 						    = require "underscore"
+express 				  = require "express"
+UsersController 	= require "#{__dirname}/../../controllers/users"
+User 					    = require "#{__dirname}/../../models/user"
+validate          = require "#{__dirname}/../../validators/tokenValidator"
+multer            = require ("multer").single('image')
+upload            = multer(dest: "#{__dirname}/../../uploads/")
 apiVersion 	      = process.env.API_VERSION
 
 handler = (app) ->
@@ -20,6 +22,21 @@ handler = (app) ->
           res.send 200, result
     else
       res.json 400, error: "Invalid parameters."
+
+  app.post "/v#{apiVersion}/users/avatar", validate({secret: 'pewaa'}), (req, res) ->
+    upload req, res, (err) ->
+      if err
+        # An error occurred when uploading
+        failed =
+          'success' : false,
+          'message' : 'Oops! Something went wrong'
+        res.send 400, failed
+      # Profile avatar uploaded successfully
+      UsersController.saveAvatar {avatar:req.file, userId:req.userId}, (err, result)->
+        if err
+          res.send 400, err
+        else
+          res.send 200, result
 
   app.get "/v#{apiVersion}/users/:id", (req, res) ->
     UsersController.getOne req.params.id, (err, result)->
