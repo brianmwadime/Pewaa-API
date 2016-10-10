@@ -108,6 +108,23 @@ class UsersController extends BaseController
 
       callback error
 
+  saveAvatar: (params, callback) ->
+    statement = (@user.update {avatar:params.avatar})
+                  .where @user.id.equals params.userId
+    @query statement, (err)->
+      if err
+        error =
+          'success' : false,
+          'message' : 'Failed to update profile image.'
+
+        callback error
+      else
+        success =
+          'success' : false,
+          'message' : 'Profile image updated successfully.'
+
+        callback null, success
+
   reCreateCode: (user, callback) ->
     statementDeleteCode = @smscode.delete()
                             .where(@smscode.user_id.equals(user.id))
