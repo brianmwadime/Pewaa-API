@@ -44,6 +44,9 @@ app.use session(
   resave: false
   saveUninitialized: true)
 
+app.disable 'x-powered-by'
+
+app.use "/static", express.static(__dirname + "/uploads")
 # on payment transaction requests,
 # generate and password to req object
 app.use "/v#{apiVersion}/payments/", genTransactionPassword
