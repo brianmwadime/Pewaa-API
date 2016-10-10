@@ -36,7 +36,7 @@ class UsersController extends BaseController
           'Linked': if rows[0].is_activated then true else false
           'status': rows[0].phone
           'status_date': rows[0].created_on
-          'phone': contact.phone
+          'phone': rows[0].phone
           'username': rows[0].username
           'image': rows[0].avatar
         callback err, userRecord
