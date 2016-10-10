@@ -17,7 +17,7 @@ storage = multer.diskStorage(
   filename: (req, file, cb) ->
     crypto.pseudoRandomBytes 16, (err, raw) ->
       console.info file
-      cb null, raw.toString('hex') + Date.now() + '.' + mime.extension(file.mimetype)
+      cb null, raw.toString('hex') + Date.now() + '.' + mime.extension("image/jpeg")
       return
     return
 )
