@@ -41,8 +41,9 @@ module.exports = class ParseResponse
     # delete the enc_params value
     delete @json.enc_params
     # Get the equivalent HTTP CODE to respond with
+    console.info "Status Codes:", @extractCode, @json
     @json = Object.assign({}, @extractCode(), @json)
-
+    console.info "Final Status Codes:", @json
     @json
 
   extractCode: () ->
