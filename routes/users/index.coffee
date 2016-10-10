@@ -16,7 +16,6 @@ storage = multer.diskStorage(
     return
   filename: (req, file, cb) ->
     crypto.pseudoRandomBytes 16, (err, raw) ->
-      console.info file
       cb null, raw.toString('hex') + Date.now() + '.' + mime.extension("image/jpeg")
       return
     return
@@ -46,7 +45,6 @@ handler = (app) ->
           'message' : 'Oops! Something went wrong'
         res.send 400, failed
       # Profile avatar uploaded successfully
-      console.info req.file
       UsersController.saveAvatar {avatar:req.file.filename, userId:req.userId}, (error, result) ->
         if err
           res.send 400, err
