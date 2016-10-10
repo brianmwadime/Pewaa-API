@@ -7,6 +7,7 @@ class User extends BaseModel
     super options
 
     @required = ['phone', 'apikey', 'is_activated']
+    @public = ['avatar', 'description', 'email', 'created_on']
     @public = _.without @required
 
     phonePattern = /// ^ #begin of line
