@@ -5,8 +5,8 @@ express 				  = require "express"
 UsersController 	= require "#{__dirname}/../../controllers/users"
 User 					    = require "#{__dirname}/../../models/user"
 validate          = require "#{__dirname}/../../validators/tokenValidator"
-multer            = require ("multer").single('image')
-upload            = multer(dest: "#{__dirname}/../../uploads/")
+multer            = require ("multer")
+upload            = multer(dest: "#{__dirname}/../../uploads/").single('image')
 apiVersion 	      = process.env.API_VERSION
 
 handler = (app) ->
