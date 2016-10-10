@@ -3,6 +3,7 @@ require("#{__dirname}/../../environment")
 _ 						    = require "underscore"
 express 				  = require "express"
 crypto            = require "crypto"
+mime              = require "mime"
 UsersController 	= require "#{__dirname}/../../controllers/users"
 User 					    = require "#{__dirname}/../../models/user"
 validate          = require "#{__dirname}/../../validators/tokenValidator"
