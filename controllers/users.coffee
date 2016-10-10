@@ -119,11 +119,11 @@ class UsersController extends BaseController
 
         callback error
       else
-        success =
+        done =
           'success' : true,
           'message' : 'Profile image updated successfully.'
 
-        callback null, success
+        callback null, done
 
   reCreateCode: (user, callback) ->
     statementDeleteCode = @smscode.delete()

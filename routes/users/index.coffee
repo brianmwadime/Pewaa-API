@@ -49,7 +49,8 @@ handler = (app) ->
         if err
           res.send 400, err
         else
-          res.send 200, result
+          res.send 200,
+    return
 
   app.get "/v#{apiVersion}/users/:id", (req, res) ->
     UsersController.getOne req.params.id, (err, result)->
