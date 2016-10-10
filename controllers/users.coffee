@@ -120,7 +120,7 @@ class UsersController extends BaseController
         callback error
       else
         success =
-          'success' : false,
+          'success' : true,
           'message' : 'Profile image updated successfully.'
 
         callback null, success
