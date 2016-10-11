@@ -46,7 +46,7 @@ class WishlistsController extends BaseController
   create: (spec, callback)->
     userId = spec.userId
     if not userId
-      return callback new Error 'user_id is required'
+      return callback new Error 'user is required'
     t = @transaction()
     start = =>
       statementNewWishlist = (@wishlist.insert spec.requiredObject()).returning '*'
@@ -64,6 +64,26 @@ class WishlistsController extends BaseController
     t.on 'rollback', ->
       callback new Error "Couldn't create new wishlist"
 
+  update: (spec, callback) ->
+    wishlistId = spec.wishlistId
+    if not wishlistId
+      return callback new Error 'wishlist is required'
+
+    statement = (@wishlist.update spec)
+                  .where @wishlist.id.equals wishlistId
+    @query statement, (err) ->
+      if err
+        error =
+          'success' : false,
+          'message' : 'Failed to update wishlist.'
+
+        callback error
+      else
+        done =
+          'success' : true,
+          'message' : 'wishlist updated successfully.'
+
+        callback null, done
 
   deleteOne: (key, callback)->
     {gift} = GiftsController
