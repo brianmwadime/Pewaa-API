@@ -108,7 +108,7 @@ class UsersController extends BaseController
 
       callback error
 
-  changeUsername: (params, callback) ->
+  changeName: (params, callback) ->
     statement = (@user.update {username:params.name})
                   .where @user.id.equals params.userId
     @query statement, (err)->
@@ -327,7 +327,7 @@ class UsersController extends BaseController
           results.push matched
         else
           matched =
-            'id': contact.contactID
+            'id': rows[0].id
             'contactID': contact.contactID
             'Linked': true
             'Exist': true
