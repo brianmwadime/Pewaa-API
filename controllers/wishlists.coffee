@@ -66,6 +66,7 @@ class WishlistsController extends BaseController
     t.on 'commit', (wishlist)->
       done =
         'success' : true,
+        'createID': wishlist.id,
         'message' : 'wishlist added successfully.'
 
       callback null, done
