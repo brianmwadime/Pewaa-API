@@ -58,9 +58,17 @@ class WishlistsController extends BaseController
 
     t.on 'begin', start
     t.on 'error', (err)->
-      callback err
+      error =
+        'success' : false,
+        'message' : 'Failed to create wishlist.'
+
+      callback error
     t.on 'commit', (wishlist)->
-      callback null, wishlist
+      done =
+        'success' : true,
+        'message' : 'wishlist added successfully.'
+
+      callback null, done
     t.on 'rollback', ->
       callback new Error "Couldn't create new wishlist"
 

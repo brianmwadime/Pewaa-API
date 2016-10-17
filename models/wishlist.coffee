@@ -7,4 +7,8 @@ class Wishlist extends BaseModel
     @required = ['name','description', 'avatar']
     @public   = ['name', 'description', 'avatar', 'created_on', 'updated_on']
 
+
+    if !@avatar
+      @avatar = null
+
 module.exports = Wishlist
