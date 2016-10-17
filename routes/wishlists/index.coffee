@@ -22,11 +22,11 @@ handler = (app) ->
     wishlist = new Wishlist req.body
     wishlist.userId = req.userId
     if wishlist.validate()
-      WishlistsController.create wishlist, (err, wishlist) ->
+      WishlistsController.create wishlist, (err, result) ->
         if err
           res.send 400, err
         else
-          res.send wishlist.publicObject()
+          res.send result
     else
       res.send 400, 'Invalid parameters'
 
