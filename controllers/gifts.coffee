@@ -16,7 +16,17 @@ class GiftsController extends BaseController
         if err
           callback err
         else
-          callback err, new Gift rows[0]
+          gift =
+            'success' : true,
+            'id': rows[0].id,
+            'wishlist_id': rows[0].wishlist_id,
+            'name': rows[0].name,
+            'description': rows[0].description,
+            'avatar': rows[0].avatar,
+            'price': rows[0].price,
+            'message' : 'gift added successfully.'
+
+          callback null, gift
     else
       callback new Error "Invalid parameters"
 

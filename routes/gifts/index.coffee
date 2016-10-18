@@ -40,7 +40,8 @@ handler = (app) ->
         res.send 400, failed
       # Gift avatar uploaded successfully
       req.body.userId = req.userId
-      req.body.avatar = req.file.filename
+      if req.file
+        req.body.avatar = req.file.filename
       te = new Gift req.body
       if te.validate()
         GiftsController.create te, (err, gift)->
