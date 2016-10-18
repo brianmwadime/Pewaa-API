@@ -2,9 +2,10 @@
 require("#{__dirname}/../../environment")
 GiftsController     = require "#{__dirname}/../../controllers/gifts"
 Gift                = require "#{__dirname}/../../models/gift"
+crypto              = require "crypto"
 mime                = require "mime"
 _                   = require 'underscore'
-validate          = require "#{__dirname}/../../validators/tokenValidator"
+validate            = require "#{__dirname}/../../validators/tokenValidator"
 multer              = require "multer"
 apiVersion 	        = process.env.API_VERSION
 
