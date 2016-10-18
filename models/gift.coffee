@@ -7,4 +7,10 @@ class Gift extends BaseModel
     @required = ['name', 'price', 'wishlist_id', 'description', 'avatar', 'code']
     @public = _.clone @required, 'created_on', 'updated_on'
 
+    if !@code
+      @code = null
+
+    if !@avatar
+      @avatar = null
+
 module.exports = Gift
