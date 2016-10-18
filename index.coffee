@@ -33,6 +33,7 @@ app = express()
 # Log requests to console
 app.use morgan 'dev'
 #   body parsers
+app.use bodyParser(limit: '10mb')
 app.use bodyParser.json()
 app.use bodyParser.urlencoded(extended: true)
 app.use cookieParser()
