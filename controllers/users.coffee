@@ -62,7 +62,6 @@ class UsersController extends BaseController
     self = @
     code = Math.floor(Math.random() * 999999 + 111111)
     user = null
-    reCreateCode = @reCreateCode
     t = @transaction()
     start = =>
       statementNewUser = @user.insert(userParam.requiredObject()).returning '*'
@@ -102,11 +101,16 @@ class UsersController extends BaseController
           callback error
 
     t.on 'rollback', ->
-      error =
-        'success' : false,
-        'message' : 'User exists.'
-
-      callback error
+      statement = self.user.select(self.user.star())
+                  .where(self.user.phone.equals(userParam.phone)).limit(1)
+      self.query statement, (err, rows) ->
+        if err or rows.length isnt 1
+          error =
+            'success' : false,
+            'message' : 'Could not create account. Please contact administrator.'
+          callback error
+        else
+          self.reCreateCode rows[0], callback
 
   changeName: (params, callback) ->
     statement = (@user.update {username:params.name})
@@ -196,23 +200,22 @@ class UsersController extends BaseController
   resend: (phone, callback)->
     statement = @user.select(@user.star()).from(@user)
       .where(@user.phone.equals phone)
-    smscode = @smscode
-    resendQuery = @query
+    self = @
     @query statement, (err, rows) ->
       if err
         callback err
       else
-        statementDeleteCode = smscode.delete()
-                            .where(smscode.user_id.equals(rows[0].id))
+        statementDeleteCode = self.smscode.delete()
+                            .where(self.smscode.user_id.equals(rows[0].id))
 
-        resendQuery statementDeleteCode, (err) ->
+        self.query statementDeleteCode, (err) ->
           if err
             callback err
           else
             code = Math.floor(Math.random() * 999999 + 111111)
-            statementVerifyCode = (smscode.insert {user_id:rows[0].id, code: code})
+            statementVerifyCode = (self.smscode.insert {user_id:rows[0].id, code: code})
 
-            resendQuery statementVerifyCode, (err, rows) ->
+            self.query statementVerifyCode, (err, rows) ->
               if err
                 error =
                   'success' : false,
@@ -247,17 +250,15 @@ class UsersController extends BaseController
               )
 
   verify: (code, callback)->
-    userTable = @user
-    smsTable = @smscode
+    self = @
     statement = @smscodeSql code
-    updateQuery = @query
     @query statement, (err, rows)->
       if err
         callback err
       else
-        updateUser = (userTable.update {is_activated:true})
-                          .where userTable.id.equals rows[0].user_id
-        updateQuery updateUser, (err)->
+        updateUser = (self.user.update {is_activated:true})
+                          .where self.user.id.equals rows[0].user_id
+        self.query updateUser, (err)->
           if err
             result =
               'success' : false,
@@ -266,9 +267,9 @@ class UsersController extends BaseController
               'token'   : null
             callback result
           else
-            verifyCode = (smsTable.update {status:true})
-                          .where smsTable.id.equals rows[0].id
-            updateQuery verifyCode, (err)->
+            verifyCode = (self.smscode.update {status:true})
+                          .where self.smscode.id.equals rows[0].id
+            self.query verifyCode, (err)->
             if err
               result =
                 'success' : false,
@@ -305,15 +306,14 @@ class UsersController extends BaseController
 
   comparePhoneNumbers: (phoneNumbers, callback) ->
     results = []
-    user = @user
-    query = @query
+    self = @
     async.each phoneNumbers.contactsModelList, ((contact, callback) ->
       # Call an asynchronous function, often a save() to DB
-      statement = user.select(user.star())
-                    .where(user.phone.equals(contact.phone), user.is_activated.equals(true))
+      statement = self.user.select(self.user.star())
+                    .where(self.user.phone.equals(contact.phone), self.user.is_activated.equals(true))
                     .limit(1)
 
-      query statement, (err, rows) ->
+      self.query statement, (err, rows) ->
         if err or rows.length isnt 1
           matched =
             'id': contact.contactID
