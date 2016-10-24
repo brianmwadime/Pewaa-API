@@ -172,8 +172,11 @@ class UsersController extends BaseController
       }, (err, responseData) ->
         if !err
           result =
-            'success' : true,
-            'message' : 'SMS request is sent! You will be receiving it shortly.'
+            'success'         : true,
+            'message'         : 'SMS verification request initiated! You will be receiving it shortly.'
+            'mobile'          : user.phone,
+            'smsVerification' : true,
+            'code'            : code
 
           callback null, result
         else
