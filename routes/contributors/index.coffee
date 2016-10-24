@@ -11,7 +11,6 @@ handler = (app) ->
 
   app.get "/v#{apiVersion}/contributors", validate({secret: 'pewaa'}), (req, res) ->
     ContributorsController.getWishlistContributors req.body.wishlist_id, (err, wishlists) ->
-      console.info err
       if err
         res.send 400, err
       else
@@ -36,13 +35,15 @@ handler = (app) ->
         res.send wishlist.publicObject()
 
   app.put "/v#{apiVersion}/contributors/:id", validate({secret: 'pewaa'}), (req, res) ->
-    wishlist = new Wishlist req.body
-    wishlist.wishlistId = req.params.id
-    WishlistsController.update wishlist, (err, wishlist)->
-      if err or not wishlist.validate()
-        res.send 404, err
-      else
-        res.send wishlist.publicObject()
+    contributor = new Contributor req.body
+    if contributor.validate()
+      ContributorsController.update contributor, (err, result) ->
+        if err
+          res.send 400, err
+        else
+          res.send result
+    else
+      res.send 400, 'Invalid parameters'
 
   app.delete "/v#{apiVersion}/contributors/:id", validate({secret: 'pewaa'}), (req, res) ->
     WishlistsController.deleteOne req.params.id, (err) ->
