@@ -12,7 +12,6 @@ handler = (app) ->
 
   app.get "/v#{apiVersion}/wishlists", validate({secret: 'pewaa'}), (req, res) ->
     WishlistsController.getWishlistsForUser req.userId, (err, wishlists) ->
-      console.info err
       if err
         res.send 400, err
       else

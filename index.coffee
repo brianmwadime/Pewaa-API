@@ -17,6 +17,7 @@ apiVersion 	  = process.env.API_VERSION
 users         = require './routes/users'
 wishlists     = require './routes/wishlists'
 gifts         = require './routes/gifts'
+contributors  = require './routes/contributors'
 {
   not_found_handler
   uncaught_error_handler
@@ -57,7 +58,7 @@ app.oauth = new OAuthServer({
   model: require "#{__dirname}/models/session"
 })
 
-_.each [users, wishlists, gifts, payments], (s) ->
+_.each [users, wishlists, gifts, payments, contributors], (s) ->
   s app
 
 
@@ -81,16 +82,6 @@ app.use (err, req, res, next) ->
 # catch 404 and forward to error handler
 app.use not_found_handler
 app.use uncaught_error_handler
-
-  # errorResponse =
-  #   status_code: err.statusCode
-  #   request_url: req.originalUrl
-  #   message: err.message
-  # # Only send back the error stack if it's on development mode
-  # if process.env.NODE_ENV == 'development'
-  #   stack = err.stack.split(/\n/).map(prettifyStackTrace)
-  #   errorResponse.stack_trace = stack
-  # res.status(err.statusCode or 500).json()
 
 # Start the server
 server = app.listen(process.env.PORT or 8080, ->
