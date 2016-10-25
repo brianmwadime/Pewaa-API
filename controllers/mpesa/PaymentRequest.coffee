@@ -49,7 +49,7 @@ class PaymentRequest
         callbackURL: "#{req.protocol}://#{req.hostname}/v#{process.env.API_VERSION}/payments/success"
 
       payment = @buildSoapBody(paymentDetails)
-      @request = @soapRequest.construct(payment, @parser)
+      request = @soapRequest.construct(payment, @parser)
 
       # remove encryptedPassword
       delete paymentDetails.encryptedPassword
@@ -61,7 +61,7 @@ class PaymentRequest
         delete paymentDetails[key]
 
       # make the payment requets and process response
-      @request.post()
+      request.post()
         .then (result) ->
           res.status(200).json response: Object.assign({}, result, returnThesePaymentDetails)
           return

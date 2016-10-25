@@ -31,10 +31,9 @@ class GiftsController extends BaseController
       callback new Error "Invalid parameters"
 
   getOne: (key, callback)->
-    statement = @gift.select @gift.star()
-               .from @gift
-               .where @gift.id.equals key
-               .limit 1
+    statement = @gift.select @gift.star().from @gift
+              .where @gift.id.equals key
+              .limit 1
     @query statement, (err, rows) ->
       if err
         callback err
@@ -42,9 +41,7 @@ class GiftsController extends BaseController
         callback err, new Gift rows[0]
 
   deleteOne: (key, callback)->
-    statement = @gift.delete()
-                .from @gift
-                .where @gift.id.equals key
+    statement = @gift.delete().from @gift.where @gift.id.equals key
     @query statement, (err)->
       callback err
 

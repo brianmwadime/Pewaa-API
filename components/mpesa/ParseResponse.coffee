@@ -10,7 +10,6 @@ module.exports = class ParseResponse
     soapHeaderPrefixes = /(<([\w\-]+:[\w\-]+\s)([\w=\-:"'\\\/\.]+\s?)+?>)/gi
     # Remove the XML header tag
     soapResponse = soapResponse.replace(XMLHeader, '')
-
     # Get the element PREFIXES from the soap wrapper
     soapInstance = soapResponse.match(soapHeaderPrefixes)
     soapPrefixes = soapInstance[0].match(/((xmlns):[\w\-]+)+/gi)
@@ -20,7 +19,6 @@ module.exports = class ParseResponse
     soapPrefixes.forEach (prefix) ->
       xmlPrefixes = new RegExp(prefix + ':', 'gmi')
       soapResponse = soapResponse.replace xmlPrefixes, ''
-      return
 
     soapResponse = soapResponse.replace /(xmlns):/gmi, ''
     # lowercase and trim before returning it
@@ -28,25 +26,24 @@ module.exports = class ParseResponse
     @
 
   toJSON: () ->
-    @json = {}
+    self = @
+    self.json = {}
+
     $ = cheerio.load(@response, xmlMode: true)
     # Get the children tagName and its values
-    json = @json
     $(@bodyTagName).children().each (i, el) ->
       if el.children.length == 1
         value = el.children[0].data.replace(/\s{2,}/gi, ' ')
         value = value.replace(/\n/gi, '').trim()
-        json[el.name] = value
+        self.json[el.name] = value
       return
     # delete the enc_params value
-    delete @json.enc_params
+    delete self.json.enc_params
     # Get the equivalent HTTP CODE to respond with
-    console.info "Status Codes:", @extractCode, @json
-    @json = Object.assign({}, @extractCode(), @json)
-    console.info "Final Status Codes:", @json
-    @json
+    console.info self.json
+    self.json = Object.assign({}, @extractCode(), self.json)
+    self.json
 
   extractCode: () ->
-    json = @json
-    statusCodes.find (sts) -> sts.return_code == parseInt(json.return_code, 10)
-    return
+    self = @
+    return statusCodes.find (sts) -> sts.return_code == parseInt(self.json.return_code, 10)
