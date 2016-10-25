@@ -41,7 +41,10 @@ class ContributorsController extends BaseController
                   .returning '*'
       @query statement, (err, rows)->
         if err
-          callback err
+          error =
+            'success': false,
+            'message': "Could not add Contributor to Wishlist."
+          callback error
         else
           done =
             'success' : true,
