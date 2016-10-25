@@ -1,7 +1,8 @@
-BaseController = require "#{__dirname}/base"
-Contributor = require "#{__dirname}/../models/contributor"
-sql = require 'sql'
-async = require 'async'
+BaseController  = require "#{__dirname}/base"
+Contributor     = require "#{__dirname}/../models/contributor"
+gcm             = require('node-gcm')
+sql             = require 'sql'
+async           = require 'async'
 
 class ContributorsController extends BaseController
   contributor: sql.define
@@ -36,6 +37,7 @@ class ContributorsController extends BaseController
         callback err, new Contributor rows[0]
 
   create: (contributor, callback)->
+    sender = new (gcm.Sender)(process.env.GCM_KEY)
     if contributor.validate()
       statement = @contributor.insert contributor.requiredObject()
                   .returning '*'

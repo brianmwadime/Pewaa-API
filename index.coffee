@@ -61,7 +61,6 @@ app.oauth = new OAuthServer({
 _.each [users, wishlists, gifts, payments, contributors], (s) ->
   s app
 
-
 app.use app.router
 
 # use this prettify the error stack string into an array of stack traces
