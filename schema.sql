@@ -225,6 +225,8 @@ ALTER TABLE ONLY wishlist_items
 ALTER TABLE ONLY wishlist_contributors
     ADD CONSTRAINT wishlist_contributors_pkey PRIMARY KEY (id);
 
+ALTER TABLE ONLY wishlist_contributors
+    ADD CONSTRAINT wishlist_contributors_unique_wishlist_user UNIQUE (wishlist_id, user_id);
 --
 -- Name: wishlist_contributors_fkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --

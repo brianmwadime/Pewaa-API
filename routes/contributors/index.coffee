@@ -1,11 +1,11 @@
 'use strict'
 require("#{__dirname}/../../environment")
-ContributorsController     = require "#{__dirname}/../../controllers/contributors"
+ContributorsController = require "#{__dirname}/../../controllers/contributors"
 Contributor            = require "#{__dirname}/../../models/contributor"
-_                   = require 'underscore'
-authenticate 		    = require "#{__dirname}/../../components/oauth/authenticate"
-validate            = require '#{__dirname}/../../validators/tokenValidator'
-apiVersion 	        = process.env.API_VERSION
+_                      = require 'underscore'
+authenticate 		       = require "#{__dirname}/../../components/oauth/authenticate"
+validate               = require '#{__dirname}/../../validators/tokenValidator'
+apiVersion 	           = process.env.API_VERSION
 
 handler = (app) ->
 
