@@ -61,6 +61,17 @@ CREATE TABLE oauth_clients (
 );
 
 --
+-- Name: push_credentials; Type: TABLE; Schema: public; Owner: -; Tablespace:
+--
+
+CREATE TABLE push_credentials (
+    platform text NOT NULL,
+    device_id text NOT NULL,
+    user_id uuid NOT NULL,
+    created_on timestamp DEFAULT current_timestamp
+);
+
+--
 -- Name: admins; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
@@ -183,6 +194,12 @@ ALTER TABLE ONLY oauth_clients
     ADD CONSTRAINT oauth_clients_pkey PRIMARY KEY (client_id, client_secret);
 
 --
+-- Name: push_credentials_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+--
+
+ALTER TABLE ONLY push_credentials
+    ADD CONSTRAINT oauth_clients_pkey PRIMARY KEY (platform, device_id);
+--
 -- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
@@ -284,6 +301,13 @@ ALTER TABLE ONLY oauth_clients
     ADD CONSTRAINT oauth_clients_user_fkey FOREIGN KEY (user_id) REFERENCES admins(id) ON DELETE CASCADE;
 
 --
+-- Name: push_credentials_user_fkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+--
+
+ALTER TABLE ONLY push_credentials
+    ADD CONSTRAINT push_credentials_user_fkey FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+
+--
 -- Name: admins_username_password; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
@@ -294,6 +318,12 @@ CREATE INDEX admins_username_password ON admins USING btree (username, hash);
 --
 
 CREATE INDEX smscodes_userid_code ON sms_codes USING btree (user_id, code);
+
+--
+-- Name: push_credentials_userid_platform; Type: INDEX; Schema: public; Owner: -; Tablespace:
+--
+
+CREATE INDEX push_credentials_userid_platform ON push_credentials USING btree (platform, device_id);
 
 --
 -- PostgreSQL database dump complete
