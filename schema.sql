@@ -326,6 +326,12 @@ CREATE INDEX smscodes_userid_code ON sms_codes USING btree (user_id, code);
 CREATE INDEX push_credentials_userid_platform ON push_credentials USING btree (platform, device_id);
 
 --
+-- Name: wishlists_Add_recipients; Type: INDEX; Schema: public; Owner: -; Tablespace:
+--
+
+ALTER TABLE wishlists ADD COLUMN recipient text NULL;
+
+--
 -- PostgreSQL database dump complete
 --
 
