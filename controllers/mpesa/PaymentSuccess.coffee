@@ -32,8 +32,6 @@ class PaymentSuccess
     )
 
     Object.assign response, extractCode
-    console.log 'PAYMENT NOTIFICATON from SAG'
-    console.log response: response
     requestParams =
         method: 'POST'
         uri: endpoint

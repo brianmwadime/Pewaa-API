@@ -1,5 +1,4 @@
 'use strict'
-
 request = require "request"
 
 module.exports = class SOAPRequest
@@ -32,6 +31,4 @@ module.exports = class SOAPRequest
           return
         # Else everything went well
         resolve json
-        return
-      return
   )

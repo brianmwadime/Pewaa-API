@@ -40,7 +40,6 @@ module.exports = class ParseResponse
     # delete the enc_params value
     delete self.json.enc_params
     # Get the equivalent HTTP CODE to respond with
-    console.info self.json
     self.json = Object.assign({}, @extractCode(), self.json)
     self.json
 

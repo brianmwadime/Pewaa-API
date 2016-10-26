@@ -85,7 +85,7 @@ app.use uncaught_error_handler
 # Start the server
 server = app.listen(process.env.PORT or 8080, ->
   console.log 'Your secret session key is: ' + process.env.SESSION_SECRET_KEY
-  console.log 'Express server listening on %d, in %s' + ' mode', server.address().port, app.get('env')
+  console.log 'Express server listening on %d, in %s' + ' mode', server.address().port, app.get('env'), '\nPress Ctrl-C to terminate.'
   return
 )
 

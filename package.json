@@ -5,7 +5,7 @@
   "scripts": {
     "start": "pm2 start index.coffee",
     "stop": "pm2 stop all",
-    "test": "supervisor index.coffee"
+    "debug": "supervisor index.coffee"
   },
   "dependencies": {
     "async": "^2.0.1",
