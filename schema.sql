@@ -336,6 +336,11 @@ ALTER TABLE wishlists ADD COLUMN recipient text NULL;
 --
 
 ALTER TABLE wishlists ADD COLUMN category text NULL;
+
+ALTER TABLE wishlist_items ADD COLUMN user_id uuid NULL;
+
+ALTER TABLE ONLY wishlist_items
+    ADD CONSTRAINT wishlist_items_user_fkey FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
 --
 -- PostgreSQL database dump complete
 --
