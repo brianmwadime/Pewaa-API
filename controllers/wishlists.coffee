@@ -25,7 +25,7 @@ class WishlistsController extends BaseController
 
   getWishlistsForUser: (user_id, callback) ->
     statement = @wishlist
-                .select @wishlist.star() , @userswishlists.star()
+                .select @wishlist.star()
                 .where(@userswishlists.user_id.equals user_id)
                 .from(
                   @wishlist
