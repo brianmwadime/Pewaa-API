@@ -332,6 +332,11 @@ CREATE INDEX push_credentials_userid_platform ON push_credentials USING btree (p
 ALTER TABLE wishlists ADD COLUMN recipient text NULL;
 
 --
+-- Name: wishlists_Add_category; Type: INDEX; Schema: public; Owner: -; Tablespace:
+--
+
+ALTER TABLE wishlists ADD COLUMN category text NULL;
+--
 -- PostgreSQL database dump complete
 --
 
