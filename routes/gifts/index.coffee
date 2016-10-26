@@ -30,6 +30,13 @@ handler = (app) ->
     else
       res.send 404
 
+  app.get "/v#{apiVersion}/gifts/:id/contributors", validate({secret: 'pewaa'}), (req, res) ->
+    GiftsController.getForWishlist req.params.id, (err, wishlists) ->
+      if err
+        res.send 400, err
+      else
+        res.send _.map wishlists, (p) -> (new Wishlist p).publicObject()
+
   app.post "/v#{apiVersion}/gifts", validate({secret: 'pewaa'}), (req, res) ->
     upload req, res, (err) ->
       if err

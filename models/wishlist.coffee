@@ -4,8 +4,8 @@ _ = require 'underscore'
 class Wishlist extends BaseModel
   constructor: (props) ->
     super props
-    @required = ['name','description', 'avatar']
-    @public   = ['name', 'description', 'avatar', 'created_on', 'updated_on']
+    @required = ['name','description', 'avatar', 'recipient']
+    @public   = ['name', 'description', 'avatar', 'recipient', 'created_on', 'updated_on']
 
 
     if !@avatar
