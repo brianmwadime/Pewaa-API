@@ -8,8 +8,8 @@ yamlConfigFile  = 'app.yaml'
 process.env.API_VERSION = 1
 process.env.ENDPOINT = 'https://safaricom.co.ke/mpesa_online/lnmo_checkout_server.php?wsdl';
 process.env.SESSION_SECRET_KEY = uuid.v4()
-process.env.PAYBILL_NUMBER = '902500'
-process.env.PASSKEY = '49e99cf128400555c760436fb4211890d53a4df633f0c2c80540cab2033b6d00'
+process.env.PAYBILL_NUMBER = '866069'
+process.env.PASSKEY = 'aa0986a3784875583199c78a9db6c4c0e76f02b4611bc90dc3c6359ae3b2f209'
 process.env.GCM_KEY = "AIzaSyA6aHF1DOgiopy7KauoaxVHj0N29-ITcjo"
 
 # if an env has not been provided, default to development
