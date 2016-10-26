@@ -1,5 +1,6 @@
 BaseController = require "#{__dirname}/base"
 Wishlist = require "#{__dirname}/../models/wishlist"
+Contributor = require "#{__dirname}/../models/contributor"
 sql = require 'sql'
 async = require 'async'
 
@@ -12,7 +13,11 @@ class WishlistsController extends BaseController
 
   userswishlists: sql.define
     name: 'wishlist_contributors'
-    columns: ['user_id', 'wishlist_id', 'permissions']
+    columns: (new Contributor).columns()
+
+  user: sql.define
+    name: 'users'
+    columns: ['username', 'avatar', 'phone', 'email', 'description']
 
   getAll: (callback)->
     statement = @wishlist.select(@wishlist.star()).from(@wishlist)
@@ -20,7 +25,7 @@ class WishlistsController extends BaseController
 
   getWishlistsForUser: (user_id, callback) ->
     statement = @wishlist
-                .select @wishlist.star() #, @userswishlists.star()
+                .select @wishlist.star() , @userswishlists.star()
                 .where(@userswishlists.user_id.equals user_id)
                 .from(
                   @wishlist

@@ -9,8 +9,6 @@ class ContributorsController extends BaseController
     name: 'wishlist_contributors'
     columns: (new Contributor).columns()
 
-
-
   getAll: (callback)->
     statement = @contributor.select(@contributor.star()).from(@contributor)
     @query statement, callback
