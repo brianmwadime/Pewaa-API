@@ -23,11 +23,10 @@ module.exports = (req, res, next) ->
   else
     return res.status(400).send('No [totalAmount] parameter was found')
 
-  
+
   bodyParamKeys = Object.keys(req.body)
   extraPayload = {}
 
-  
   # anything that is not a required param
   # should be added to the extraPayload object
   # for key of bodyParamKeys
@@ -38,7 +37,7 @@ module.exports = (req, res, next) ->
     if requiredBodyParams.indexOf(key) == -1
       extraPayload[key] = req.body[key]
       delete req.body[key]
-  
+
   req.body.extraPayload = extraPayload
   # console.info 'extraPayload', req.body.extraPayload
   next()
