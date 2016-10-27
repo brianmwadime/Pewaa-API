@@ -19,7 +19,7 @@ handler = (app) ->
 
   app.post "/v#{apiVersion}/wishlists", validate({secret: 'pewaa'}), (req, res) ->
     wishlist = new Wishlist req.body
-    # wishlist.userId = req.userId
+    wishlist.userId = req.userId
     if wishlist.validate()
       WishlistsController.create wishlist, (err, result) ->
         if err

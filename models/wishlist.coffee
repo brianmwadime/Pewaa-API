@@ -7,7 +7,6 @@ class Wishlist extends BaseModel
     @required = ['name','description', 'recipient', 'category']
     @public   = _.clone @required , 'avatar', 'created_on', 'updated_on'
 
-
     if !@avatar
       @avatar = null
 
