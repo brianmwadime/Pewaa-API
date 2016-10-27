@@ -127,8 +127,10 @@ CREATE TABLE sms_codes (
 CREATE TABLE wishlists (
     id uuid DEFAULT uuid_generate_v4(),
     name varchar(200) NOT NULL,
+    recipient text NOT NULL,
     description text NULL,
     avatar varchar NULL,
+    category varchar NOT NULL,
     created_on timestamp DEFAULT current_timestamp,
     updated_on timestamp
 );
@@ -142,6 +144,7 @@ CREATE TABLE wishlist_items (
     name varchar(200) NOT NULL,
     code varchar(200) NULL UNIQUE,
     price numeric NOT NULL CHECK (price > 0),
+    user_id uuid NOT NULL,
     wishlist_id uuid NOT NULL,
     description text NULL,
     avatar varchar NULL,
@@ -198,7 +201,7 @@ ALTER TABLE ONLY oauth_clients
 --
 
 ALTER TABLE ONLY push_credentials
-    ADD CONSTRAINT oauth_clients_pkey PRIMARY KEY (platform, device_id);
+    ADD CONSTRAINT push_credentials_pkey PRIMARY KEY (platform, device_id);
 --
 -- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
@@ -234,6 +237,12 @@ ALTER TABLE ONLY wishlist_items
 ALTER TABLE ONLY wishlist_items
     ADD CONSTRAINT wishlist_items_fkey FOREIGN KEY (wishlist_id) REFERENCES wishlists(id) ON DELETE CASCADE;
 
+--
+-- Name: wishlist_items_user_fkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+--
+
+ALTER TABLE ONLY wishlist_items
+    ADD CONSTRAINT wishlist_items_user_fkey FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
 
 --
 -- Name: wishlist_item_contributors_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
@@ -241,6 +250,7 @@ ALTER TABLE ONLY wishlist_items
 
 ALTER TABLE ONLY wishlist_contributors
     ADD CONSTRAINT wishlist_contributors_pkey PRIMARY KEY (id);
+
 
 ALTER TABLE ONLY wishlist_contributors
     ADD CONSTRAINT wishlist_contributors_unique_wishlist_user UNIQUE (wishlist_id, user_id);
@@ -325,22 +335,6 @@ CREATE INDEX smscodes_userid_code ON sms_codes USING btree (user_id, code);
 
 CREATE INDEX push_credentials_userid_platform ON push_credentials USING btree (platform, device_id);
 
---
--- Name: wishlists_Add_recipients; Type: INDEX; Schema: public; Owner: -; Tablespace:
---
-
-ALTER TABLE wishlists ADD COLUMN recipient text NULL;
-
---
--- Name: wishlists_Add_category; Type: INDEX; Schema: public; Owner: -; Tablespace:
---
-
-ALTER TABLE wishlists ADD COLUMN category text NULL;
-
-ALTER TABLE wishlist_items ADD COLUMN user_id uuid NULL;
-
-ALTER TABLE ONLY wishlist_items
-    ADD CONSTRAINT wishlist_items_user_fkey FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
 --
 -- PostgreSQL database dump complete
 --

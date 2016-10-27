@@ -69,6 +69,7 @@ class WishlistsController extends BaseController
 
       callback error
     t.on 'commit', (wishlist)->
+      console.info wishlist
       done =
         'success' : true,
         'createID': wishlist.id,

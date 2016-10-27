@@ -50,6 +50,7 @@ handler = (app) ->
       if req.file
         req.body.avatar = req.file.filename
       te = new Gift req.body
+      te.user_id = req.userId
       if te.validate()
         GiftsController.create te, (err, gift)->
           if err
