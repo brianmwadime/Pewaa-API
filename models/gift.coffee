@@ -4,7 +4,7 @@ _ = require 'underscore'
 class Gift extends BaseModel
   constructor: (props) ->
     super props
-    @required = ['name', 'price', 'wishlist_id', 'description', 'avatar', 'code', 'user_id']
+    @required = ['name', 'price', 'wishlist_id', 'description', 'user_id', 'avatar', 'code']
     @public = _.clone @required, 'created_on', 'updated_on'
 
     if !@code

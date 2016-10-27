@@ -9,8 +9,8 @@ class GiftsController extends BaseController
     columns: (new Gift).columns()
 
   create: (gift, callback)->
-    console.info gift.requiredObject()
     if gift.validate()
+      console.info gift
       statement = (@gift.insert gift.requiredObject()).returning '*'
       @query statement, (err, rows)->
         if err
@@ -24,6 +24,7 @@ class GiftsController extends BaseController
             'description': rows[0].description,
             'avatar': rows[0].avatar,
             'price': rows[0].price,
+            'creator_id': rows[0].user_id,
             'message' : 'gift added successfully.'
 
           callback null, gift

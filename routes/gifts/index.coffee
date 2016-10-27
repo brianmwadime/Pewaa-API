@@ -46,20 +46,20 @@ handler = (app) ->
           'message' : 'Oops! Something went wrong'
         res.send 400, failed
       # Gift avatar uploaded successfully
-      req.body.userId = req.userId
+      req.body.user_id = req.userId
       if req.file
         req.body.avatar = req.file.filename
-      te = new Gift req.body
-      te.user_id = req.userId
-      if te.validate()
-        GiftsController.create te, (err, gift)->
+
+      gift = new Gift req.body
+      if gift.validate()
+        GiftsController.create gift, (err, result)->
           if err
             failed =
               'success' : false,
               'message' : err
             res.send 400, failed
           else
-            res.send gift
+            res.send result
       else
         res.send 400, 'some error'
     return
