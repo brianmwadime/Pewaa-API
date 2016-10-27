@@ -13,7 +13,4 @@ class Gift extends BaseModel
     if !@avatar
       @avatar = null
 
-    if !@user_id
-      @user_id = null
-
 module.exports = Gift
