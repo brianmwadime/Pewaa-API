@@ -245,12 +245,15 @@ ALTER TABLE ONLY wishlist_items
     ADD CONSTRAINT wishlist_items_user_fkey FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
 
 --
--- Name: wishlist_item_contributors_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: wishlist_contributors_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY wishlist_contributors
     ADD CONSTRAINT wishlist_contributors_pkey PRIMARY KEY (id);
 
+--
+-- Name: wishlist_contributors_unique_wishlist_user; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+--
 
 ALTER TABLE ONLY wishlist_contributors
     ADD CONSTRAINT wishlist_contributors_unique_wishlist_user UNIQUE (wishlist_id, user_id);
@@ -297,7 +300,7 @@ ALTER TABLE ONLY payments
     ADD CONSTRAINT payments_wishlist_items_fkey FOREIGN KEY (wishlist_item_id) REFERENCES wishlist_items(id) ON DELETE CASCADE;
 
 --
--- Name: wishlist_items_user_fkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: payments_user_fkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY payments
