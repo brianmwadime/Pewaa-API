@@ -8,6 +8,10 @@ class GiftsController extends BaseController
     name: 'wishlist_items'
     columns: (new Gift).columns()
 
+  user: sql.define
+    name: 'users'
+    columns: ['id', 'avatar', 'username', 'phone', 'name']
+
   create: (gift, callback)->
     if gift.validate()
       console.info gift
@@ -53,9 +57,14 @@ class GiftsController extends BaseController
       callback err
 
   getForWishlist: (wishlist_id, callback)->
-    statement = @gift.select @gift.star()
-                .from @gift
+    statement = @gift
+                .select(@gift.star(), @user.name.as('creator_name') , @user.avatar.as('creator_avatar') , @user.phone.as('creator_phone'))
                 .where @gift.wishlist_id.equals wishlist_id
+                .from(
+                  @gift
+                    .join @user
+                    .on @gift.user_id.equals @user.id
+                )
 
     @query statement, (err, rows)->
       if err
