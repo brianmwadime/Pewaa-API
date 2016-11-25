@@ -4,7 +4,7 @@ _ = require 'underscore'
 class Payment extends BaseModel
   constructor: (props) ->
     super props
-    @required = ['amount', 'price', 'reference', 'wishlist_item_id', 'user_id']
-    @public = _.clone @required, 'description', 'status', 'user_id', 'created_on', 'updated_on'
+    @required = ['amount', 'reference', 'wishlist_item_id', 'status', 'user_id', 'description']
+    @public = _.clone @required, 'created_on', 'updated_on'
 
 module.exports = Payment

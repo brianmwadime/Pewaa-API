@@ -46,7 +46,7 @@ class PaymentRequest
         extraPayload: req.body.extraPayload
         timeStamp: req.timeStamp
         encryptedPassword: req.encryptedPassword
-        callbackURL: "#{req.protocol}://#{req.host}/v#{process.env.API_VERSION}/payments/success"
+        callbackURL: "#{req.protocol}://#{process.env.API_DOMAIN}/v#{process.env.API_VERSION}/payments/complete"
 
       payment = @buildSoapBody(paymentDetails)
       request = @soapRequest.construct(payment, @parser)

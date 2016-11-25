@@ -2,6 +2,7 @@ BaseController  = require "#{__dirname}/base"
 sql             = require 'sql'
 async           = require('async-if-else')(require('async'))
 User            = require "#{__dirname}/../models/user"
+Payment         = require "#{__dirname}/../models/payment"
 SmsCode         = require "#{__dirname}/../models/sms_code"
 twilio          = require "#{__dirname}/../config/twilio"
 client          = require('twilio')(twilio.ACCOUNT_SID, twilio.AUTH_TOKEN)
@@ -11,6 +12,10 @@ class UsersController extends BaseController
   user: sql.define
     name: 'users'
     columns: (new User).columns()
+
+  payment: sql.define
+    name: 'payments'
+    columns: (new Payment).columns()
 
   smscode: sql.define
     name: 'sms_codes'
@@ -128,6 +133,40 @@ class UsersController extends BaseController
           'message' : 'Profile image updated successfully.'
 
         callback null, done
+
+  createPayment: (params, callback) ->
+    statement = @payment.insert(params.requiredObject()).returning '*'
+    @query statement, (err)->
+      if err
+        error =
+          'success' : false,
+          'message' : 'Failed to create payment.'
+
+        callback error
+      else
+        done =
+          'success' : true,
+          'message' : 'Payment created successfully.'
+
+        callback null, done
+
+  updatePayment: (params, callback) ->
+    statement = (@payment.update {status:params.status})
+                  .where @payment.reference.equals params.trx_id
+    @query statement, (err)->
+      if err
+        error =
+          'success' : false,
+          'message' : 'Failed to update payment.'
+
+        callback error
+      else
+        done =
+          'success' : true,
+          'message' : 'Payment updated successfully.'
+
+        callback null, done
+  
 
   saveAvatar: (params, callback) ->
     statement = (@user.update {avatar:params.avatar})
