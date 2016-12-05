@@ -61,6 +61,7 @@ class ContributorsController extends BaseController
     statement = @payment
                 .select(@payment.star(), @user.name, @user.avatar, @user.phone)
                 .where @payment.wishlist_item_id.equals gift_id
+                .where @payment.status.equals "success"
                 .from(
                   @payment
                     .join @user
