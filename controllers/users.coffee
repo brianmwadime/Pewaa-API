@@ -150,24 +150,6 @@ class UsersController extends BaseController
 
         callback null, done
 
-  updatePayment: (params, callback) ->
-    statement = (@payment.update {status:params.status})
-                  .where @payment.reference.equals params.trx_id
-    @query statement, (err)->
-      if err
-        error =
-          'success' : false,
-          'message' : 'Failed to update payment.'
-
-        callback error
-      else
-        done =
-          'success' : true,
-          'message' : 'Payment updated successfully.'
-
-        callback null, done
-  
-
   saveAvatar: (params, callback) ->
     statement = (@user.update {avatar:params.avatar})
                   .where @user.id.equals params.userId

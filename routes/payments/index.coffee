@@ -7,6 +7,7 @@ PaymentStatus           = require "#{__dirname}/../../controllers/mpesa/PaymentS
 PaymentSuccess          = require "#{__dirname}/../../controllers/mpesa/PaymentSuccess"
 checkForRequiredParams  = require "#{__dirname}/../../validators/checkForRequiredParams"
 UsersController 	      = require "#{__dirname}/../../controllers/users"
+ContributorsController 	= require "#{__dirname}/../../controllers/Contributor"
 validate                = require "#{__dirname}/../../validators/tokenValidator"
 _                       = require 'underscore'
 apiVersion 	            = process.env.API_VERSION
@@ -53,10 +54,12 @@ handler = (app) ->
 
   # for testing last POST response
   # if MERCHANT_ENDPOINT has not been provided
-  app.all "/v#{apiVersion}/thumbs/up", (req, res) ->
-    res.sendStatus(200)
+  app.all "/v#{apiVersion}/mpesa/payment", (req, res) ->
+    ContributorsController.updatePayment {status:req.body.status, userId:req.userId, trx_id:req.param.trx_id}, (err, result) ->
+      if err
+        res.send 400, err
 
-  app.all "/v#{apiVersion}/payments/complete", (req, res) ->
-    res.sendStatus(200)
+      else
+        res.send 200, result
 
 module.exports = handler

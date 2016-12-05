@@ -40,6 +40,23 @@ class ContributorsController extends BaseController
       else
         callback err, rows
 
+  updatePayment: (params, callback) ->
+    statement = (@payment.update {status:params.status})
+                  .where @payment.reference.equals params.trx_id
+    @query statement, (err)->
+      if err
+        error =
+          'success' : false,
+          'message' : 'Failed to update payment.'
+
+        callback error
+      else
+        done =
+          'success' : true,
+          'message' : 'Payment updated successfully.'
+
+        callback null, done
+
   getContributors: (gift_id, callback) ->
     statement = @payment
                 .select(@payment.star(), @user.name, @user.avatar, @user.phone)
