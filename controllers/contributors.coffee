@@ -1,5 +1,8 @@
 BaseController  = require "#{__dirname}/base"
 Contributor     = require "#{__dirname}/../models/contributor"
+Gift            = require "#{__dirname}/../models/gift"
+User            = require "#{__dirname}/../models/user"
+Payment         = require "#{__dirname}/../models/payment"
 gcm             = require('node-gcm')
 sql             = require 'sql'
 async           = require 'async'
@@ -8,6 +11,18 @@ class ContributorsController extends BaseController
   contributor: sql.define
     name: 'wishlist_contributors'
     columns: (new Contributor).columns()
+
+  user: sql.define
+    name: 'users'
+    columns: (new User).columns()
+
+  gift: sql.define
+    name: 'wishlist_items'
+    columns: (new Gift).columns()
+
+  payment: sql.define
+    name: 'payments'
+    columns: (new Payment).columns()
 
   getAll: (callback)->
     statement = @contributor.select(@contributor.star()).from(@contributor)
@@ -18,6 +33,22 @@ class ContributorsController extends BaseController
                 .select @contributor.star() #, @userswishlists.star()
                 .where(@contributor.wishlist_id.equals wishlist_id)
                 .from(@contributor)
+    # @query statement, callback
+    @query statement, (err, rows)->
+      if err
+        callback err
+      else
+        callback err, rows
+
+  getContributors: (gift_id, callback) ->
+    statement = @payment
+                .select(@payment.star(), @user.name.as('contributor_name') , @user.avatar.as('contributor_avatar') , @user.phone.as('contributor_phone'))
+                .where @gift.wishlist_item_id.equals gift_id
+                .from(
+                  @gift
+                    .join @user
+                    .on @payment.user_id.equals @user.id
+                )
     # @query statement, callback
     @query statement, (err, rows)->
       if err
