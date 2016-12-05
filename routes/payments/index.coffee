@@ -7,7 +7,7 @@ PaymentStatus           = require "#{__dirname}/../../controllers/mpesa/PaymentS
 PaymentSuccess          = require "#{__dirname}/../../controllers/mpesa/PaymentSuccess"
 checkForRequiredParams  = require "#{__dirname}/../../validators/checkForRequiredParams"
 UsersController 	      = require "#{__dirname}/../../controllers/users"
-ContributorsController 	= require "#{__dirname}/../../controllers/Contributor"
+ContributorsController 	= require "#{__dirname}/../../controllers/contributors"
 validate                = require "#{__dirname}/../../validators/tokenValidator"
 _                       = require 'underscore'
 apiVersion 	            = process.env.API_VERSION
@@ -45,7 +45,7 @@ handler = (app) ->
       res.json 400, error: "Invalid parameters."
 
   app.post "/v#{apiVersion}/payments/update/:trx_id", validate({secret: 'pewaa'}), (req, res) ->
-    UsersController.updatePayment {status:req.body.status, userId:req.userId, trx_id:req.param.trx_id}, (err, result) ->
+    ContributorsController.updatePayment {status:req.body.status, userId:req.userId, trx_id:req.param.trx_id}, (err, result) ->
       if err
         res.send 400, err
 
