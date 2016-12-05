@@ -1,7 +1,9 @@
 'use strict'
 require("#{__dirname}/../../environment")
 GiftsController     = require "#{__dirname}/../../controllers/gifts"
+ContributorsController = require "#{__dirname}/../../controllers/contributors"
 Gift                = require "#{__dirname}/../../models/gift"
+Contributor         = require "#{__dirname}/../../models/contributor"
 crypto              = require "crypto"
 mime                = require "mime"
 _                   = require 'underscore'
@@ -31,11 +33,11 @@ handler = (app) ->
       res.send 404
 
   app.get "/v#{apiVersion}/gifts/:id/contributors", validate({secret: 'pewaa'}), (req, res) ->
-    GiftsController.getForWishlist req.params.id, (err, wishlists) ->
+    ContributorsController.getContributors req.params.id, (err, contributors) ->
       if err
         res.send 400, err
       else
-        res.send _.map wishlists, (p) -> (new Wishlist p).publicObject()
+        res.send _.map contributors, (p) -> (new Wishlist p).publicObject()
 
   app.post "/v#{apiVersion}/gifts", validate({secret: 'pewaa'}), (req, res) ->
     upload req, res, (err) ->
