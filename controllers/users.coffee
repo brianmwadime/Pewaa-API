@@ -33,8 +33,12 @@ class UsersController extends BaseController
     statement = @user.select(@user.star()).from(@user)
       .where(@user.id.equals key)
     @query statement, (err, rows)->
-      if err
-        callback err
+      if err or rows.length isnt 1
+        error =
+          'success' : false,
+          'message' : "User does not exist."
+
+        callback error
       else
         userRecord =
           'id': rows[0].id
@@ -118,8 +122,9 @@ class UsersController extends BaseController
           self.reCreateCode rows[0], callback
 
   changeName: (params, callback) ->
-    statement = (@user.update {username:params.name})
+    statement = (@user.update {name:params.name})
                   .where @user.id.equals params.userId
+
     @query statement, (err)->
       if err
         error =
