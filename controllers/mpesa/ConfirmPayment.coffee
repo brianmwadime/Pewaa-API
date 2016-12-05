@@ -31,7 +31,7 @@ class ConfirmPayment
 
   handler: (req, res) ->
     paymentDetails =
-        transactionID: req.params.id
+        transactionID: req.params.trx_id
         timeStamp: req.timeStamp
         encryptedPassword: req.encryptedPassword
     payment = @buildSoapBody(paymentDetails)
