@@ -14,7 +14,7 @@ class ContributorsController extends BaseController
 
   user: sql.define
     name: 'users'
-    columns: (new User).columns()
+    columns: ['id', 'avatar', 'username', 'phone', 'name']
 
   gift: sql.define
     name: 'wishlist_items'
@@ -42,10 +42,10 @@ class ContributorsController extends BaseController
 
   getContributors: (gift_id, callback) ->
     statement = @payment
-                .select(@payment.star(), @user.name.as('contributor_name') , @user.avatar.as('contributor_avatar') , @user.phone.as('contributor_phone'))
-                .where @gift.wishlist_item_id.equals gift_id
+                .select(@payment.star(), @user.name, @user.avatar, @user.phone)
+                .where @payment.wishlist_item_id.equals gift_id
                 .from(
-                  @gift
+                  @payment
                     .join @user
                     .on @payment.user_id.equals @user.id
                 )

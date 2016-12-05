@@ -37,7 +37,7 @@ handler = (app) ->
       if err
         res.send 400, err
       else
-        res.send _.map contributors, (p) -> (new Wishlist p).publicObject()
+        res.send contributors # _.map contributors, (p) -> (new Wishlist p).publicObject()
 
   app.post "/v#{apiVersion}/gifts", validate({secret: 'pewaa'}), (req, res) ->
     upload req, res, (err) ->
