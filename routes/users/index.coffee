@@ -79,7 +79,7 @@ handler = (app) ->
   app.post "/v#{apiVersion}/users/changeUsername", validate({secret: 'pewaa'}), (req, res) ->
     params =
       name: req.body.newStatus
-      userId: req.params.id
+      userId: req.userId
 
     UsersController.changeName params, (err, result)->
       if err
