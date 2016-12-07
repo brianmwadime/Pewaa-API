@@ -6,8 +6,8 @@ class User extends BaseModel
   constructor: (options) ->
     super options
 
-    @required = ['phone', 'apikey', 'is_activated', 'avatar', 'description', 'email']
-    @public   = ['created_on']
+    @required = ['phone', 'apikey', 'is_activated', 'avatar', 'description', 'email', 'name', 'username']
+    @public   = ['created_on', 'name', 'username']
     @public   = _.without @required
 
     phonePattern = /// ^ #begin of line
@@ -28,5 +28,7 @@ class User extends BaseModel
     @avatar       = null
     @description  = null
     @email        = null
+    @name         = null
+    @username     = null
 
 module.exports = User

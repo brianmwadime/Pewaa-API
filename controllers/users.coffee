@@ -121,10 +121,10 @@ class UsersController extends BaseController
         else
           self.reCreateCode rows[0], callback
 
-  changeName: (params, callback) ->
+  updateName: (params, callback) ->
     statement = (@user.update {name:params.name})
                   .where @user.id.equals params.userId
-
+    
     @query statement, (err)->
       if err
         error =
