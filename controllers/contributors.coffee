@@ -41,6 +41,7 @@ class ContributorsController extends BaseController
         callback err, rows
 
   updatePayment: (params, callback) ->
+    cosnole.log params
     statement = (@payment.update {status:params.status})
                   .where @payment.reference.equals params.trx_id
     @query statement, (err)->
@@ -61,7 +62,7 @@ class ContributorsController extends BaseController
     statement = @payment
                 .select(@payment.star(), @user.name, @user.avatar, @user.phone)
                 .where @payment.wishlist_item_id.equals gift_id
-                .where @payment.status.equals "success"
+                .where @payment.status.equals "Success"
                 .from(
                   @payment
                     .join @user
