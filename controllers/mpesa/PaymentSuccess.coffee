@@ -8,7 +8,7 @@ class PaymentSuccess
 
   handler: (req, res, next) ->
     response = {}
-    baseURL = "#{req.protocol}://#{process.env.API_DOMAIN}:#{process.env.PORT || 8080}"
+    baseURL = "#{req.protocol}://#{process.env.API_DOMAIN}"
     endpoint = "#{baseURL}/v1/mpesa/payment"
     if 'MERCHANT_ENDPOINT' of process.env
       endpoint = process.env.MERCHANT_ENDPOINT
@@ -28,7 +28,6 @@ class PaymentSuccess
 
     extractCode = statusCodes.find((stc) ->
       stc.return_code == parseInt(response.return_code, 10)
-      return
     )
 
     Object.assign response, extractCode
@@ -38,14 +37,16 @@ class PaymentSuccess
         rejectUnauthorized: false
         body: JSON.stringify(response: response)
         headers: 'content-type': 'application/json; charset=utf-8'
+
     # make a request to the merchant's endpoint
     @request requestParams, (error) ->
       if error
-        res.sendStatus 500
+        res.status(500)
         return
 
-      res.sendStatus 200
+      res.send(200)
       return
+
     return
 
 module.exports = new PaymentSuccess
