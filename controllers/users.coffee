@@ -49,6 +49,7 @@ class UsersController extends BaseController
           'phone': rows[0].phone
           'username': rows[0].username
           'image': rows[0].avatar
+
         callback err, userRecord
 
   getOneWithCredentials: (key, callback)->
