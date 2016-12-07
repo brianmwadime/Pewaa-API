@@ -338,6 +338,10 @@ CREATE INDEX smscodes_userid_code ON sms_codes USING btree (user_id, code);
 
 CREATE INDEX push_credentials_userid_platform ON push_credentials USING btree (platform, device_id);
 
+
+ALTER TABLE users ALTER COLUMN name TYPE varchar;
+
+ALTER TABLE users ALTER COLUMN username TYPE varchar;
 --
 -- PostgreSQL database dump complete
 --

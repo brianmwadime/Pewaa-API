@@ -72,19 +72,17 @@ handler = (app) ->
     UsersController.resend req.body.phone, (err, result)->
       if err
         res.send 400, err
-
       else
         res.send 200, result
 
-  app.post "/v#{apiVersion}/users/changeUsername", validate({secret: 'pewaa'}), (req, res) ->
+  app.post "/v#{apiVersion}/users/changeUsername", validate({secret: 'pewaa'}), (req, res)->
     params =
-      name: req.body.newStatus
+      name: req.body.name
       userId: req.userId
 
-    UsersController.changeName params, (err, result)->
+    UsersController.updateName params, (err, result)->
       if err
         res.send 400, err
-
       else
         res.send 200, result
 
