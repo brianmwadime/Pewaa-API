@@ -31,7 +31,6 @@ handler = (app) ->
     PaymentSuccess.handler(req, res)
 
   app.post "/v#{apiVersion}/payments/create", validate({secret: 'pewaa'}), (req, res) ->
-    
     req.body.user_id = req.userId
     payment = new Payment req.body
     if payment.validate()
@@ -55,7 +54,7 @@ handler = (app) ->
   # for testing last POST response
   # if MERCHANT_ENDPOINT has not been provided
   app.all "/v#{apiVersion}/mpesa/payment", (req, res) ->
-    ContributorsController.updatePayment {status:req.body.status, userId:req.userId, trx_id:req.param.trx_id}, (err, result) ->
+    ContributorsController.updatePayment {status:req.body.response.trx_status, trx_id:req.body.response.trx_id}, (err, result) ->
       if err
         res.send 400, err
 
