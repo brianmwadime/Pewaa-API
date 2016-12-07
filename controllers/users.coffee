@@ -43,7 +43,8 @@ class UsersController extends BaseController
         userRecord =
           'id': rows[0].id
           'Linked': if rows[0].is_activated then true else false
-          'status': rows[0].phone
+          'status': rows[0].name
+          'name': rows[0].name
           'status_date': rows[0].created_on
           'phone': rows[0].phone
           'username': rows[0].username
