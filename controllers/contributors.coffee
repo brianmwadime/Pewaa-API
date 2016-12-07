@@ -41,10 +41,11 @@ class ContributorsController extends BaseController
         callback err, rows
 
   updatePayment: (params, callback) ->
-    cosnole.log params
+    console.log params
     statement = (@payment.update {status:params.status})
                   .where @payment.reference.equals params.trx_id
     @query statement, (err)->
+      console.log "update error", err
       if err
         error =
           'success' : false,
