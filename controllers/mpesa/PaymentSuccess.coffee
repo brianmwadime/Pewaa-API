@@ -38,6 +38,7 @@ class PaymentSuccess
         body: JSON.stringify(response: response)
         headers: 'content-type': 'application/json; charset=utf-8'
 
+    console.log "Final", JSON.stringify(response: response)
     # make a request to the merchant's endpoint
     @request requestParams, (error) ->
       if error
