@@ -68,12 +68,14 @@ class GiftsController extends BaseController
 
   getForWishlist: (wishlist_id, callback)->
     statement = @gift
-                .select(@gift.star(), @user.name.as('creator_name') , @user.avatar.as('creator_avatar') , @user.phone.as('creator_phone'))
+                .select(@gift.star(), @user.name.as('creator_name') ,@payment.amount.sum().as('contributed') , @user.avatar.as('creator_avatar') , @user.phone.as('creator_phone'))
                 .where @gift.wishlist_id.equals wishlist_id
                 .from(
                   @gift
                     .join @user
                     .on @gift.user_id.equals @user.id
+                    .join @payment
+                    .on @payment.wishlist_item_id.equals(@gift.id).and(@payment.status("Success"))
                 )
 
     @query statement, (err, rows)->
