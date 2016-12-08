@@ -16,14 +16,10 @@ class PaymentSuccess
       if process.env.NODE_ENV != 'development'
         next new Error('MERCHANT_ENDPOINT has not been provided in environment configuration')
         return
-    
-    console.log "Check Final", JSON.stringify(req.body)
 
     for key in Object.keys(req.body)
       prop = key.toLowerCase().replace(/\-/g, '')
       response[prop] = req.body[key]
-
-    console.log "Check Final fields", JSON.stringify(response)
 
     if 'enc_params' in response
       # decrypted encrypted extra parameters provided in ENC_PARAMS
@@ -34,8 +30,6 @@ class PaymentSuccess
       stc.return_code == parseInt(response.return_code, 10)
     )
 
-    console.log "Final", JSON.stringify(extractCode)
-
     Object.assign response, extractCode
     requestParams =
         method: 'POST'
@@ -44,7 +38,6 @@ class PaymentSuccess
         body: JSON.stringify(response: response)
         headers: 'content-type': 'application/json; charset=utf-8'
 
-    console.log "Final", JSON.stringify(response: response)
     # make a request to the merchant's endpoint
     @request requestParams, (error) ->
       if error
