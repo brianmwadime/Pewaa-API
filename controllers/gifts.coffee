@@ -74,7 +74,7 @@ class GiftsController extends BaseController
                   @gift
                     .join @user
                     .on(@gift.user_id.equals @user.id)
-                    .join @payment
+                    .join(@payment).group(@payment.wishlist_item_id)
                     .on @gift.id.equals(@payment.wishlist_item_id).and(@payment.status.equals("Success"))
                 )
 
