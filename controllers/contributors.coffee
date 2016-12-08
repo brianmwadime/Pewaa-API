@@ -62,8 +62,7 @@ class ContributorsController extends BaseController
   getContributors: (gift_id, callback) ->
     statement = @payment
                 .select(@payment.star(), @user.name, @user.avatar, @user.phone)
-                .where @payment.wishlist_item_id.equals gift_id
-                .where @payment.status.equals "Success"
+                .where @payment.wishlist_item_id.equals(gift_id).and(@payment.status.equals("Success"))
                 .from(
                   @payment
                     .join @user
@@ -74,7 +73,8 @@ class ContributorsController extends BaseController
       if err
         callback err
       else
-        callback err, rows
+        callback null, rows
+
 
   getOne: (key, callback)->
     statement = @contributor.select(@contributor.star()).from(@contributor)
