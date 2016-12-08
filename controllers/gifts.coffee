@@ -41,19 +41,22 @@ class GiftsController extends BaseController
       callback new Error "Invalid parameters"
 
   getOne: (key, callback)->
-    statement = (@gift.select @gift.star(), @payment.amount.sum().as('contributed'))
-              .where @gift.id.equals key
-              .from(
-                @gift
-                  .join @payment
-                  .on @gift.id.equals(@payment.wishlist_item_id).and(@payment.status.equals("Success"))
-                )
-              .limit 1
-    @query statement, (err, rows) ->
+    statement = @gift
+                .select(@payment.amount.sum().as('contributed'), @gift.star())
+                .where(@gift.id.equals(key))
+                .and(@payment.status.equals("Success"))
+                .group(@payment.wishlist_item_id, @gift.id, @user.id)
+                .from(
+                  @gift
+                    .join @payment
+                    .on(@gift.id.equals(@payment.wishlist_item_id))
+                ).limit 1
+    @query statement, (err, rows)->
       if err
         callback err
       else
-        callback err, new Gift rows[0]
+        callback err, rows[0]
+
 
   deleteOne: (key, callback)->
     statement = @gift.delete().from @gift.where @gift.id.equals key
@@ -68,14 +71,15 @@ class GiftsController extends BaseController
 
   getForWishlist: (wishlist_id, callback)->
     statement = @gift
-                .select(@gift.star(), @user.name.as('creator_name') ,@payment.amount.sum().as('contributed') , @user.avatar.as('creator_avatar') , @user.phone.as('creator_phone'))
-                .where @gift.wishlist_id.equals wishlist_id
+                .select(@payment.wishlist_item_id, @payment.amount.sum().as('contributed'), @gift.star(), @user.name.as('creator_name'), @user.avatar.as('creator_avatar'), @user.phone.as('creator_phone'))
+                .where @gift.wishlist_id.equals(wishlist_id).and(@payment.status.equals("Success"))
+                .group(@payment.wishlist_item_id, @gift.id, @user.id)
                 .from(
                   @gift
-                    .join @user
-                    .on(@gift.user_id.equals @user.id)
-                    .join(@payment).group(@payment.wishlist_item_id)
-                    .on @gift.id.equals(@payment.wishlist_item_id).and(@payment.status.equals("Success"))
+                    .join(@payment)
+                    .on(@gift.id.equals(@payment.wishlist_item_id))
+                    .join(@user)
+                    .on(@gift.user_id.equals(@user.id))
                 )
 
     @query statement, (err, rows)->
