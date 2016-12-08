@@ -71,9 +71,9 @@ class GiftsController extends BaseController
 
   getForWishlist: (wishlist_id, callback)->
     statement = @gift
-                .select(@payment.wishlist_item_id, @payment.amount.sum().as('contributed'), @gift.star(), @user.name.as('creator_name'), @user.avatar.as('creator_avatar'), @user.phone.as('creator_phone'))
-                .where @gift.wishlist_id.equals(wishlist_id).and(@payment.status.equals("Success"))
-                .group(@payment.wishlist_item_id, @gift.id, @user.id)
+                .select(@payment.wishlist_item_id, @payment.amount.case([@payment.status.equals('Success')],[@payment.amount.sum()],0).as('contributed'), @payment.amount.sum().as('contributed'), @gift.star(), @user.name.as('creator_name'), @user.avatar.as('creator_avatar'), @user.phone.as('creator_phone'))
+                .where @gift.wishlist_id.equals(wishlist_id)
+                .group(@payment.wishlist_item_id, @payment.amount, @payment.status, @gift.id, @user.id)
                 .from(
                   @gift
                     .join(@payment)
