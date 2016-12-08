@@ -68,10 +68,10 @@ handler = (app) ->
 
   app.get "/v#{apiVersion}/gifts/:id", validate({secret: 'pewaa'}), (req, res) ->
     GiftsController.getOne req.params.id, (err, gift)->
-      if err or not gift.validate()
+      if err
         res.send 404, "#{req.params.id} not found"
       else
-        res.send gift.publicObject()
+        res.send gift
 
   app.delete "/v#{apiVersion}/gifts/:id", validate({secret: 'pewaa'}), (req, res) ->
     GiftsController.deleteOne req.params.id, (err)->
