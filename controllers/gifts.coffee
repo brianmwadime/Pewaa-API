@@ -46,7 +46,7 @@ class GiftsController extends BaseController
               .from(
                 @gift
                   .join @payment
-                  .on @payment.wishlist_item_id.equals(@gift.id).and(@payment.status("Success"))
+                  .on @gift.id.equals(@payment.wishlist_item_id).and(@payment.status.equals("Success"))
                 )
               .limit 1
     @query statement, (err, rows) ->
@@ -73,9 +73,9 @@ class GiftsController extends BaseController
                 .from(
                   @gift
                     .join @user
-                    .on @gift.user_id.equals @user.id
+                    .on(@gift.user_id.equals @user.id)
                     .join @payment
-                    .on @gift.id.equals(@payment.wishlist_item_id).and(@payment.status("Success"))
+                    .on @gift.id.equals(@payment.wishlist_item_id).and(@payment.status.equals("Success"))
                 )
 
     @query statement, (err, rows)->
