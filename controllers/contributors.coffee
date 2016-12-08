@@ -43,7 +43,7 @@ class ContributorsController extends BaseController
   updatePayment: (params, callback) ->
     console.log params
     statement = (@payment.update {status:params.status})
-                  .where @payment.reference.equals params.trx_id
+                  .where @payment.trx_id.equals params.trx_id
     @query statement, (err)->
       console.log "update error", err
       if err
