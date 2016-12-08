@@ -2,11 +2,16 @@ async = require 'async'
 sql = require 'sql'
 BaseController = require "#{__dirname}/base"
 Gift = require "#{__dirname}/../models/gift"
+Payment = require "#{__dirname}/../models/payment"
 
 class GiftsController extends BaseController
   gift: sql.define
     name: 'wishlist_items'
     columns: (new Gift).columns()
+
+  payment: sql.define
+    name: 'payments'
+    columns: (new Payment).columns()
 
   user: sql.define
     name: 'users'
@@ -36,8 +41,13 @@ class GiftsController extends BaseController
       callback new Error "Invalid parameters"
 
   getOne: (key, callback)->
-    statement = @gift.select @gift.star().from @gift
+    statement = (@gift.select @gift.star(), @payment.amount.sum().as('contributed'))
               .where @gift.id.equals key
+              .from(
+                @gift
+                  .join @payment
+                  .on @payment.wishlist_item_id.equals(@gift.id).and(@payment.status("Success"))
+                )
               .limit 1
     @query statement, (err, rows) ->
       if err
