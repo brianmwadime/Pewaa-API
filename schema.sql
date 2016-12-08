@@ -342,6 +342,8 @@ CREATE INDEX push_credentials_userid_platform ON push_credentials USING btree (p
 ALTER TABLE users ALTER COLUMN name TYPE varchar;
 
 ALTER TABLE users ALTER COLUMN username TYPE varchar;
+
+ALTER TABLE payments ADD COLUMN trx_id varchar NOT NULL;
 --
 -- PostgreSQL database dump complete
 --
