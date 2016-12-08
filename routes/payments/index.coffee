@@ -28,6 +28,7 @@ handler = (app) ->
     PaymentStatus.handler(req, res)
 
   app.all "/v#{apiVersion}/payments/complete", (req, res) ->
+    console.log "Complete Payment", JSON.stringify(req.body)
     PaymentSuccess.handler(req, res)
 
   app.post "/v#{apiVersion}/payments/create", validate({secret: 'pewaa'}), (req, res) ->
