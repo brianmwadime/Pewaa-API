@@ -18,7 +18,7 @@ users         = require './routes/users'
 wishlists     = require './routes/wishlists'
 gifts         = require './routes/gifts'
 contributors  = require './routes/contributors'
-notifications  = require './routes/notifications'
+notifications = require './routes/notifications'
 {
   not_found_handler
   uncaught_error_handler
@@ -59,7 +59,7 @@ app.oauth = new OAuthServer({
   model: require "#{__dirname}/models/session"
 })
 
-_.each [users, wishlists, gifts, payments, contributors], (s) ->
+_.each [users, wishlists, gifts, payments, contributors, notifications], (s) ->
   s app
 
 app.use app.router
