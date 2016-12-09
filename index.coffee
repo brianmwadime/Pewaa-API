@@ -18,6 +18,7 @@ users         = require './routes/users'
 wishlists     = require './routes/wishlists'
 gifts         = require './routes/gifts'
 contributors  = require './routes/contributors'
+notifications  = require './routes/notifications'
 {
   not_found_handler
   uncaught_error_handler
