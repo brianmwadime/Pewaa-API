@@ -2,9 +2,9 @@
 require("#{__dirname}/../../environment")
 NotificationsController = require "#{__dirname}/../../controllers/notifications"
 Notification            = require "#{__dirname}/../../models/push_credential"
-_                      = require 'underscore'
-validate               = require '#{__dirname}/../../validators/tokenValidator'
-apiVersion 	           = process.env.API_VERSION
+_                       = require 'underscore'
+validate                = require '#{__dirname}/../../validators/tokenValidator'
+apiVersion 	            = process.env.API_VERSION
 
 handler = (app) ->
 
