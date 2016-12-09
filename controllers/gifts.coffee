@@ -19,7 +19,6 @@ class GiftsController extends BaseController
 
   create: (gift, callback)->
     if gift.validate()
-      console.info gift
       statement = (@gift.insert gift.requiredObject()).returning '*'
       @query statement, (err, rows)->
         if err

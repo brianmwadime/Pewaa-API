@@ -6,10 +6,8 @@ async           = require 'async'
 
 class NotificationsController extends BaseController
   notification: sql.define
-    name: 'push_credential'
+    name: 'push_credentials'
     columns: (new Notification).columns()
-
-
 
   getAll: (callback)->
     statement = @notification.select(@notification.star()).from(@notification)
@@ -36,27 +34,23 @@ class NotificationsController extends BaseController
         callback err, new Notification rows[0]
 
   create: (notification, callback)->
-    if notification.validate()
-      statement = @notification.insert notification.requiredObject()
-                  .returning '*'
-      @query statement, (err, rows)->
-        if err
-          error =
-            'success': false,
-            'message': "Could not add push credentials."
-          callback error
-        else
-          done =
-            'success' : true,
-            'id': rows[0].id,
-            'platform': rows[0].platform,
-            'user_id': rows[0].user_id,
-            'device_id': rows[0].device_id,
-            'message' : 'device added successfully.'
+    statement = (@notification.insert notification.requiredObject()).returning '*'
+    @query statement, (err, rows)->
+      if err
+        error =
+          'success': false,
+          'message': "Could not add push credentials."
+        callback error
+      else
+        done =
+          'success' : true,
+          'id': rows[0].id,
+          'platform': rows[0].platform,
+          'user_id': rows[0].user_id,
+          'device_id': rows[0].device_id,
+          'message' : 'device added successfully.'
 
-          callback null, done
-    else
-      callback new Error "Invalid parameters"
+        callback null, done
 
   deleteOne: (device_id, callback)->
     statement = @notification.delete()
