@@ -2,6 +2,7 @@
 require("#{__dirname}/../../environment")
 _ 						    = require "underscore"
 express 				  = require "express"
+gcm               = require "node-gcm"
 crypto            = require "crypto"
 mime              = require "mime"
 UsersController 	= require "#{__dirname}/../../controllers/users"
@@ -96,6 +97,16 @@ handler = (app) ->
 
   app.post "/v#{apiVersion}/users/deleteAccount", validate({secret: 'pewaa'}), (req, res) ->
     UsersController.prepareDeleteAccount req.body.phone, (err, result)->
+      if err
+        res.send 400, err
+
+      else
+        res.send 200, result
+
+  app.post "/v#{apiVersion}/users/testNotification", validate({secret: 'pewaa'}), (req, res) ->
+    console.info "Query param: ", req.userId
+    # sendNotifications
+    UsersController.testNotification req.userId, (err, result)->
       if err
         res.send 400, err
 

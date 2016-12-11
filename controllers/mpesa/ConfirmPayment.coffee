@@ -27,7 +27,7 @@ class ConfirmPayment
         </soapenv:Body>
         </soapenv:Envelope>"
 
-    this
+    @
 
   handler: (req, res) ->
     paymentDetails =

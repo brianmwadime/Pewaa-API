@@ -1,5 +1,6 @@
 'use strict'
 require("#{__dirname}/../../environment")
+gcm                 = require "node-gcm"
 GiftsController     = require "#{__dirname}/../../controllers/gifts"
 ContributorsController = require "#{__dirname}/../../controllers/contributors"
 Gift                = require "#{__dirname}/../../models/gift"

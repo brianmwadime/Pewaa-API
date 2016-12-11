@@ -1,8 +1,11 @@
-async = require 'async'
-sql = require 'sql'
-BaseController = require "#{__dirname}/base"
-Gift = require "#{__dirname}/../models/gift"
-Payment = require "#{__dirname}/../models/payment"
+sql             = require 'sql'
+notifications   = require "#{__dirname}/../components/gcm/notifications"
+BaseController  = require "#{__dirname}/base"
+async           = require('async-if-else')(require('async'))
+Gift            = require "#{__dirname}/../models/gift"
+Payment         = require "#{__dirname}/../models/payment"
+Contributor     = require "#{__dirname}/../models/contributor"
+Push            = require "#{__dirname}/../models/push_credential"
 
 class GiftsController extends BaseController
   gift: sql.define
@@ -16,6 +19,14 @@ class GiftsController extends BaseController
   user: sql.define
     name: 'users'
     columns: ['id', 'avatar', 'username', 'phone', 'name']
+
+  push: sql.define
+    name: 'push_credentials'
+    columns: ['device_id']
+
+  contributor: sql.define
+    name: 'wishlist_contributors'
+    columns: (new Contributor).columns()
 
   create: (gift, callback)->
     if gift.validate()
@@ -87,5 +98,16 @@ class GiftsController extends BaseController
         callback err
       else
         callback err, rows
+
+    getDeviceId: (user_id, callback) ->
+      statement = @push.select(@push.star())
+                    .where(@push.user_id.equals(user_id))
+                    .limit(1)
+
+      @query statement, (err, rows)->
+      if err
+        callback null
+      else
+        callback null, rows[0].device_id
 
 module.exports = GiftsController.get()

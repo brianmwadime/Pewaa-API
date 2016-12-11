@@ -5,6 +5,8 @@ User            = require "#{__dirname}/../models/user"
 Payment         = require "#{__dirname}/../models/payment"
 SmsCode         = require "#{__dirname}/../models/sms_code"
 twilio          = require "#{__dirname}/../config/twilio"
+GcmNotifications= require "#{__dirname}/../components/gcm/notifications"
+Push            = require "#{__dirname}/../models/push_credential"
 client          = require('twilio')(twilio.ACCOUNT_SID, twilio.AUTH_TOKEN)
 
 class UsersController extends BaseController
@@ -20,6 +22,10 @@ class UsersController extends BaseController
   smscode: sql.define
     name: 'sms_codes'
     columns: (new SmsCode).columns()
+
+  push: sql.define
+    name: 'push_credentials'
+    columns: (new Push).columns()
 
   bind: (fn, scope) ->
     ->
@@ -402,5 +408,57 @@ class UsersController extends BaseController
         callback error
       else
         callback null, success
+
+  testNotifications: (user_id, callback) ->
+    # self = @
+    console.log "start notify ", user_id
+    async.waterfall [
+      async.constant(user_id)
+      async.if((@bind @getDeviceIds, @), (@bind @sendNotification, @))
+      # async.if(self.getDeviceIds, self.sendNotification)
+    ], (error, success) ->
+      console.info "done with notify ", err, success
+      if error
+        callback error
+      else
+        callback null, success
+
+  testNotification: (user_id, callback) ->
+    self = @
+    statement = @push.select(@push.device_id)
+                  .where @push.user_id.equals(user_id)
+                  # .limit(1)
+
+    @query statement, (err, rows)->
+      if err
+        callback err
+      else
+        deviceIds = []
+        for own device, id of rows
+          deviceIds.push(id.device_id)
+          console.info deviceIds
+        self.sendNotification(deviceIds, "Test Message", callback)
+
+  getDeviceId: (user_id, callback) ->
+    console.info "Start Retrieved IDs: ", user_id
+    statement = @push.select(@push.device_id)
+                  .where @push.user_id.equals(user_id)
+                  # .limit(1)
+
+    @query statement, (err, rows)->
+      if err
+        callback err
+      else
+        deviceIds = []
+        for own device, id of rows
+          deviceIds.push(id.device_id)
+
+        callback null, deviceIds
+
+  sendNotification: (device_ids, message, callback) ->
+    sender = new GcmNotifications(process.env.GCM_KEY)
+    sent = sender.sendMessage message, device_ids
+    console.log "Send Status ", sent
+    callback null, yes
 
 module.exports = UsersController.get()

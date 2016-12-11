@@ -1,8 +1,9 @@
-BaseController = require "#{__dirname}/base"
-Wishlist = require "#{__dirname}/../models/wishlist"
-Contributor = require "#{__dirname}/../models/contributor"
-sql = require 'sql'
-async = require 'async'
+BaseController  = require "#{__dirname}/base"
+Wishlist        = require "#{__dirname}/../models/wishlist"
+Contributor     = require "#{__dirname}/../models/contributor"
+sql             = require 'sql'
+notifications   = require "#{__dirname}/../components/gcm/notifications"
+async           = require 'async'
 
 GiftsController = require "#{__dirname}/gifts"
 

@@ -1,6 +1,7 @@
 'use strict'
 require("#{__dirname}/../../environment")
 WishlistsController = require "#{__dirname}/../../controllers/wishlists"
+gcm                 = require "node-gcm"
 GiftsController     = require "#{__dirname}/../../controllers/gifts"
 Wishlist            = require "#{__dirname}/../../models/wishlist"
 _                   = require 'underscore'
