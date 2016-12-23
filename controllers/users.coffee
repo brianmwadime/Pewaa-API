@@ -185,6 +185,8 @@ class UsersController extends BaseController
                             .where(@smscode.user_id.equals(user.id))
 
     code = Math.floor(Math.random() * 999999 + 111111)
+    code.toString().substring 0, 6
+
     statementVerifyCode = (@smscode.insert {user_id:user.id, code: code})
 
     t = @transaction()
@@ -250,6 +252,7 @@ class UsersController extends BaseController
             callback err
           else
             code = Math.floor(Math.random() * 999999 + 111111)
+            code.toString().substring 0, 6
             statementVerifyCode = (self.smscode.insert {user_id:rows[0].id, code: code})
 
             self.query statementVerifyCode, (err, rows) ->
