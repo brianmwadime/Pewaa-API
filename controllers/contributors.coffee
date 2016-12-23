@@ -3,7 +3,7 @@ Contributor     = require "#{__dirname}/../models/contributor"
 Gift            = require "#{__dirname}/../models/gift"
 User            = require "#{__dirname}/../models/user"
 Payment         = require "#{__dirname}/../models/payment"
-gcm             = require('node-gcm')
+notifications   = require "#{__dirname}/../components/gcm/notifications"
 sql             = require 'sql'
 async           = require 'async'
 
@@ -41,11 +41,9 @@ class ContributorsController extends BaseController
         callback err, rows
 
   updatePayment: (params, callback) ->
-    console.log params
     statement = (@payment.update {status:params.status})
                   .where @payment.trx_id.equals params.trx_id
     @query statement, (err)->
-      console.log "update error", err
       if err
         error =
           'success' : false,
