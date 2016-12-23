@@ -77,8 +77,7 @@ class UsersController extends BaseController
   create: (userParam, callback)->
     bind = @bind
     self = @
-    code = Math.floor(Math.random() * 999999 + 111111)
-    code.toString().substring 0, 6
+    code = Math.floor(100000 + Math.random() * 900000)
     user = null
     t = @transaction()
     start = =>
@@ -185,8 +184,7 @@ class UsersController extends BaseController
     statementDeleteCode = @smscode.delete()
                             .where(@smscode.user_id.equals(user.id))
 
-    code = Math.floor(Math.random() * 999999 + 111111)
-    code.toString().substring 0, 6
+    code = Math.floor(100000 + Math.random() * 900000)
 
     statementVerifyCode = (@smscode.insert {user_id:user.id, code: code})
 
@@ -252,8 +250,8 @@ class UsersController extends BaseController
           if err
             callback err
           else
-            code = Math.floor(Math.random() * 999999 + 111111)
-            code.toString().substring 0, 6
+            code = Math.floor(100000 + Math.random() * 900000)
+
             statementVerifyCode = (self.smscode.insert {user_id:rows[0].id, code: code})
 
             self.query statementVerifyCode, (err, rows) ->
