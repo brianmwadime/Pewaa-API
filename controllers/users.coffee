@@ -78,6 +78,7 @@ class UsersController extends BaseController
     bind = @bind
     self = @
     code = Math.floor(Math.random() * 999999 + 111111)
+    code.toString().substring 0, 6
     user = null
     t = @transaction()
     start = =>
