@@ -262,7 +262,7 @@ class UsersController extends BaseController
                 client.sendMessage {
                   to: phone
                   from: '+12132925019'
-                  body: "Hello, Welcome to PEWAA. Your Verification code is #{code}"
+                  body: "Hello, Welcome to PEWAA. Your Verification code is :#{code}"
                 }, (err, responseData) ->
                   if !err
                     result =
