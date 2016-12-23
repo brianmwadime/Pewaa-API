@@ -99,7 +99,7 @@ class UsersController extends BaseController
       client.sendMessage {
         to: user.phone
         from: '+12132925019'
-        body: "Hello, Welcome to PEWAA. Your Verification code is #{code}"
+        body: "Hello, Welcome to PEWAA. Your Verification code is :#{code}"
       }, (err, responseData) ->
         # this function is executed when a response is received from Twilio
         if !err
@@ -205,7 +205,7 @@ class UsersController extends BaseController
       client.sendMessage {
         to: user.phone
         from: '+12132925019'
-        body: "Hello, Welcome to PEWAA. Your Verification code is #{code}"
+        body: "Hello, Welcome to PEWAA. Your Verification code is :#{code}"
       }, (err, responseData) ->
         if !err
           result =
