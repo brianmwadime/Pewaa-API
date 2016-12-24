@@ -4,9 +4,8 @@ gcm  = require "node-gcm"
 module.exports = class GcmNotifications
   constructor: (gcmKey, dryrun) ->
     # @gcmKey = gcmKey
-    console.log "GCM Key", gcmKey
     @sender = new (gcm.Sender)(gcmKey)
-    @dryRun = @dryrun
+    @dryRun = dryrun
     @
 
   sendMessage: (text, ids) ->
@@ -25,14 +24,14 @@ module.exports = class GcmNotifications
         title: 'Pewaa'
         icon: 'ic_launcher'
         body: text)
-    
+
     @sender.send @message, { registrationTokens: ids }, (err, response) ->
-      # console.log "Here man!"
       if err
-        # console.error err
-        false
-        return
+        console.error "Notify error ", err
+        return false
       else
-        # console.log response
-        true
-        return
+        console.log "Notify success", response
+        return true
+
+    return
+        

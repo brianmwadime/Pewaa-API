@@ -110,8 +110,7 @@ class ContributorsController extends BaseController
             'user_id': rows[0].user_id,
             'permissions': rows[0].permissions,
             'message' : 'contributor added successfully.'
-
-          self.notify(done.user_id, "You have been added to a wishlist as a #{contributor.permissions}", null)
+          self.notify done.user_id, "You have been added to a wishlist as a #{contributor.permissions}", callback
 
           callback null, done
     else
@@ -153,14 +152,15 @@ class ContributorsController extends BaseController
                   .where @push.user_id.equals(user_id)
 
     @query statement, (err, rows)->
+      console.info "Fetch Device Id's", err, rows
       if err
         callback err
       else
         deviceIds = []
         for own device, id of rows
           deviceIds.push(id.device_id)
-          console.info deviceIds
-        self.sendNotification(deviceIds, message, callback)
+        self.sendNotification deviceIds, message, callback
+        return
 
   getDeviceId: (user_id, callback) ->
     console.info "Start Retrieved IDs: ", user_id
@@ -179,9 +179,7 @@ class ContributorsController extends BaseController
 
   sendNotification: (device_ids, message, callback) ->
     sender = new GcmNotifications(process.env.GCM_KEY)
-    sent = sender.sendMessage message, device_ids
-    console.log "Send Status ", sent
-    callback null, yes
+    callback null, sender.sendMessage message, device_ids
 
 
 module.exports = ContributorsController.get()
