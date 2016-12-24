@@ -15,7 +15,7 @@ module.exports = class GcmNotifications
       contentAvailable: true
       delayWhileIdle: true
       timeToLive: 3
-      restrictedPackageName: 'com.fortunekidew.pewaa'
+      restrictedPackageName: process.env.ANDROID_PACKAGE
       dryRun: @dryRun
       data:
         key1: 'message1'
