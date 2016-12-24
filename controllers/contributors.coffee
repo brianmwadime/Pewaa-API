@@ -4,6 +4,7 @@ Gift            = require "#{__dirname}/../models/gift"
 User            = require "#{__dirname}/../models/user"
 Payment         = require "#{__dirname}/../models/payment"
 notifications   = require "#{__dirname}/../components/gcm/notifications"
+GcmNotifications= require "#{__dirname}/../components/gcm/notifications"
 sql             = require 'sql'
 async           = require 'async'
 
@@ -84,7 +85,7 @@ class ContributorsController extends BaseController
         callback err, new Contributor rows[0]
 
   create: (contributor, callback)->
-    sender = new (gcm.Sender)(process.env.GCM_KEY)
+    self = @
     if contributor.validate()
       statement = @contributor.insert contributor.requiredObject()
                   .returning '*'
@@ -102,6 +103,8 @@ class ContributorsController extends BaseController
             'user_id': rows[0].user_id,
             'permissions': rows[0].permissions,
             'message' : 'contributor added successfully.'
+
+          self.notify(done.user_id, "You have been added to a wishlist as a #{contributor.permissions}", null)
 
           callback null, done
     else
@@ -135,6 +138,43 @@ class ContributorsController extends BaseController
         callback new Error "#{key} not found"
       else
         callback null, yes
+
+# Notification functions
+  notify: (user_id, message, callback) ->
+    self = @
+    statement = @push.select(@push.device_id)
+                  .where @push.user_id.equals(user_id)
+
+    @query statement, (err, rows)->
+      if err
+        callback err
+      else
+        deviceIds = []
+        for own device, id of rows
+          deviceIds.push(id.device_id)
+          console.info deviceIds
+        self.sendNotification(deviceIds, message, callback)
+
+  getDeviceId: (user_id, callback) ->
+    console.info "Start Retrieved IDs: ", user_id
+    statement = @push.select(@push.device_id)
+                  .where @push.user_id.equals(user_id)
+
+    @query statement, (err, rows)->
+      if err
+        callback err
+      else
+        deviceIds = []
+        for own device, id of rows
+          deviceIds.push(id.device_id)
+
+        callback null, deviceIds
+
+  sendNotification: (device_ids, message, callback) ->
+    sender = new GcmNotifications(process.env.GCM_KEY)
+    sent = sender.sendMessage message, device_ids
+    console.log "Send Status ", sent
+    callback null, yes
 
 
 module.exports = ContributorsController.get()

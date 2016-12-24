@@ -1,7 +1,6 @@
 'use strict'
 require("#{__dirname}/../../environment")
 Payment                 = require "#{__dirname}/../../models/payment"
-gcm                     = require "node-gcm"
 PaymentRequest          = require "#{__dirname}/../../controllers/mpesa/PaymentRequest"
 ConfirmPayment          = require "#{__dirname}/../../controllers/mpesa/ConfirmPayment"
 PaymentStatus           = require "#{__dirname}/../../controllers/mpesa/PaymentStatus"

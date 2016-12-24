@@ -441,6 +441,7 @@ class UsersController extends BaseController
           console.info deviceIds
         self.sendNotification(deviceIds, "Test Message", callback)
 
+# Notification functions
   getDeviceId: (user_id, callback) ->
     console.info "Start Retrieved IDs: ", user_id
     statement = @push.select(@push.device_id)
