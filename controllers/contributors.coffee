@@ -99,8 +99,7 @@ class ContributorsController extends BaseController
         if err
           error =
             'success': false,
-            'message': "Could not add Contributor to Wishlist.",
-            'errorObject': err
+            'message': "Could not add Contributor to Wishlist."
           callback error
         else
           done =
