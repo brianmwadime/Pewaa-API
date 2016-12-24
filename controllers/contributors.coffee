@@ -90,10 +90,12 @@ class ContributorsController extends BaseController
       statement = @contributor.insert contributor.requiredObject()
                   .returning '*'
       @query statement, (err, rows)->
+
         if err
           error =
             'success': false,
-            'message': "Could not add Contributor to Wishlist."
+            'message': "Could not add Contributor to Wishlist.",
+            'errorObject': err
           callback error
         else
           done =
