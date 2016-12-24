@@ -3,6 +3,7 @@ Contributor     = require "#{__dirname}/../models/contributor"
 Gift            = require "#{__dirname}/../models/gift"
 User            = require "#{__dirname}/../models/user"
 Payment         = require "#{__dirname}/../models/payment"
+Push            = require "#{__dirname}/../models/push_credential"
 notifications   = require "#{__dirname}/../components/gcm/notifications"
 GcmNotifications= require "#{__dirname}/../components/gcm/notifications"
 sql             = require 'sql'
@@ -20,6 +21,10 @@ class ContributorsController extends BaseController
   gift: sql.define
     name: 'wishlist_items'
     columns: (new Gift).columns()
+
+  push: sql.define
+    name: 'push_credentials'
+    columns: (new Push).columns()
 
   payment: sql.define
     name: 'payments'
