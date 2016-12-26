@@ -107,20 +107,25 @@ class GiftsController extends BaseController
       else
         callback err, rows
 
-    notifyContributors: (gift) ->
-      statement = @contributor.select(@contributor.user_id)
-                    .where(@contributor.wishlist_id.equals(gift.wishlist_id))
+  notifyContributors: (gift) ->
+    statement = @contributor.select(@contributor.user_id)
+                  .where(@contributor.wishlist_id.equals(gift.wishlist_id))
 
-      @query statement, (err, rows)->
+    @query statement, (err, rows)->
+      console.log err, rows
       if err
         return
       else
         #callback null, rows[0].device_id
         contributorIds = []
         for own contributor, id of rows
+          # if id.user_id == gift.creator_id
+          #   return
+
           contributorIds.push(id.user_id)
 
         gift.contributors = contributorIds
+        console.log gift
         global.socketIO.sockets.emit "added_gift", gift
         return
 
