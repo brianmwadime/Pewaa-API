@@ -7,7 +7,6 @@ Push            = require "#{__dirname}/../models/push_credential"
 notifications   = require "#{__dirname}/../components/gcm/notifications"
 GcmNotifications= require "#{__dirname}/../components/gcm/notifications"
 sql             = require 'sql'
-io              = require 'socket.io'
 async           = require 'async'
 
 class ContributorsController extends BaseController
@@ -61,7 +60,7 @@ class ContributorsController extends BaseController
         done =
           'success' : true,
           'message' : 'Payment updated successfully.'
-        io.sockets.emit "payment_completed_notification",
+        global.socketIO.sockets.emit "payment_completed_notification",
           {userId: params.userId, trx_id: params.trx_id}
 
         callback null, done
