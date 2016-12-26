@@ -3,6 +3,7 @@ notifications   = require "#{__dirname}/../components/gcm/notifications"
 BaseController  = require "#{__dirname}/base"
 async           = require('async-if-else')(require('async'))
 Gift            = require "#{__dirname}/../models/gift"
+Wishlist        = require "#{__dirname}/../models/wishlist"
 Payment         = require "#{__dirname}/../models/payment"
 Contributor     = require "#{__dirname}/../models/contributor"
 Push            = require "#{__dirname}/../models/push_credential"
@@ -11,6 +12,10 @@ class GiftsController extends BaseController
   gift: sql.define
     name: 'wishlist_items'
     columns: (new Gift).columns()
+
+  wishlist: sql.define
+    name: 'wishlists'
+    columns: (new Wishlist).columns()
 
   payment: sql.define
     name: 'payments'
@@ -29,6 +34,7 @@ class GiftsController extends BaseController
     columns: (new Contributor).columns()
 
   create: (gift, callback)->
+    self = @
     if gift.validate()
       statement = (@gift.insert gift.requiredObject()).returning '*'
       @query statement, (err, rows)->
@@ -46,7 +52,7 @@ class GiftsController extends BaseController
             'creator_id': rows[0].user_id,
             'message' : 'gift added successfully.'
           
-          global.socketIO.sockets.emit "added_gift", gift
+          self.notifyContributors gift
 
           callback null, gift
     else
@@ -101,15 +107,21 @@ class GiftsController extends BaseController
       else
         callback err, rows
 
-    getDeviceId: (user_id, callback) ->
-      statement = @push.select(@push.star())
-                    .where(@push.user_id.equals(user_id))
-                    .limit(1)
+    notifyContributors: (gift) ->
+      statement = @contributor.select(@contributor.user_id)
+                    .where(@contributor.wishlist_id.equals(gift.wishlist_id))
 
       @query statement, (err, rows)->
       if err
-        callback null
+        return
       else
-        callback null, rows[0].device_id
+        #callback null, rows[0].device_id
+        contributorIds = []
+        for own contributor, id of rows
+          contributorIds.push(id.user_id)
+
+        gift.contributors = contributorIds
+        global.socketIO.sockets.emit "added_gift", gift
+        return
 
 module.exports = GiftsController.get()
