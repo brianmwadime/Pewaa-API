@@ -60,7 +60,7 @@ class ContributorsController extends BaseController
         done =
           'success' : true,
           'message' : 'Payment updated successfully.'
-        global.socketIO.sockets.emit "payment_completed_notification",
+        global.socketIO.sockets.emit "payment_completed",
           {userId: params.userId, trx_id: params.trx_id}
 
         callback null, done
