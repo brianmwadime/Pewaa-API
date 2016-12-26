@@ -30,7 +30,7 @@ genTransactionPassword = require './components/mpesa/genTransactionPassword'
 apiVersion 	  = process.env.API_VERSION
 
 done = null
-
+global.socketIO = io
 app = express()
 
 # Log requests to console
@@ -129,8 +129,8 @@ io.on 'connection', (socket) ->
     hostname = os.hostname()
     options =
       hostname: hostname
-      port: mainPort
-      path: '/' + path + '/Groups/send'
+      port: port
+      path: '/v#{apiVersion}/' + path + '/Groups/send'
       method: 'POST'
       type: 'json'
       headers:
@@ -169,8 +169,8 @@ io.on 'connection', (socket) ->
     hostname = os.hostname()
     options =
       hostname: hostname
-      port: mainPort
-      path: '/' + path + '/Groups/checkUnsentMessageGroup'
+      port: port
+      path: '/v#{apiVersion}/' + path + '/Groups/checkUnsentMessageGroup'
       method: 'POST'
       type: 'json'
       headers:
@@ -230,8 +230,8 @@ io.on 'connection', (socket) ->
     hostname = os.hostname()
     options =
       hostname: hostname
-      port: mainPort
-      path: '/' + path + '/Messages/send'
+      port: port
+      path: '/v#{apiVersion}/' + path + '/Messages/send'
       method: 'POST'
       type: 'json'
       headers:
@@ -304,10 +304,10 @@ io.on 'connection', (socket) ->
     qslength = qs.length
     path = require('path').basename(__dirname)
     hostname = os.hostname()
-    options = 
+    options =
       hostname: hostname
-      port: mainPort
-      path: '/' + path + '/Groups/saveMessage'
+      port: port
+      path: '/v#{apiVersion}/' + path + '/Groups/saveMessage'
       method: 'POST'
       type: 'json'
       headers:
@@ -372,9 +372,9 @@ io.on 'connection', (socket) ->
     saveMessageGroupToDataBase dataString
     return
 
-  ###******************************************* Method for a single user ********************************************************************************
+  ###************ Method for a single user ***************************
   #
-  # ****************************************************************************************************************************************************
+  # *********************************************************************
   ###
 
   ###*
@@ -384,7 +384,7 @@ io.on 'connection', (socket) ->
   socket.on 'user_connect', (data) ->
     console.log 'user with id ' + data.connectedId
     console.log 'user with boolean ' + data.connected
-    user = 
+    user =
       id: data.connectedId
       socketID: socket.id
     users.push user
@@ -397,11 +397,11 @@ io.on 'connection', (socket) ->
     return
 
   ###*
-  # method to get response from recipient to update status (from waiting to sent )
+  # method to get response from recipient to update status (from waiting to sent)
   ###
 
   socket.on 'send_message', (dataString) ->
-    messageID = 
+    messageID =
       messageId: dataString.messageId
       senderId: dataString.senderId
     io.sockets.emit 'send_message',
@@ -414,7 +414,7 @@ io.on 'connection', (socket) ->
   ###
 
   socket.on 'user_ping', (data, callback) ->
-    pingingData = 
+    pingingData =
       pinged: data.pinged
       pingedId: data.pingedId
       socketId: data.socketId
