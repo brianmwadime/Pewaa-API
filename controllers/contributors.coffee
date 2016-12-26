@@ -7,6 +7,7 @@ Push            = require "#{__dirname}/../models/push_credential"
 notifications   = require "#{__dirname}/../components/gcm/notifications"
 GcmNotifications= require "#{__dirname}/../components/gcm/notifications"
 sql             = require 'sql'
+io              = global.socketIO
 async           = require 'async'
 
 class ContributorsController extends BaseController
@@ -60,13 +61,16 @@ class ContributorsController extends BaseController
         done =
           'success' : true,
           'message' : 'Payment updated successfully.'
+        io.sockets.emit "payment_completed_notification",
+          {userId: params.userId, trx_id: params.trx_id}
 
         callback null, done
 
   getContributors: (gift_id, callback) ->
     statement = @payment
                 .select(@payment.star(), @user.name, @user.avatar, @user.phone)
-                .where @payment.wishlist_item_id.equals(gift_id).and(@payment.status.equals("Success"))
+                .where @payment.wishlist_item_id.equals(gift_id)
+                .and(@payment.status.equals("Success"))
                 .from(
                   @payment
                     .join @user
@@ -144,7 +148,7 @@ class ContributorsController extends BaseController
       else
         callback null, yes
 
-# Notification functions
+  # Notification functions
   notify: (user_id, message, callback) ->
     self = @
     statement = @push.select(@push.device_id)
