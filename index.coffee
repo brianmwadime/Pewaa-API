@@ -30,7 +30,6 @@ genTransactionPassword = require './components/mpesa/genTransactionPassword'
 apiVersion 	  = process.env.API_VERSION
 
 done = null
-global.socketIO = io
 app = express()
 
 # Log requests to console
@@ -87,6 +86,7 @@ app.use uncaught_error_handler
 
 server = require('http').createServer(app)
 io = io.listen(server)
+global.socketIO = io
 
 server.listen(process.env.PORT or 8080, ->
   # console.log 'Your secret session key is: ' + process.env.SESSION_SECRET_KEY
