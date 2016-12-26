@@ -13,7 +13,6 @@ cors 			    = require 'cors'
 port        	= process.env.PORT or 8080
 info          = require './package'
 apiVersion 	  = process.env.API_VERSION
-io            = require 'socket.io'
 os            = require 'os'
 users         = require './routes/users'
 wishlists     = require './routes/wishlists'
@@ -84,9 +83,8 @@ app.use not_found_handler
 app.use uncaught_error_handler
 
 
-server = require('http').createServer(app)
-io = io.listen(server)
-# global.socketIO = io
+server = http.createServer(app)
+io = require('socket.io').listen(server)
 
 server.listen(process.env.PORT or 8080, ->
   # console.log 'Your secret session key is: ' + process.env.SESSION_SECRET_KEY
@@ -94,6 +92,8 @@ server.listen(process.env.PORT or 8080, ->
     server.address().port, app.get('env'), '\nPress Ctrl-C to terminate.'
   return
 )
+
+
 # Start the server
 # server = app.listen(process.env.PORT or 8080, ->
 #   console.log 'Your secret session key is: ' + process.env.SESSION_SECRET_KEY
@@ -103,9 +103,12 @@ server.listen(process.env.PORT or 8080, ->
 # )
 
 users = []
+global.socketIO = io
 
 io.on 'connection', (socket) ->
-
+  # Global Socket object
+  # global.socketIO = socket
+  # console.log global.socketIO
   ###************* Method for groups  ****************************************
   #
   # **************************************************************************
