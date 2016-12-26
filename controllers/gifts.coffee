@@ -45,7 +45,9 @@ class GiftsController extends BaseController
             'price': rows[0].price,
             'creator_id': rows[0].user_id,
             'message' : 'gift added successfully.'
-          # console.info global.socketIO.sockets.emit "test", gift
+          
+          global.socketIO.sockets.emit "added_gift", gift
+
           callback null, gift
     else
       callback new Error "Invalid parameters"

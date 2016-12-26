@@ -60,8 +60,8 @@ class ContributorsController extends BaseController
         done =
           'success' : true,
           'message' : 'Payment updated successfully.'
-        global.socketIO.sockets.emit "payment_completed",
-          {userId: params.userId, trx_id: params.trx_id}
+        # global.socketIO.sockets.emit "payment_completed",
+        #   {userId: params.userId, trx_id: params.trx_id}
 
         callback null, done
 
@@ -112,7 +112,12 @@ class ContributorsController extends BaseController
             'user_id': rows[0].user_id,
             'permissions': rows[0].permissions,
             'message' : 'contributor added successfully.'
-          self.notify done.user_id, "You have been added to a wishlist as a #{contributor.permissions}", callback
+
+          self.notify done.user_id,
+            "You have been added to a wishlist as a #{contributor.permissions}",
+            callback
+
+          global.socketIO.sockets.emit "added_contributor", done
 
           callback null, done
     else
