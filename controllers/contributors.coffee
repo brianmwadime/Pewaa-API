@@ -7,7 +7,7 @@ Push            = require "#{__dirname}/../models/push_credential"
 notifications   = require "#{__dirname}/../components/gcm/notifications"
 GcmNotifications= require "#{__dirname}/../components/gcm/notifications"
 sql             = require 'sql'
-io              = global.socketIO
+io              = require 'socket.io'
 async           = require 'async'
 
 class ContributorsController extends BaseController
