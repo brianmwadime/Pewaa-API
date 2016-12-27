@@ -52,6 +52,7 @@ class ContributorsController extends BaseController
         callback err, rows
 
   updatePayment: (params, callback) ->
+    self = @
     statement = (@payment.update {status:params.status})
                   .where @payment.trx_id.equals params.trx_id
     @query statement, (err)->
@@ -65,8 +66,8 @@ class ContributorsController extends BaseController
         done =
           'success' : true,
           'message' : 'Payment updated successfully.'
-        # global.socketIO.sockets.emit "payment_completed",
-        #   {userId: params.userId, trx_id: params.trx_id}
+        
+        self.notifyOfPayment params
 
         callback null, done
 
@@ -203,6 +204,29 @@ class ContributorsController extends BaseController
         wishlist.wishlist = rows[0]
         console.log wishlist
         global.socketIO.sockets.emit "added_contributor", wishlist
+        return
+
+  notifyOfPayment: (params) ->
+    statement = @payment.select(@payment.amount, @payment.status, @gift.star(), @user.name.as('creator_name'), @user.avatar.as('creator_avatar'))
+                  .where(@payment.trx_id.equals(params.trx_id))
+                  .from(
+                    @payment
+                      .join @gift
+                      .on @payment.wishlist_item_id.equals @gift.id
+                      .join(@user)
+                      .on(@gift.user_id.equals(@user.id))
+                  )
+                  .limit 1
+
+    @query statement, (err, rows)->
+      if err or rows.length isnt 1
+        return
+      else
+        
+
+        payment = rows[0]
+        console.log payment
+        global.socketIO.sockets.emit "payment_completed", payment
         return
 
 
