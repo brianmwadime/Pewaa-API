@@ -207,7 +207,7 @@ class ContributorsController extends BaseController
         return
 
   notifyOfPayment: (params) ->
-    statement = @payment.select(@payment.amount, @payment.status, @gift.star(), @user.name.as('creator_name'), @user.avatar.as('creator_avatar'), , @user.phone.as('creator_phone'))
+    statement = @payment.select(@payment.amount, @payment.status, @gift.star(), @user.name.as('creator_name'), @user.avatar.as('creator_avatar'), @user.phone.as('creator_phone'))
                   .where(@payment.trx_id.equals(params.trx_id))
                   .from(
                     @payment
