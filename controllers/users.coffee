@@ -280,7 +280,7 @@ class UsersController extends BaseController
 
   smscodeSql: (code)->
     statement = @smscode
-              .select @smscode.star(), @user.apikey
+              .select @smscode.star(), @user.apikey, @user.phone
               .where(@smscode.code.equals code)
               .from(
                 @smscode
@@ -321,6 +321,7 @@ class UsersController extends BaseController
                 'success' : true,
                 'message' : 'Your account has been created successfully.',
                 'userID'  : rows[0].user_id,
+                'userID'  : rows[0].phone,
                 'token'   : rows[0].apikey
 
               callback null, result
