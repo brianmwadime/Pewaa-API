@@ -98,7 +98,7 @@ class UsersController extends BaseController
       client.sendMessage {
         to: user.phone
         from: '+12132925019'
-        body: "Hello, Welcome to PEWAA. Your Verification code is :#{code}"
+        body: "Hello, Welcome to PEWAA. Your verification code is : #{code}"
       }, (err, responseData) ->
         # this function is executed when a response is received from Twilio
         if !err
@@ -124,7 +124,7 @@ class UsersController extends BaseController
         if err or rows.length isnt 1
           error =
             'success' : false,
-            'message' : 'Could not create account. Please contact administrator.'
+            'message' : 'Could not create account. Please contact Administrator.'
           callback error
         else
           self.reCreateCode rows[0], callback
@@ -203,7 +203,7 @@ class UsersController extends BaseController
       client.sendMessage {
         to: user.phone
         from: '+12132925019'
-        body: "Hello, Welcome to PEWAA. Your Verification code is :#{code}"
+        body: "Hello, Welcome to PEWAA! Your verification code is : #{code}"
       }, (err, responseData) ->
         if !err
           result =
@@ -264,7 +264,7 @@ class UsersController extends BaseController
                 client.sendMessage {
                   to: phone
                   from: '+12132925019'
-                  body: "Hello, Welcome to PEWAA. Your Verification code is :#{code}"
+                  body: "Hello, Welcome to PEWAA! Your verification code is : #{code}"
                 }, (err, responseData) ->
                   if !err
                     result =
