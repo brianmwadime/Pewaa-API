@@ -16,7 +16,7 @@ handler = (app) ->
       if err
         res.send 400, err
       else
-        res.send _.map wishlists, (p) -> (new Wishlist p).publicObject()
+        res.send wishlists
 
   app.post "/v#{apiVersion}/wishlists", validate({secret: 'pewaa'}), (req, res) ->
     wishlist = new Wishlist req.body
