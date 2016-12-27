@@ -395,7 +395,7 @@ io.on 'connection', (socket) ->
       connectedId: data.connectedId
       connected: data.connected
       socketId: socket.id
-    CheckForUnsentMessages data
+    # CheckForUnsentMessages data
     #this just for groups
     return
 
