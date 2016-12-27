@@ -321,7 +321,7 @@ class UsersController extends BaseController
                 'success' : true,
                 'message' : 'Your account has been created successfully.',
                 'userID'  : rows[0].user_id,
-                'userID'  : rows[0].phone,
+                'mobile'  : rows[0].phone,
                 'token'   : rows[0].apikey
 
               callback null, result
