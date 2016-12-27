@@ -3,6 +3,7 @@ Contributor     = require "#{__dirname}/../models/contributor"
 Gift            = require "#{__dirname}/../models/gift"
 User            = require "#{__dirname}/../models/user"
 Payment         = require "#{__dirname}/../models/payment"
+Wishlist         = require "#{__dirname}/../models/wishlist"
 Push            = require "#{__dirname}/../models/push_credential"
 notifications   = require "#{__dirname}/../components/gcm/notifications"
 GcmNotifications= require "#{__dirname}/../components/gcm/notifications"
@@ -17,6 +18,10 @@ class ContributorsController extends BaseController
   user: sql.define
     name: 'users'
     columns: ['id', 'avatar', 'username', 'phone', 'name']
+
+  wishlist: sql.define
+    name: 'wishlists'
+    columns: (new Wishlist).columns()
 
   gift: sql.define
     name: 'wishlist_items'
@@ -113,11 +118,7 @@ class ContributorsController extends BaseController
             'permissions': rows[0].permissions,
             'message' : 'contributor added successfully.'
 
-          self.notify done.user_id,
-            "You have been added to a wishlist as a #{contributor.permissions}",
-            callback
-
-          global.socketIO.sockets.emit "added_contributor", done
+          self.notifyContributors done
 
           callback null, done
     else
@@ -187,6 +188,22 @@ class ContributorsController extends BaseController
   sendNotification: (device_ids, message, callback) ->
     sender = new GcmNotifications(process.env.GCM_KEY)
     callback null, sender.sendMessage message, device_ids
+
+  notifyContributors: (wishlist) ->
+    statement = @wishlist.select(@wishlist.star())
+                  .where(@wishlist.id.equals(wishlist.wishlist_id))
+                  .limit 1
+
+    @query statement, (err, rows)->
+      if err or rows.length isnt 1
+        return
+      else
+        
+
+        wishlist.wishlist = rows[0]
+        console.log wishlist
+        global.socketIO.sockets.emit "added_contributor", wishlist
+        return
 
 
 module.exports = ContributorsController.get()
