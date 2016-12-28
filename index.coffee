@@ -10,7 +10,7 @@ session       = require 'express-session'
 morgan 		    = require 'morgan'
 http          = require 'http'
 cors 			    = require 'cors'
-port        	= process.env.PORT or 8080
+port        	= process.env.PORT or 3030
 info          = require './package'
 apiVersion 	  = process.env.API_VERSION
 os            = require 'os'
@@ -86,7 +86,7 @@ app.use uncaught_error_handler
 server = http.createServer(app)
 io = require('socket.io').listen(server)
 
-server.listen(process.env.PORT or 8080, ->
+server.listen(process.env.PORT or 3030, ->
   # console.log 'Your secret session key is: ' + process.env.SESSION_SECRET_KEY
   console.log 'Express server listening on %d, in %s' + ' mode',
     server.address().port, app.get('env'), '\nPress Ctrl-C to terminate.'
