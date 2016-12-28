@@ -7,7 +7,7 @@ yamlConfigFile  = 'app.yaml'
 # default configuration
 process.env.API_VERSION = 1
 process.env.ENDPOINT = 'https://safaricom.co.ke/mpesa_online/lnmo_checkout_server.php?wsdl'
-process.env.MERCHANT_ENDPOINT = 'http://api.pewaa.com/v1/mpesa/payment'
+process.env.MERCHANT_ENDPOINT = 'http://api.pewaa.com/v1/payments/complete'
 process.env.SESSION_SECRET_KEY = uuid.v4()
 process.env.PAYBILL_NUMBER = '866069'
 process.env.ANDROID_PACKAGE = 'com.fortunekidew.pewaad'

@@ -67,7 +67,7 @@ class ContributorsController extends BaseController
           'success' : true,
           'message' : 'Payment updated successfully.'
         
-        # self.notifyOfPayment params
+        self.notifyOfPayment params
 
         callback null, done
 
