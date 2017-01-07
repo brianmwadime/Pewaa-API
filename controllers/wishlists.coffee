@@ -27,7 +27,8 @@ class WishlistsController extends BaseController
   getWishlistsForUser: (user_id, callback) ->
     statement = @wishlist
                 .select @wishlist.star(), @userswishlists.permissions
-                .where(@userswishlists.user_id.equals user_id and @wishlist.is_deleted.equals(false))
+                .where(@userswishlists.user_id.equals user_id)
+                .and(@wishlist.is_deleted.equals false)
                 .from(
                   @wishlist
                     .join @userswishlists

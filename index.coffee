@@ -31,6 +31,8 @@ apiVersion 	  = process.env.API_VERSION
 done = null
 app = express()
 
+app_key_secret = "7d3d3b6c5d3683bf25bbb51533ec6dac"
+
 # Log requests to console
 app.use morgan 'dev'
 #   body parsers
@@ -92,6 +94,18 @@ server.listen(process.env.PORT or 3030, ->
     server.address().port, app.get('env'), '\nPress Ctrl-C to terminate.'
   return
 )
+
+io.use (socket, next) ->
+  token = socket.handshake.query.token
+  if token == app_key_secret
+    if debugging_mode
+      console.log 'token valid  authorized', token
+    next()
+  else
+    if debugging_mode
+      console.log 'not a valid token Unauthorized to access'
+    next new Error('not valid token')
+  return
 
 
 # Start the server
