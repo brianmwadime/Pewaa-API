@@ -43,6 +43,7 @@ class ContributorsController extends BaseController
     statement = @contributor
                 .select @contributor.star() #, @userswishlists.star()
                 .where(@contributor.wishlist_id.equals wishlist_id)
+                .and(@contributor.is_deleted.equals false)
                 .from(@contributor)
     # @query statement, callback
     @query statement, (err, rows)->
