@@ -372,7 +372,7 @@ io.on 'connection', (socket) ->
 
   socket.on 'send_group_message', (dataString) ->
     console.log dataString
-    saveMessageGroupToDataBase dataString
+    # saveMessageGroupToDataBase dataString
     return
 
   ###************ Method for a single user ***************************

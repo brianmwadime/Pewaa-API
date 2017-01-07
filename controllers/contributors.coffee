@@ -147,12 +147,21 @@ class ContributorsController extends BaseController
         callback null, done
 
   exists: (key, callback) ->
+
     findContributor = @contributor.select(@contributor.id).where(@contributor.id.equals(key)).limit(1)
     @query findContributor, (err, rows) ->
       if err or rows.length isnt 1
         callback new Error "#{key} not found"
       else
         callback null, yes
+
+  deleteOne: (key, callback)->
+    statement = (@contributor.update {is_deleted:true}).from @contributor.where @contributor.id.equals key
+    @query statement, (err)->
+      if err
+        callback err
+      else
+        callback err, {'success': true, 'message': 'Contributor removed successfully'}
 
   # Notification functions
   notify: (user_id, message, callback) ->

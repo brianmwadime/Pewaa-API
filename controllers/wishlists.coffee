@@ -27,7 +27,7 @@ class WishlistsController extends BaseController
   getWishlistsForUser: (user_id, callback) ->
     statement = @wishlist
                 .select @wishlist.star(), @userswishlists.permissions
-                .where(@userswishlists.user_id.equals user_id)
+                .where(@userswishlists.user_id.equals user_id and @wishlist.is_deleted.equals(false))
                 .from(
                   @wishlist
                     .join @userswishlists
@@ -100,26 +100,33 @@ class WishlistsController extends BaseController
 
         callback null, done
 
-  deleteOne: (key, callback)->
-    {gift} = GiftsController
-    deleteWishlistGift = gift.delete().where(gift.wishlist_id.equals(key))
-    deleteWishlist = @wishlist.delete().where(@wishlist.id.equals(key))
-    deleteUsersWishlistsRows = @userswishlists.delete().where(@userswishlists.wishlist_id.equals key)
-    t = @transaction()
-    start = ->
-      async.eachSeries [deleteWishlistGift, deleteUsersWishlistsRows, deleteWishlist],
-        (s, cb)->
-          t.query s, ()->
-            cb()
-        , ->
-          t.commit()
+  # deleteOne: (key, callback)->
+  #   {gift} = GiftsController
+  #   deleteWishlistGift = gift.delete().where(gift.wishlist_id.equals(key))
+  #   deleteWishlist = @wishlist.delete().where(@wishlist.id.equals(key))
+  #   deleteUsersWishlistsRows = @userswishlists.delete().where(@userswishlists.wishlist_id.equals key)
+  #   t = @transaction()
+  #   start = ->
+  #     async.eachSeries [deleteWishlistGift, deleteUsersWishlistsRows, deleteWishlist],
+  #       (s, cb)->
+  #         t.query s, ()->
+  #           cb()
+  #       , ->
+  #         t.commit()
 
-    t.on 'begin', start
-    t.on 'error', callback
-    t.on 'commit', ->
-      callback()
-    t.on 'rollback', ->
-      callback new Error "Could not delete wishlist with id #{key}"
+  #   t.on 'begin', start
+  #   t.on 'error', callback
+  #   t.on 'commit', ->
+  #     callback()
+  #   t.on 'rollback', ->
+  #     callback new Error "Could not delete wishlist with id #{key}"
+  deleteOne: (key, callback)->
+    statement = (@wishlist.update {is_deleted:true}).from @wishlist.where @wishlist.id.equals key
+    @query statement, (err)->
+      if err
+        callback err
+      else
+        callback err, {'success': true, 'message': 'Wishlist removed successfully'}
 
   exists: (key, callback) ->
     findWishlist = @wishlist.select(@wishlist.id).where(@wishlist.id.equals(key)).limit(1)
