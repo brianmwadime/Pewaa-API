@@ -77,12 +77,15 @@ class GiftsController extends BaseController
 
 
   deleteOne: (key, callback)->
-    statement = @gift.delete().from @gift.where @gift.id.equals key
+    statement = (@gift.update {is_deleted:true}).from @gift.where @gift.id.equals key
     @query statement, (err)->
-      callback err
+      if err
+        callback err
+      else
+        callback err, {'success': true, 'message': 'Gift removed successfully'}
 
   deleteForWishlist: (wishlist_id, callback)->
-    statement = @gift.delete()
+    statement = @gift.update({is_deleted: true})
                 .where @gift.wishlist_id.equals wishlist_id
     @query statement, (err) ->
       callback err
@@ -91,7 +94,7 @@ class GiftsController extends BaseController
     statement = @gift
                 # .select(@payment.wishlist_item_id, @payment.status, @payment.amount.case([@payment.status.equals('Success')],[@payment.amount.sum()],0).as('contributed'), @payment.amount.sum().as('contributed'), @gift.star(), @user.name.as('creator_name'), @user.avatar.as('creator_avatar'), @user.phone.as('creator_phone'))
                 .select(@gift.star(), @user.name.as('creator_name'), @user.avatar.as('creator_avatar'), @user.phone.as('creator_phone'))
-                .where @gift.wishlist_id.equals(wishlist_id)
+                .where @gift.wishlist_id.equals(wishlist_id and @gift.is_deleted.equals(false))
                 # .group(@payment.wishlist_item_id, @payment.amount, @payment.status, @gift.id, @user.id)
                 .from(
                   @gift
