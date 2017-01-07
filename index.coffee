@@ -28,6 +28,7 @@ payments      = require './routes/payments'
 genTransactionPassword = require './components/mpesa/genTransactionPassword'
 apiVersion 	  = process.env.API_VERSION
 
+debugging_mode = true
 done = null
 app = express()
 
