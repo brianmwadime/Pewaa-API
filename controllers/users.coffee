@@ -349,6 +349,7 @@ class UsersController extends BaseController
     self = @
     async.each phoneNumbers.contactsModelList, ((contact, callback) ->
       # Call an asynchronous function, often a save() to DB
+      console.info contact
       statement = self.user.select(self.user.star())
                     .where(self.user.phone.equals(contact.phoneTmp), self.user.is_activated.equals(true))
                     .limit(1)
