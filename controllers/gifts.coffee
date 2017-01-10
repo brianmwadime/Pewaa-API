@@ -112,12 +112,12 @@ class GiftsController extends BaseController
         callback err, rows
 
   notifyContributors: (gift) ->
-    statement = @contributor.select(@contributor.user_id)
+    statement = @contributor.select(@contributor.user_id, @wishlist.name.as('wishlist_name'))
                   .where(@contributor.wishlist_id.equals(gift.wishlist_id))
                   from(
                     @contributor
-                      .join @gift
-                      .on @contributor.wishlist_id.equals gift.wishlist_id
+                      .join @wishlist
+                      .on @contributor.wishlist_id.equals wishlist.id
                   )
 
     @query statement, (err, rows)->
@@ -134,6 +134,7 @@ class GiftsController extends BaseController
           contributorIds.push(id.user_id)
 
         gift.contributors = contributorIds
+        gift.wishlist_name = rows[0].wishlist_name
         console.log gift
         global.socketIO.sockets.emit "added_gift", gift
         return
