@@ -114,6 +114,11 @@ class GiftsController extends BaseController
   notifyContributors: (gift) ->
     statement = @contributor.select(@contributor.user_id)
                   .where(@contributor.wishlist_id.equals(gift.wishlist_id))
+                  from(
+                    @contributor
+                      .join @gift
+                      .on @contributor.wishlist_id.equals gift.wishlist_id
+                  )
 
     @query statement, (err, rows)->
       console.log err, rows

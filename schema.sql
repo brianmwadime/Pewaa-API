@@ -345,6 +345,8 @@ ALTER TABLE users ALTER COLUMN username TYPE varchar;
 
 ALTER TABLE payments ADD COLUMN trx_id varchar NOT NULL;
 
+ALTER TABLE wishlists ALTER COLUMN recipient varchar NULL;
+
 ALTER TABLE wishlist_items ADD COLUMN is_deleted BOOLEAN NOT NULL DEFAULT false;
 
 ALTER TABLE wishlists ADD COLUMN is_deleted BOOLEAN NOT NULL DEFAULT false;
