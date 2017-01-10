@@ -16,4 +16,7 @@ class Gift extends BaseModel
     if !@is_deleted
       @is_deleted = false
 
+    if !@description
+      @description = null
+
 module.exports = Gift
