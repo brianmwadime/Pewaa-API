@@ -51,6 +51,7 @@ class WishlistsController extends BaseController
         callback err, new Wishlist rows[0]
 
   create: (spec, callback)->
+    console.info spec.requiredObject()
     userId = spec.userId
     if not userId
       return callback new Error 'user is required'

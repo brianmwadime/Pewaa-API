@@ -4,7 +4,7 @@ _ = require 'underscore'
 class Wishlist extends BaseModel
   constructor: (props) ->
     super props
-    @required = ['name','description', 'recipient', 'category', 'is_deleted']
+    @required = ['name', 'category','description', 'recipient', 'is_deleted']
     @public   = _.clone @required , 'avatar', 'created_on', 'updated_on'
 
     if !@avatar
@@ -12,11 +12,5 @@ class Wishlist extends BaseModel
 
     if !@is_deleted
       @is_deleted = false
-
-    if !@recipient
-      @recipient = ""
-
-    if !@description
-      @description = ""
 
 module.exports = Wishlist
