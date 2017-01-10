@@ -34,29 +34,27 @@ class GiftsController extends BaseController
     columns: (new Contributor).columns()
 
   create: (gift, callback)->
+    console.info gift.requiredObject()
     self = @
-    if gift.validate()
-      statement = (@gift.insert gift.requiredObject()).returning '*'
-      @query statement, (err, rows)->
-        if err
-          callback err
-        else
-          gift =
-            'success' : true,
-            'id': rows[0].id,
-            'wishlist_id': rows[0].wishlist_id,
-            'name': rows[0].name,
-            'description': rows[0].description,
-            'avatar': rows[0].avatar,
-            'price': rows[0].price,
-            'creator_id': rows[0].user_id,
-            'message' : 'gift added successfully.'
-          
-          self.notifyContributors gift
+    statement = (@gift.insert gift.requiredObject()).returning '*'
+    @query statement, (err, rows)->
+      if err
+        callback err
+      else
+        gift =
+          'success' : true,
+          'id': rows[0].id,
+          'wishlist_id': rows[0].wishlist_id,
+          'name': rows[0].name,
+          'description': rows[0].description,
+          'avatar': rows[0].avatar,
+          'price': rows[0].price,
+          'creator_id': rows[0].user_id,
+          'message' : 'gift added successfully.'
+        
+        self.notifyContributors gift
 
-          callback null, gift
-    else
-      callback new Error "Invalid parameters"
+        callback null, gift
 
   getOne: (key, callback)->
     statement = @gift
@@ -122,7 +120,7 @@ class GiftsController extends BaseController
 
     @query statement, (err, rows)->
       console.log err, rows
-      if err
+      if err or rows.length is 0
         return
       else
         #callback null, rows[0].device_id
