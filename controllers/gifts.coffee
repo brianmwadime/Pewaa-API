@@ -120,7 +120,7 @@ class GiftsController extends BaseController
 
     @query statement, (err, rows)->
       console.log err, rows
-      if err or rows.length is 0
+      if err
         return
       else
         #callback null, rows[0].device_id
