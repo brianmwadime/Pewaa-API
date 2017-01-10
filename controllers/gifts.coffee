@@ -117,7 +117,7 @@ class GiftsController extends BaseController
                   .from(
                     @contributor
                       .join @wishlist
-                      .on @contributor.wishlist_id.equals wishlist.id
+                      .on @contributor.wishlist_id.equals @wishlist.id
                   )
 
     @query statement, (err, rows)->
