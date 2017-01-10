@@ -13,4 +13,7 @@ class Wishlist extends BaseModel
     if !@is_deleted
       @is_deleted = false
 
+    if !@recipient
+      @recipient = null
+
 module.exports = Wishlist
