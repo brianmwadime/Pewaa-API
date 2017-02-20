@@ -89,7 +89,6 @@ class ContributorsController extends BaseController
       else
         callback null, rows
 
-
   getOne: (key, callback)->
     statement = @contributor.select(@contributor.star()).from(@contributor)
       .where(@contributor.id.equals key)
@@ -100,12 +99,11 @@ class ContributorsController extends BaseController
         callback err, new Contributor rows[0]
 
   create: (contributor, callback)->
-    self = @
+    sender = new GcmNotifications(process.env.GCM_KEY)
     if contributor.validate()
       statement = @contributor.insert contributor.requiredObject()
                   .returning '*'
       @query statement, (err, rows)->
-
         if err
           error =
             'success': false,
@@ -236,6 +234,5 @@ class ContributorsController extends BaseController
         console.log payment
         global.socketIO.sockets.emit "payment_completed", payment
         return
-
 
 module.exports = ContributorsController.get()

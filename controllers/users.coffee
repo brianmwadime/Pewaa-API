@@ -5,8 +5,6 @@ User            = require "#{__dirname}/../models/user"
 Payment         = require "#{__dirname}/../models/payment"
 SmsCode         = require "#{__dirname}/../models/sms_code"
 twilio          = require "#{__dirname}/../config/twilio"
-GcmNotifications= require "#{__dirname}/../components/gcm/notifications"
-Push            = require "#{__dirname}/../models/push_credential"
 client          = require('twilio')(twilio.ACCOUNT_SID, twilio.AUTH_TOKEN)
 
 class UsersController extends BaseController
@@ -23,10 +21,6 @@ class UsersController extends BaseController
     name: 'sms_codes'
     columns: (new SmsCode).columns()
 
-  push: sql.define
-    name: 'push_credentials'
-    columns: (new Push).columns()
-
   bind: (fn, scope) ->
     ->
       fn.apply scope, arguments
@@ -39,23 +33,17 @@ class UsersController extends BaseController
     statement = @user.select(@user.star()).from(@user)
       .where(@user.id.equals key)
     @query statement, (err, rows)->
-      if err or rows.length isnt 1
-        error =
-          'success' : false,
-          'message' : "User does not exist."
-
-        callback error
+      if err
+        callback err
       else
         userRecord =
           'id': rows[0].id
           'Linked': if rows[0].is_activated then true else false
-          'status': rows[0].name
-          'name': rows[0].name
+          'status': rows[0].phone
           'status_date': rows[0].created_on
           'phone': rows[0].phone
           'username': rows[0].username
           'image': rows[0].avatar
-
         callback err, userRecord
 
   getOneWithCredentials: (key, callback)->
@@ -77,7 +65,7 @@ class UsersController extends BaseController
   create: (userParam, callback)->
     bind = @bind
     self = @
-    code = Math.floor(100000 + Math.random() * 900000)
+    code = Math.floor(Math.random() * 999999 + 111111)
     user = null
     t = @transaction()
     start = =>
@@ -98,7 +86,11 @@ class UsersController extends BaseController
       client.sendMessage {
         to: user.phone
         from: '+12132925019'
+<<<<<<< HEAD
         body: "Hello, Welcome to PEWAA. Your verification code is : #{code}"
+=======
+        body: "Hello, Welcome to PEWAA. Your Verification code is #{code}"
+>>>>>>> GCM Notifications
       }, (err, responseData) ->
         # this function is executed when a response is received from Twilio
         if !err
@@ -129,10 +121,9 @@ class UsersController extends BaseController
         else
           self.reCreateCode rows[0], callback
 
-  updateName: (params, callback) ->
-    statement = (@user.update {name:params.name})
+  changeName: (params, callback) ->
+    statement = (@user.update {username:params.name})
                   .where @user.id.equals params.userId
-    
     @query statement, (err)->
       if err
         error =
@@ -163,6 +154,24 @@ class UsersController extends BaseController
 
         callback null, done
 
+  updatePayment: (params, callback) ->
+    statement = (@payment.update {status:params.status})
+                  .where @payment.reference.equals params.trx_id
+    @query statement, (err)->
+      if err
+        error =
+          'success' : false,
+          'message' : 'Failed to update payment.'
+
+        callback error
+      else
+        done =
+          'success' : true,
+          'message' : 'Payment updated successfully.'
+
+        callback null, done
+  
+
   saveAvatar: (params, callback) ->
     statement = (@user.update {avatar:params.avatar})
                   .where @user.id.equals params.userId
@@ -184,8 +193,7 @@ class UsersController extends BaseController
     statementDeleteCode = @smscode.delete()
                             .where(@smscode.user_id.equals(user.id))
 
-    code = Math.floor(100000 + Math.random() * 900000)
-
+    code = Math.floor(Math.random() * 999999 + 111111)
     statementVerifyCode = (@smscode.insert {user_id:user.id, code: code})
 
     t = @transaction()
@@ -203,7 +211,11 @@ class UsersController extends BaseController
       client.sendMessage {
         to: user.phone
         from: '+12132925019'
+<<<<<<< HEAD
         body: "Hello, Welcome to PEWAA! Your verification code is : #{code}"
+=======
+        body: "Hello, Welcome to PEWAA. Your Verification code is #{code}"
+>>>>>>> GCM Notifications
       }, (err, responseData) ->
         if !err
           result =
@@ -250,8 +262,7 @@ class UsersController extends BaseController
           if err
             callback err
           else
-            code = Math.floor(100000 + Math.random() * 900000)
-
+            code = Math.floor(Math.random() * 999999 + 111111)
             statementVerifyCode = (self.smscode.insert {user_id:rows[0].id, code: code})
 
             self.query statementVerifyCode, (err, rows) ->
@@ -264,7 +275,11 @@ class UsersController extends BaseController
                 client.sendMessage {
                   to: phone
                   from: '+12132925019'
+<<<<<<< HEAD
                   body: "Hello, Welcome to PEWAA! Your verification code is : #{code}"
+=======
+                  body: "Hello, Welcome to PEWAA. Your Verification code is #{code}"
+>>>>>>> GCM Notifications
                 }, (err, responseData) ->
                   if !err
                     result =
@@ -412,58 +427,5 @@ class UsersController extends BaseController
         callback error
       else
         callback null, success
-
-  testNotifications: (user_id, callback) ->
-    # self = @
-    console.log "start notify ", user_id
-    async.waterfall [
-      async.constant(user_id)
-      async.if((@bind @getDeviceIds, @), (@bind @sendNotification, @))
-      # async.if(self.getDeviceIds, self.sendNotification)
-    ], (error, success) ->
-      console.info "done with notify ", err, success
-      if error
-        callback error
-      else
-        callback null, success
-
-  testNotification: (user_id, callback) ->
-    self = @
-    statement = @push.select(@push.device_id)
-                  .where @push.user_id.equals(user_id)
-                  # .limit(1)
-
-    @query statement, (err, rows)->
-      if err
-        callback err
-      else
-        deviceIds = []
-        for own device, id of rows
-          deviceIds.push(id.device_id)
-          console.info deviceIds
-        self.sendNotification(deviceIds, "Test Message", callback)
-
-# Notification functions
-  getDeviceId: (user_id, callback) ->
-    console.info "Start Retrieved IDs: ", user_id
-    statement = @push.select(@push.device_id)
-                  .where @push.user_id.equals(user_id)
-                  # .limit(1)
-
-    @query statement, (err, rows)->
-      if err
-        callback err
-      else
-        deviceIds = []
-        for own device, id of rows
-          deviceIds.push(id.device_id)
-
-        callback null, deviceIds
-
-  sendNotification: (device_ids, message, callback) ->
-    sender = new GcmNotifications(process.env.GCM_KEY)
-    sent = sender.sendMessage message, device_ids
-    console.log "Send Status ", sent
-    callback null, yes
 
 module.exports = UsersController.get()
