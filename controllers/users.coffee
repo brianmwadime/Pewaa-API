@@ -167,6 +167,22 @@ class UsersController extends BaseController
 
         callback null, done
   
+  updateName: (params, callback) ->
+    statement = (self.user.update {name:params.name})
+                          .where self.user.id.equals params.userId
+    @query statement, (err) ->
+      if err
+        error =
+          'success' : false,
+          'message' : 'Failed to update profile.'
+
+        callback error
+      else
+        done =
+          'success' : true,
+          'message' : 'Profile updated successfully.'
+
+        callback null, done
 
   saveAvatar: (params, callback) ->
     statement = (@user.update {avatar:params.avatar})
