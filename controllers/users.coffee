@@ -86,11 +86,7 @@ class UsersController extends BaseController
       client.sendMessage {
         to: user.phone
         from: '+12132925019'
-<<<<<<< HEAD
         body: "Hello, Welcome to PEWAA. Your verification code is : #{code}"
-=======
-        body: "Hello, Welcome to PEWAA. Your Verification code is #{code}"
->>>>>>> GCM Notifications
       }, (err, responseData) ->
         # this function is executed when a response is received from Twilio
         if !err
