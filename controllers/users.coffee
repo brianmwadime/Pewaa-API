@@ -43,6 +43,7 @@ class UsersController extends BaseController
           'status_date': rows[0].created_on
           'phone': rows[0].phone
           'username': rows[0].username
+          'name': rows[0].name
           'image': rows[0].avatar
         callback err, userRecord
 
