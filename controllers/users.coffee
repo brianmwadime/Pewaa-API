@@ -168,8 +168,8 @@ class UsersController extends BaseController
         callback null, done
   
   updateName: (params, callback) ->
-    statement = (self.user.update {name:params.name})
-                          .where self.user.id.equals params.userId
+    statement = (@user.update {name:params.name})
+                          .where @user.id.equals params.userId
     @query statement, (err) ->
       if err
         error =

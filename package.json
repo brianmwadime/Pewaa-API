@@ -1,7 +1,7 @@
 {
-  "name": "pewaa-api",
-  "version": "1.6.0",
-  "main": "index.js",
+  "name": "pewaa",
+  "version": "2.0.0",
+  "main": "index.coffee",
   "scripts": {
     "start": "pm2 start index.coffee",
     "stop": "pm2 stop all",
