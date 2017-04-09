@@ -44,7 +44,13 @@ handler = (app) ->
           res.send result
     else
       res.send 400, 'Invalid parameters'
+  app.post "/v#{apiVersion}/contributors/addContributors", validate({secret: 'pewaa'}), (req, res) ->
+    UsersController.addContributors req.body, (err, result)->
+      if err
+        res.send 400, err
 
+      else
+        res.send 200, result
   app.delete "/v#{apiVersion}/contributors/:id", validate({secret: 'pewaa'}), (req, res) ->
     WishlistsController.deleteOne req.params.id, (err) ->
       if err
