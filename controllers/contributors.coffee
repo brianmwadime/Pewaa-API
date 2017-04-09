@@ -125,6 +125,7 @@ class ContributorsController extends BaseController
       callback new Error "Invalid parameters"
 
   addContributors: (params, callback) ->
+    console.info params
     results = []
     self = @
     async.each params.contributors, ((contributor, callback) ->
