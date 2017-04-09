@@ -124,6 +124,40 @@ class ContributorsController extends BaseController
     else
       callback new Error "Invalid parameters"
 
+  addContributors: (params, callback) ->
+    results = []
+    self = @
+    async.each params.contributors, ((contributor, callback) ->
+      # Call an asynchronous function, often a save() to DB
+      # console.info contact
+      statement = self.contributor.insert new Contributor {user_id:contributor, wishlist_id: params.wishlist, permissions: "CONTRIBUTOR"}
+                  .returning '*'
+
+      self.query statement, (err, rows) ->
+        if err
+          error =
+            'success': false,
+            'message': "Could not add Contributor to Wishlist."
+          callback error
+        else
+          done =
+            'success' : true,
+            'id': rows[0].id,
+            'wishlist_id': rows[0].wishlist_id,
+            'user_id': rows[0].user_id,
+            'permissions': rows[0].permissions,
+            'message' : 'contributor added successfully.'
+
+          results.push done
+
+        callback null, results
+
+    ), (err) ->
+      if err
+        callback err
+      else
+        callback null, {success: true, id: params.wishlist}
+
   update: (spec, callback) ->
     contributorId = spec.contributorId
     if not contributorId
