@@ -45,7 +45,6 @@ handler = (app) ->
     else
       res.send 400, 'Invalid parameters'
   app.post "/v#{apiVersion}/contributors/addContributors", validate({secret: 'pewaa'}), (req, res) ->
-    console.log req.body
     ContributorsController.addContributors req.body, (err, result)->
       if err
         res.send 400, err
