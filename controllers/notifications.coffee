@@ -43,7 +43,8 @@ class NotificationsController extends BaseController
         if err
           error =
             'success': false,
-            'message': "Could not add push credentials."
+            'message': "Could not add push credentials.",
+            'error': err
           callback error
         else
           done =
