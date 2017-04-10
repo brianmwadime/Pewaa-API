@@ -100,6 +100,7 @@ class ContributorsController extends BaseController
         callback err, new Contributor rows[0]
 
   create: (contributor, callback)->
+    self = @
     sender = new GcmNotifications(process.env.GCM_KEY)
     if contributor.validate()
       statement = @contributor.insert contributor.requiredObject()
