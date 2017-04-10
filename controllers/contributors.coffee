@@ -128,7 +128,6 @@ class ContributorsController extends BaseController
     results = []
     self = @
     async.each params.contributors, ((contributor, callback) ->
-      console.info contributor, params.wishlist
       # Call an asynchronous function, often a save() to DB
       statement = self.contributor.insert (new Contributor {user_id:contributor, wishlist_id: params.wishlist, permissions: "CONTRIBUTOR", is_deleted: false}).requiredObject()
                   .returning '*'
@@ -142,6 +141,8 @@ class ContributorsController extends BaseController
             'user_id': rows[0].user_id,
             'permissions': rows[0].permissions,
             'message' : 'contributor added successfully.'
+
+          self.notifyContributors done
 
           results.push done
 

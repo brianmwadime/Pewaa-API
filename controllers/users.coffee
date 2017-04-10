@@ -136,12 +136,14 @@ class UsersController extends BaseController
         callback null, done
 
   createPayment: (params, callback) ->
+
     statement = @payment.insert(params.requiredObject()).returning '*'
     @query statement, (err)->
       if err
         error =
           'success' : false,
-          'message' : 'Failed to create payment.'
+          'message' : 'Failed to create payment.',
+          'error' : err
 
         callback error
       else
