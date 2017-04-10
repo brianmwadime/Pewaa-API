@@ -53,6 +53,7 @@ class ContributorsController extends BaseController
         callback err, rows
 
   updatePayment: (params, callback) ->
+    console.info params
     self = @
     statement = (@payment.update {status:params.status})
                   .where @payment.trx_id.equals params.trx_id
@@ -60,7 +61,8 @@ class ContributorsController extends BaseController
       if err
         error =
           'success' : false,
-          'message' : 'Failed to update payment.'
+          'message' : 'Failed to update payment.',
+          'error'   : err
 
         callback error
       else
