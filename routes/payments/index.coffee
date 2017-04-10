@@ -54,7 +54,7 @@ handler = (app) ->
   # for testing last POST response
   # if MERCHANT_ENDPOINT has not been provided
   app.all "/v#{apiVersion}/mpesa/payment", (req, res) ->
-    console.info req.body
+    console.info req.body.response
     trx_status = "Pending"
     if req.body.response.status_code == 200
       trx_status = "Success"
