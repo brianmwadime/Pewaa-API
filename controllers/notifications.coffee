@@ -6,10 +6,8 @@ async           = require 'async'
 
 class NotificationsController extends BaseController
   notification: sql.define
-    name: 'push_credential'
+    name: 'push_credentials'
     columns: (new Notification).columns()
-
-
 
   getAll: (callback)->
     statement = @notification.select(@notification.star()).from(@notification)
