@@ -60,7 +60,7 @@ handler = (app) ->
     # else
     #   trx_status = "FAILED"
 
-    ContributorsController.updatePayment {status:req.body.response.trx_status, trx_id:req.body.response.request_id}, (err, result) ->
+    ContributorsController.updatePayment {status:req.body.response.status_code, trx_id:req.body.response.request_id}, (err, result) ->
       if err
         res.send 400, err
 
