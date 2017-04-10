@@ -55,7 +55,12 @@ handler = (app) ->
   # if MERCHANT_ENDPOINT has not been provided
   app.all "/v#{apiVersion}/mpesa/payment", (req, res) ->
     console.info req.body
-    ContributorsController.updatePayment {status:req.body.response.trx_status, trx_id:req.body.response.request_id}, (err, result) ->
+    if req.body.response.status_code == 200
+      trx_status = "SUCCESS"
+    else
+      trx_status = "FAILED"
+
+    ContributorsController.updatePayment {status:trx_status, trx_id:req.body.response.request_id}, (err, result) ->
       if err
         res.send 400, err
 
