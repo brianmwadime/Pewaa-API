@@ -2,6 +2,7 @@
 require("#{__dirname}/../../environment")
 ContributorsController = require "#{__dirname}/../../controllers/contributors"
 Contributor            = require "#{__dirname}/../../models/contributor"
+GiftsController        = require "#{__dirname}/../../controllers/gifts"
 _                      = require 'underscore'
 authenticate 		       = require "#{__dirname}/../../components/oauth/authenticate"
 validate               = require '#{__dirname}/../../validators/tokenValidator'
@@ -71,10 +72,6 @@ handler = (app) ->
       if err
         res.send 404, err
       else
-        GiftsController.deleteForWishlist req.params.id, (err)->
-          if err
-            res.send 400, err
-          else
-            res.send 200
+        res.send 200
 
 module.exports = handler
