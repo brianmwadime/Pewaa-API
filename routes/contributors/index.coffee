@@ -67,7 +67,7 @@ handler = (app) ->
       wishlist_id: req.params.wishlist_id
       contributor_id: req.params.contributor_id
 
-    WishlistsController.deleteContributor deleteParams, (err) ->
+    ContributorsController.deleteContributor deleteParams, (err) ->
       if err
         res.send 404, err
       else
