@@ -47,10 +47,10 @@ app.use cookieParser()
 app.use cors()
 
 # memory based session
-app.use session(
-  secret: process.env.SESSION_SECRET_KEY
-  resave: false
-  saveUninitialized: true)
+# app.use session(
+#   secret: process.env.SESSION_SECRET_KEY
+#   resave: false
+#   saveUninitialized: true)
 
 app.disable 'x-powered-by'
 
