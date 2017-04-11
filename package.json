@@ -37,7 +37,7 @@
     "serve-favicon": "~2.3.0",
     "should": "^11.1.0",
     "singleton": "^1.0.0",
-    "socket.io": "^1.7.2",
+    "socket.io": "^1.7.3",
     "sql": "^0.70.1",
     "twilio": "^2.10.0",
     "underscore": "^1.8.3"
