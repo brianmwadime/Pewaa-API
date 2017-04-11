@@ -178,7 +178,6 @@ class ContributorsController extends BaseController
         callback null, done
 
   exists: (key, callback) ->
-
     findContributor = @contributor.select(@contributor.id).where(@contributor.id.equals(key)).limit(1)
     @query findContributor, (err, rows) ->
       if err or rows.length isnt 1
@@ -192,7 +191,28 @@ class ContributorsController extends BaseController
       if err
         callback err
       else
-        callback err, {'success': true, 'message': 'Contributor removed successfully'}
+        done =
+          'success': true
+          'message': 'Contributor removed successfully'
+        
+        callback err, done
+
+  deleteContributor: (params, callback) ->
+    statement = (@contributor.update {is_deleted:true}).
+                      where(@contributor.user_id.equals params.contributor_id)
+                      .and(@contributor.wishlist_id.equals params.wishlist_id)
+    @query statement, (err) ->
+      if err
+        result =
+          'success' : false
+          'message' : "Could not delete account. Please try again."
+        callback result
+      else
+        result =
+          'success' : true
+          'message' : 'Your account is deleted successfully.'
+
+        callback null, result
 
   # Notification functions
   notify: (user_id, message, callback) ->
@@ -201,7 +221,6 @@ class ContributorsController extends BaseController
                   .where @push.user_id.equals(user_id)
 
     @query statement, (err, rows)->
-      console.info "Fetch Device Id's", err, rows
       if err
         callback err
       else
@@ -212,7 +231,6 @@ class ContributorsController extends BaseController
         return
 
   getDeviceId: (user_id, callback) ->
-    console.info "Start Retrieved IDs: ", user_id
     statement = @push.select(@push.device_id)
                   .where @push.user_id.equals(user_id)
 
@@ -239,8 +257,6 @@ class ContributorsController extends BaseController
       if err or rows.length isnt 1
         return
       else
-        
-
         wishlist.wishlist = rows[0]
         console.log wishlist
         global.socketIO.sockets.emit "added_contributor", wishlist
@@ -263,7 +279,6 @@ class ContributorsController extends BaseController
         return
       else
         payment = rows[0]
-        console.log payment
         global.socketIO.sockets.emit "payment_completed", payment
         return
 

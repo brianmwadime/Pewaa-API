@@ -56,10 +56,6 @@ handler = (app) ->
             res.send 400, err
           else
             res.send 200
-  app.delete "/v#{apiVersion}/wishlists/:wishlist_id/contributors/:contributor_id", validate({secret: 'pewaa'}), (req, res) ->
-    console.info "Removing Contributor: ", req.params.wishlist_id, req.params.contributor_id
-
-    res.send 200
 
   app.get "/v#{apiVersion}/wishlists/:id/gifts", validate({secret: 'pewaa'}), (req, res) ->
     wishlistId = req.params.id
