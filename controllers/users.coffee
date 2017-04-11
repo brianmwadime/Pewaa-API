@@ -382,10 +382,12 @@ class UsersController extends BaseController
             'id': contact.contactID
             'contactID': contact.contactID
             'Linked': false
+            'Activate': false
             'Exist': true
             'status': contact.phone
             'phone': contact.phone
             'username': contact.username
+            'image': contact.image
 
           results.push matched
         else
@@ -393,11 +395,13 @@ class UsersController extends BaseController
             'id': rows[0].id
             'contactID': contact.contactID
             'Linked': true
+            'Activate': true
             'Exist': true
             'status': contact.phone
             'phone': contact.phone
             'username': rows[0].username
             'avatar': rows[0].avatar
+            'image': rows[0].avatar
 
           results.push matched
 
