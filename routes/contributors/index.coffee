@@ -24,7 +24,7 @@ handler = (app) ->
         if err
           res.send 400, err
         else
-          res.send result
+          res.send 200, result
     else
       res.send 400, 'Invalid parameters'
 
@@ -33,7 +33,7 @@ handler = (app) ->
       if err or not wishlist.validate()
         res.send 404, err
       else
-        res.send wishlist.publicObject()
+        res.send 200, wishlist.publicObject()
 
   app.put "/v#{apiVersion}/contributors/:id", validate({secret: 'pewaa'}), (req, res) ->
     contributor = new Contributor req.body
@@ -42,7 +42,7 @@ handler = (app) ->
         if err
           res.send 400, err
         else
-          res.send result
+          res.send 200, result
     else
       res.send 400, 'Invalid parameters'
   app.post "/v#{apiVersion}/contributors/addContributors", validate({secret: 'pewaa'}), (req, res) ->
@@ -68,10 +68,10 @@ handler = (app) ->
       wishlist_id: req.params.wishlist_id
       contributor_id: req.params.contributor_id
 
-    ContributorsController.deleteContributor deleteParams, (err) ->
+    ContributorsController.deleteContributor deleteParams, (err, result) ->
       if err
         res.send 404, err
       else
-        res.send 200
+        res.send 200, result
 
 module.exports = handler
