@@ -27,6 +27,7 @@ class WishlistsController extends BaseController
     statement = @wishlist
                 .select @wishlist.star(), @userswishlists.permissions
                 .where(@userswishlists.user_id.equals user_id)
+                .and(@userswishlists.is_deleted.equals false)
                 .and(@wishlist.is_deleted.equals false)
                 .from(
                   @wishlist
@@ -77,7 +78,7 @@ class WishlistsController extends BaseController
 
       callback null, done
     t.on 'rollback', ->
-      callback new Error "Couldn't create new wishlist"
+      callback new Error "Couldn't create new wishlist."
 
   update: (spec, callback) ->
     wishlistId = spec.wishlistId
@@ -126,7 +127,7 @@ class WishlistsController extends BaseController
       if err
         callback err
       else
-        callback err, {'success': true, 'message': 'Wishlist removed successfully'}
+        callback null, {'success': true, 'message': 'Wishlist removed successfully'}
 
   exists: (key, callback) ->
     findWishlist = @wishlist.select(@wishlist.id).where(@wishlist.id.equals(key)).limit(1)

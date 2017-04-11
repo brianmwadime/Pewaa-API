@@ -205,13 +205,13 @@ class ContributorsController extends BaseController
       if err
         result =
           'success' : false
-          'message' : "Could not delete account. Please try again."
+          'message' : "Could not delete account. Please try again.",
+          'error'   : err
         callback result
       else
         result =
           'success' : true
           'message' : 'Your account is deleted successfully.'
-
         callback null, result
 
   # Notification functions
