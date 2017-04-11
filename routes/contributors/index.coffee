@@ -62,4 +62,19 @@ handler = (app) ->
           else
             res.send 200
 
+  app.delete "/v#{apiVersion}/wishlists/:wishlist_id/contributors/:contributor_id", validate({secret: 'pewaa'}), (req, res) ->
+    deleteParams =
+      wishlist_id: req.params.wishlist_id
+      contributor_id: req.params.contributor_id
+
+    WishlistsController.deleteContributor deleteParams, (err) ->
+      if err
+        res.send 404, err
+      else
+        GiftsController.deleteForWishlist req.params.id, (err)->
+          if err
+            res.send 400, err
+          else
+            res.send 200
+
 module.exports = handler
