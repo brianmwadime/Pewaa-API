@@ -144,7 +144,8 @@ class ContributorsController extends BaseController
             'permissions': rows[0].permissions,
             'message' : 'contributor added successfully.'
 
-          self.notifyContributors done
+          # self.notifyContributors done
+          self.notify contributor, "You have been added to a wishlist.", {wishlist_id : done.wishlist_id, user_id:done.wishlist_id, message: done.message}, callback
 
           results.push done
 
@@ -215,7 +216,7 @@ class ContributorsController extends BaseController
         callback null, result
 
   # Notification functions
-  notify: (user_id, message, callback) ->
+  notify: (user_id, message, data, callback) ->
     self = @
     statement = @push.select(@push.device_id)
                   .where @push.user_id.equals(user_id)
@@ -223,11 +224,12 @@ class ContributorsController extends BaseController
     @query statement, (err, rows)->
       if err
         callback err
+        return
       else
         deviceIds = []
         for own device, id of rows
           deviceIds.push(id.device_id)
-        self.sendNotification deviceIds, message, callback
+        self.sendNotification deviceIds, message, data, callback
         return
 
   getDeviceId: (user_id, callback) ->
@@ -244,9 +246,9 @@ class ContributorsController extends BaseController
 
         callback null, deviceIds
 
-  sendNotification: (device_ids, message, callback) ->
+  sendNotification: (device_ids, message, data, callback) ->
     sender = new GcmNotifications(process.env.GCM_KEY)
-    callback null, sender.sendMessage message, device_ids
+    callback null, sender.sendMessage message, data device_ids
 
   notifyContributors: (wishlist) ->
     statement = @wishlist.select(@wishlist.star())
