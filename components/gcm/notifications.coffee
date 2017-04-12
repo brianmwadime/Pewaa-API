@@ -3,12 +3,11 @@ gcm  = require "node-gcm"
 
 module.exports = class GcmNotifications
   constructor: (gcmKey, dryrun) ->
-    # @gcmKey = gcmKey
     @sender = new (gcm.Sender)(gcmKey)
     @dryRun = dryrun
     @
 
-  sendMessage: (text, ids) ->
+  sendMessage: (text, data, ids) ->
     @message = new (gcm.Message)(
       collapseKey: 'View'
       priority: 'high'
@@ -17,9 +16,7 @@ module.exports = class GcmNotifications
       timeToLive: 3
       restrictedPackageName: process.env.ANDROID_PACKAGE
       dryRun: @dryRun
-      data:
-        key1: 'message1'
-        key2: 'message2'
+      data: data
       notification:
         title: 'Pewaa'
         icon: 'ic_launcher'
@@ -27,10 +24,10 @@ module.exports = class GcmNotifications
 
     @sender.send @message, { registrationTokens: ids }, (err, response) ->
       if err
-        console.error "Notify error ", err
+        console.error "Notification(s) error ", err
         return false
       else
-        console.log "Notify success", response
+        console.log "Notification(s) sent successfully", response
         return true
 
     return
