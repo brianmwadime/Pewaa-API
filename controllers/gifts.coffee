@@ -100,7 +100,7 @@ class GiftsController extends BaseController
 
   notifyContributors: (gift) ->
     self = @
-    statement = @contributor.select(@contributor.user_id, @wishlist.name.as('wishlist_name'), @wishlist.id.as('wishlist_id'))
+    statement = @contributor.select(@contributor.user_id, @wishlist.name.as('wishlist_name'), @wishlist.id.as('wishlist_id'), @wishlist.permissions)
                   .where(@contributor.wishlist_id.equals gift.wishlist_id)
                   .and(@contributor.is_deleted.equals false)
                   .from(
@@ -115,6 +115,7 @@ class GiftsController extends BaseController
       else
         gift.wishlist_name = rows[0].wishlist_name
         gift.wishlist_id = rows[0].wishlist_id
+        gift.wishlist_permissions = rows[0].permissions
         for own contributor, id of rows
           self.notify id.user_id, "added_gift", gift
 
