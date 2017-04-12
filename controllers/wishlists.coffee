@@ -1,9 +1,11 @@
-BaseController = require "#{__dirname}/base"
-Wishlist = require "#{__dirname}/../models/wishlist"
-Contributor = require "#{__dirname}/../models/contributor"
-sql = require 'sql'
-async = require 'async'
-
+BaseController  = require "#{__dirname}/base"
+Wishlist        = require "#{__dirname}/../models/wishlist"
+Contributor     = require "#{__dirname}/../models/contributor"
+sql             = require 'sql'
+async           = require 'async'
+Push            = require "#{__dirname}/../models/push_credential"
+notifications   = require "#{__dirname}/../components/gcm/notifications"
+GcmNotifications= require "#{__dirname}/../components/gcm/notifications"
 GiftsController = require "#{__dirname}/gifts"
 
 class WishlistsController extends BaseController
@@ -14,6 +16,10 @@ class WishlistsController extends BaseController
   userswishlists: sql.define
     name: 'wishlist_contributors'
     columns: (new Contributor).columns()
+
+  push: sql.define
+    name: 'push_credentials'
+    columns: (new Push).columns()
 
   user: sql.define
     name: 'users'
@@ -137,5 +143,26 @@ class WishlistsController extends BaseController
       else
         callback null, yes
 
+  ######## Notification functions ################
+  notify: (user_id, message, data) ->
+    self = @
+    statement = @push.select(@push.device_id)
+                  .where @push.user_id.equals(user_id)
+
+    @query statement, (err, rows)->
+      if err
+        console.info err
+        return
+      else
+        deviceIds = []
+        for own device, id of rows
+          deviceIds.push(id.device_id)
+        self.sendNotification deviceIds, message, data
+        return
+
+  sendNotification: (device_ids, message, data) ->
+    sender = new GcmNotifications(process.env.GCM_KEY)
+    sender.sendMessage message, data, device_ids
+    return
 
 module.exports = WishlistsController.get()

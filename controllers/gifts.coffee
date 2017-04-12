@@ -1,5 +1,4 @@
 sql             = require 'sql'
-notifications   = require "#{__dirname}/../components/gcm/notifications"
 BaseController  = require "#{__dirname}/base"
 async           = require('async-if-else')(require('async'))
 Gift            = require "#{__dirname}/../models/gift"
@@ -7,6 +6,7 @@ Wishlist        = require "#{__dirname}/../models/wishlist"
 Payment         = require "#{__dirname}/../models/payment"
 Contributor     = require "#{__dirname}/../models/contributor"
 Push            = require "#{__dirname}/../models/push_credential"
+GcmNotifications= require "#{__dirname}/../components/gcm/notifications"
 
 class GiftsController extends BaseController
   gift: sql.define
@@ -16,6 +16,10 @@ class GiftsController extends BaseController
   wishlist: sql.define
     name: 'wishlists'
     columns: (new Wishlist).columns()
+
+  push: sql.define
+    name: 'push_credentials'
+    columns: (new Push).columns()
 
   payment: sql.define
     name: 'payments'
@@ -116,8 +120,30 @@ class GiftsController extends BaseController
 
         gift.contributors = contributorIds
         gift.wishlist_name = rows[0].wishlist_name
-        console.log gift
+        # self.notify contributorIds, "added_gift", gift
         global.socketIO.sockets.emit "added_gift", gift
         return
+  
+  ######## Notification functions ################
+  notify: (user_id, message, data) ->
+    self = @
+    statement = @push.select(@push.device_id)
+                  .where @push.user_id.equals(user_id)
+
+    @query statement, (err, rows)->
+      if err
+        console.info err
+        return
+      else
+        deviceIds = []
+        for own device, id of rows
+          deviceIds.push(id.device_id)
+        self.sendNotification deviceIds, message, data
+        return
+
+  sendNotification: (device_ids, message, data) ->
+    sender = new GcmNotifications(process.env.GCM_KEY)
+    sender.sendMessage message, data, device_ids
+    return
 
 module.exports = GiftsController.get()
