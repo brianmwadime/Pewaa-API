@@ -13,6 +13,10 @@ class GiftsController extends BaseController
     name: 'wishlist_items'
     columns: (new Gift).columns()
 
+  contributor: sql.define
+    name: 'wishlist_contributors'
+    columns: (new Contributor).columns()
+
   wishlist: sql.define
     name: 'wishlists'
     columns: (new Wishlist).columns()
