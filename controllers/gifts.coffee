@@ -104,7 +104,6 @@ class GiftsController extends BaseController
                   )
 
     @query statement, (err, rows)->
-      console.log err, rows
       if err
         return
       else
@@ -112,7 +111,6 @@ class GiftsController extends BaseController
         for own contributor, id of rows
           contributorIds.push(id.user_id)
 
-        gift.contributors = contributorIds
         gift.wishlist_name = rows[0].wishlist_name
 
         for user_id in contributorIds
