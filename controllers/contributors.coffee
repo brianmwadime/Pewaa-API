@@ -237,6 +237,7 @@ class ContributorsController extends BaseController
     return
 
   notifyContributors: (wishlist) ->
+    self = @
     statement = @wishlist.select(@wishlist.star())
                   .where(@wishlist.id.equals(wishlist.wishlist_id))
                   .limit 1
