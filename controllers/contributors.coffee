@@ -248,7 +248,8 @@ class ContributorsController extends BaseController
 
   sendNotification: (device_ids, message, data, callback) ->
     sender = new GcmNotifications(process.env.GCM_KEY)
-    callback null, sender.sendMessage message, data, device_ids
+    sender.sendMessage message, data, device_ids
+    return
 
   notifyContributors: (wishlist) ->
     statement = @wishlist.select(@wishlist.star())
