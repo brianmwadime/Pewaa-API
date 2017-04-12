@@ -25,7 +25,6 @@ class GiftsController extends BaseController
     name: 'payments'
     columns: (new Payment).columns()
 
-
   user: sql.define
     name: 'users'
     columns: ['id', 'avatar', 'username', 'phone', 'name']
@@ -95,7 +94,6 @@ class GiftsController extends BaseController
       else
         callback err, rows
 
-
   notifyContributors: (gift) ->
     statement = @contributor.select(@contributor.user_id, @wishlist.name.as('wishlist_name'))
                   .where(@contributor.wishlist_id.equals(gift.wishlist_id))
@@ -110,18 +108,16 @@ class GiftsController extends BaseController
       if err
         return
       else
-        #callback null, rows[0].device_id
         contributorIds = []
         for own contributor, id of rows
-          # if id.user_id == gift.creator_id
-          #   return
-
           contributorIds.push(id.user_id)
 
         gift.contributors = contributorIds
         gift.wishlist_name = rows[0].wishlist_name
-        # self.notify contributorIds, "added_gift", gift
-        global.socketIO.sockets.emit "added_gift", gift
+
+        for user_id in contributorIds
+          self.notify contributorIds, "added_gift", gift
+        # global.socketIO.sockets.emit "added_gift", gift
         return
   
   ######## Notification functions ################
