@@ -100,7 +100,7 @@ class GiftsController extends BaseController
 
   notifyContributors: (gift) ->
     self = @
-    statement = @contributor.select(@contributor.user_id, @wishlist.name.as('wishlist_name'))
+    statement = @contributor.select(@contributor.user_id, @wishlist.name.as('wishlist_name'), @wishlist.id.as('wishlist_id'))
                   .where(@contributor.wishlist_id.equals(gift.wishlist_id))
                   .from(
                     @contributor
@@ -112,15 +112,11 @@ class GiftsController extends BaseController
       if err
         return
       else
-        contributorIds = []
-        for own contributor, id of rows
-          contributorIds.push(id.user_id)
-
         gift.wishlist_name = rows[0].wishlist_name
+        gift.wishlist_id = rows[0].wishlist_id
+        for own contributor, id of rows
+          self.notify id.user_id, "added_gift", gift
 
-        for user_id in contributorIds
-          self.notify user_id, "added_gift", gift
-        # global.socketIO.sockets.emit "added_gift", gift
         return
   
   ######## Notification functions ################
