@@ -99,6 +99,7 @@ class GiftsController extends BaseController
         callback err, rows
 
   notifyContributors: (gift) ->
+    self = @
     statement = @contributor.select(@contributor.user_id, @wishlist.name.as('wishlist_name'))
                   .where(@contributor.wishlist_id.equals(gift.wishlist_id))
                   .from(
@@ -118,7 +119,7 @@ class GiftsController extends BaseController
         gift.wishlist_name = rows[0].wishlist_name
 
         for user_id in contributorIds
-          self.notify contributorIds, "added_gift", gift
+          self.notify user_id, "added_gift", gift
         # global.socketIO.sockets.emit "added_gift", gift
         return
   
