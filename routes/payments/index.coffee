@@ -18,7 +18,7 @@ handler = (app) ->
   app.get "/v#{apiVersion}/status", (req, res) ->
     res.json({ status: 200 })
 
-  app.post "/v#{apiVersion}/payments/request", checkForRequiredParams, (req, res) ->
+  app.post "/v#{apiVersion}/payments/request", [validate({secret: 'pewaa'}), checkForRequiredParams], (req, res) ->
     PaymentRequest.handler(req, res)
 
   app.get "/v#{apiVersion}/payments/confirm/:trx_id", (req, res) ->
@@ -37,7 +37,6 @@ handler = (app) ->
       UsersController.createPayment payment, (err, result)->
         if err
           res.send 400, err
-
         else
           res.send 200, result
     else
@@ -47,26 +46,21 @@ handler = (app) ->
     ContributorsController.updatePayment {status:req.body.status, userId:req.userId, trx_id:req.param.trx_id}, (err, result) ->
       if err
         res.send 400, err
-
       else
         res.send 200, result
 
   # for testing last POST response
   # if MERCHANT_ENDPOINT has not been provided
   app.all "/v#{apiVersion}/mpesa/payment", (req, res) ->
-    console.info req.body.response
     trx_status = "Pending"
     if req.body.response.status_code == 200
       trx_status = "Success"
     else
       trx_status = "Failed"
 
-    console.info trx_status
-
     ContributorsController.updatePayment {status:trx_status, trx_id:req.body.response.request_id}, (err, result) ->
       if err
         res.send 400, err
-
       else
         res.send 200, result
 

@@ -248,7 +248,6 @@ class ContributorsController extends BaseController
       else
         wishlist.wishlist = rows[0]
         self.notify wishlist.user_id, "added_contributor", wishlist
-        # global.socketIO.sockets.emit "added_contributor", wishlist
         return
 
   notifyOfPayment: (params) ->
@@ -269,7 +268,6 @@ class ContributorsController extends BaseController
         return
       else
         payment = rows[0]
-        # global.socketIO.sockets.emit "payment_completed", payment
         self.notify payment.user_id, "payment_completed", payment 
         return
 

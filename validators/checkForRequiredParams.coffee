@@ -1,5 +1,4 @@
 'use strict'
-
 module.exports = (req, res, next) ->
   requiredBodyParams = [
     'referenceID'
@@ -30,14 +29,11 @@ module.exports = (req, res, next) ->
   # anything that is not a required param
   # should be added to the extraPayload object
   # for key of bodyParamKeys
-  #  if requiredBodyParams.indexOf(key) == -1
-  #   extraPayload[key] = req.body[key]
-  #   delete req.body[key]
   for key in bodyParamKeys
     if requiredBodyParams.indexOf(key) == -1
       extraPayload[key] = req.body[key]
       delete req.body[key]
 
   req.body.extraPayload = extraPayload
-  # console.info 'extraPayload', req.body.extraPayload
+
   next()
