@@ -144,8 +144,7 @@ class ContributorsController extends BaseController
             'permissions': rows[0].permissions,
             'message' : 'contributor added successfully.'
 
-          # self.notifyContributors done
-          self.notify contributor, "You have been added to a wishlist.", {wishlist_id : done.wishlist_id, user_id:done.wishlist_id, message: done.message}, callback
+          self.notifyContributors done
 
           results.push done
 
@@ -215,38 +214,24 @@ class ContributorsController extends BaseController
           'message' : 'Your account is deleted successfully.'
         callback null, result
 
-  # Notification functions
-  notify: (user_id, message, data, callback) ->
+  ######## Notification functions ################
+  notify: (user_id, message, data) ->
     self = @
     statement = @push.select(@push.device_id)
                   .where @push.user_id.equals(user_id)
 
     @query statement, (err, rows)->
       if err
-        callback err
+        console.info err
         return
       else
         deviceIds = []
         for own device, id of rows
           deviceIds.push(id.device_id)
-        self.sendNotification deviceIds, message, data, callback
+        self.sendNotification deviceIds, message, data
         return
 
-  getDeviceId: (user_id, callback) ->
-    statement = @push.select(@push.device_id)
-                  .where @push.user_id.equals(user_id)
-
-    @query statement, (err, rows)->
-      if err
-        callback err
-      else
-        deviceIds = []
-        for own device, id of rows
-          deviceIds.push(id.device_id)
-
-        callback null, deviceIds
-
-  sendNotification: (device_ids, message, data, callback) ->
+  sendNotification: (device_ids, message, data) ->
     sender = new GcmNotifications(process.env.GCM_KEY)
     sender.sendMessage message, data, device_ids
     return
@@ -261,11 +246,12 @@ class ContributorsController extends BaseController
         return
       else
         wishlist.wishlist = rows[0]
-        console.log wishlist
-        global.socketIO.sockets.emit "added_contributor", wishlist
+        self.notify wishlist.user_id, "added_contributor", wishlist
+        # global.socketIO.sockets.emit "added_contributor", wishlist
         return
 
   notifyOfPayment: (params) ->
+    self = @
     statement = @payment.select(@payment.amount, @payment.status, @gift.star(), @user.name.as('creator_name'), @user.avatar.as('creator_avatar'), @user.phone.as('creator_phone'))
                   .where(@payment.trx_id.equals(params.trx_id))
                   .from(
@@ -282,7 +268,8 @@ class ContributorsController extends BaseController
         return
       else
         payment = rows[0]
-        global.socketIO.sockets.emit "payment_completed", payment
+        # global.socketIO.sockets.emit "payment_completed", payment
+        self.notify payment.user_id, "payment_completed", payment 
         return
 
 module.exports = ContributorsController.get()

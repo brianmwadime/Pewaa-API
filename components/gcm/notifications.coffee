@@ -18,7 +18,7 @@ module.exports = class GcmNotifications
       dryRun: @dryRun
       data: data
       notification:
-        title: 'Pewaa'
+        title: 'Pewaa!'
         icon: 'ic_launcher'
         body: text)
 
