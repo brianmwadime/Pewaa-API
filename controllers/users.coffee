@@ -201,7 +201,7 @@ class UsersController extends BaseController
         done =
           'success' : true,
           'message' : 'Profile image updated successfully.',
-          'avatar'  : avatar
+          'avatar'  : params.avatar
 
         callback null, done
 
