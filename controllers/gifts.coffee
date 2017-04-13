@@ -120,7 +120,7 @@ class GiftsController extends BaseController
           self.notify id.user_id, "added_gift", gift
 
         return
-  
+ 
   ######## Notification functions ################
   notify: (user_id, message, data) ->
     self = @
