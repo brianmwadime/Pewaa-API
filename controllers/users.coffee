@@ -200,7 +200,8 @@ class UsersController extends BaseController
       else
         done =
           'success' : true,
-          'message' : 'Profile image updated successfully.'
+          'message' : 'Profile image updated successfully.',
+          'avatar'  : avatar
 
         callback null, done
 
@@ -371,7 +372,6 @@ class UsersController extends BaseController
     self = @
     async.each phoneNumbers.contactsModelList, ((contact, callback) ->
       # Call an asynchronous function, often a save() to DB
-      # console.info contact
       statement = self.user.select(self.user.star())
                     .where(self.user.phone.equals(contact.phone), self.user.is_activated.equals(true))
                     .limit(1)
