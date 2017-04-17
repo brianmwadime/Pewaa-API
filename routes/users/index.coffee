@@ -31,7 +31,6 @@ handler = (app) ->
       UsersController.create user, (err, result)->
         if err
           res.send 400, err
-
         else
           res.send 200, result
     else
@@ -43,7 +42,7 @@ handler = (app) ->
         # An error occurred when uploading
         failed =
           'success' : false,
-          'message' : 'Oops! Something went wrong'
+          'message' : 'Oops! Something went wrong. Please try again later'
         res.send 400, failed
       # Profile avatar uploaded successfully
       UsersController.saveAvatar {avatar:req.file.filename, userId:req.userId}, (error, result) ->
@@ -53,11 +52,10 @@ handler = (app) ->
           res.send 200, result
     return
 
-  app.get "/v#{apiVersion}/users/:id", (req, res) ->
+  app.get "/v#{apiVersion}/users/:id", validate({secret: 'pewaa'}), (req, res) ->
     UsersController.getOne req.params.id, (err, result)->
       if err
         res.send 400, err
-
       else
         res.send 200, result
 
@@ -65,7 +63,6 @@ handler = (app) ->
     UsersController.verify req.body.code, (err, result)->
       if err
         res.json 400, err
-
       else
         res.json 200, result
 
@@ -91,7 +88,6 @@ handler = (app) ->
     UsersController.comparePhoneNumbers req.body, (err, result)->
       if err
         res.send 400, err
-
       else
         res.send 200, result
 
@@ -99,7 +95,6 @@ handler = (app) ->
     UsersController.prepareDeleteAccount req.body.phone, (err, result)->
       if err
         res.send 400, err
-
       else
         res.send 200, result
 
@@ -109,7 +104,6 @@ handler = (app) ->
     UsersController.testNotification req.userId, (err, result)->
       if err
         res.send 400, err
-
       else
         res.send 200, result
 
