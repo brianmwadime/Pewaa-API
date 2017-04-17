@@ -71,7 +71,7 @@ class GiftsController extends BaseController
       if err
         callback err
       else
-        callback err, {'success': true, 'message': 'Gift removed successfully'}
+        callback err, {'success': true, 'message': 'Gift removed successfully.'}
 
   deleteForWishlist: (wishlist_id, callback)->
     statement = @gift.update({is_deleted: true})
@@ -116,6 +116,8 @@ class GiftsController extends BaseController
         gift.wishlist_name = rows[0].wishlist_name
         gift.wishlist_id = rows[0].wishlist_id
         for own contributor, id of rows
+          if id.user_id == gift.creator_id
+            return
           gift.wishlist_permissions = rows[0].permissions
           self.notify id.user_id, "added_gift", gift
 
