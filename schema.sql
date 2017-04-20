@@ -353,6 +353,8 @@ ALTER TABLE wishlists ADD COLUMN is_deleted BOOLEAN NOT NULL DEFAULT false;
 
 ALTER TABLE wishlist_contributors ADD COLUMN is_deleted BOOLEAN NOT NULL DEFAULT false;
 
+ALTER TABLE wishlists ALTER COLUMN cashout_status TYPE varchar NULL;
+
 --
 -- PostgreSQL database dump complete
 --
