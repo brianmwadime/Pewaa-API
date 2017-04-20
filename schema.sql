@@ -355,6 +355,10 @@ ALTER TABLE wishlist_contributors ADD COLUMN is_deleted BOOLEAN NOT NULL DEFAULT
 
 ALTER TABLE wishlists ADD COLUMN cashout_status varchar(20) DEFAULT NULL;
 
+ALTER TABLE wishlist_items ADD COLUMN cashout_status varchar(20) DEFAULT NULL;
+
+ALTER TABLE wishlists DROP COLUMN cashout_status;
+
 --
 -- PostgreSQL database dump complete
 --
