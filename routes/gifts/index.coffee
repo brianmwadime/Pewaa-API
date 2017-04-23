@@ -67,6 +67,21 @@ handler = (app) ->
         res.send 400, 'some error'
     return
 
+  app.post "/v#{apiVersion}/gifts/:id/cashout", validate({secret: 'pewaa'}), (req, res) ->
+    gift = req.body
+    gift.user_id = req.userId
+    gift.gift_id = req.params.id
+
+    GiftsController.cashoutRequest gift, (err, result)->
+      if err
+        failed =
+          'success' : false,
+          'message' : err
+        res.send 400, failed
+      else
+        res.send result
+    return
+
   app.get "/v#{apiVersion}/gifts/:id", validate({secret: 'pewaa'}), (req, res) ->
     GiftsController.getOne req.params.id, (err, gift)->
       if err
