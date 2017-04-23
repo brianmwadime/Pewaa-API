@@ -14,10 +14,10 @@ class User extends BaseModel
       (0|\+?254)7([0-3|7])(\d){7}
       $ ///i
 
-    @validator =
-      phone: ()=>
-        matched = @phone.match phonePattern
-        matched isnt null
+    # @validator =
+    #   phone: ()=>
+    #     matched = @phone.match phonePattern
+    #     matched isnt null
 
     if @phone
       @makeCredentials @phone
