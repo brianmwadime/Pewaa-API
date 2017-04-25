@@ -60,9 +60,9 @@ handler = (app) ->
             failed =
               'success' : false,
               'message' : err
-            res.send 400, failed
+            res.status(404).send(failed)
           else
-            res.send result
+            res.status(200).send(result)
       else
         res.send 400, 'some error'
     return
@@ -92,8 +92,8 @@ handler = (app) ->
   app.delete "/v#{apiVersion}/gifts/:id", validate({secret: 'pewaa'}), (req, res) ->
     GiftsController.deleteOne req.params.id, (err)->
       if err
-        res.send 404, "#{req.params.id} not found"
+        res.status(404).send("#{req.params.id} not found")
       else
-        res.send 200
+        res.status(200)
 
 module.exports = handler
