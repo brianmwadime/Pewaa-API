@@ -41,10 +41,10 @@ class PaymentSuccess
     # make a request to the merchant's endpoint
     @request requestParams, (error) ->
       if error
-        res.status(500)
+        res.sendStatus(500)
         return
 
-      res.send(200)
+      res.sendStatus(200)
       return
 
     return
