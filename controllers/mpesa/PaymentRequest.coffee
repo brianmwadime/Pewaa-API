@@ -26,7 +26,7 @@ class PaymentRequest
         <tns:processCheckOutRequest>
           <MERCHANT_TRANSACTION_ID>#{data.merchantTransactionID}
           </MERCHANT_TRANSACTION_ID>
-          <REFERENCE_ID>#{String(data.referenceID).slice(0, 8)}</REFERENCE_ID>
+          <REFERENCE_ID>#{data.referenceID}</REFERENCE_ID>
           <AMOUNT>#{data.amountInDoubleFloat}</AMOUNT>
           <MSISDN>#{data.clientPhoneNumber}</MSISDN>
           <ENC_PARAMS>#{JSON.stringify(data.extraPayload)}</ENC_PARAMS>
