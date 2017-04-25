@@ -67,17 +67,13 @@ class PaymentRequest
       request.post().then((response) ->
         finalResponse =
             response: Object.assign({}, response, returnThesePaymentDetails)
-        console.info finalResponse
         params =
           transactionID: response.trx_id
           timeStamp: req.timeStamp
           encryptedPassword: req.encryptedPassword
 
         ConfirmPayment.handler(params)
-        # res.status(200).json response: Object.assign({}, response, returnThesePaymentDetails)
-        # return
       ).then((response) ->
-        console.info response
         Object.assign finalResponse.response, response
         return res.status(200).json finalResponse
       ).catch (error) ->
