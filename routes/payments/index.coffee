@@ -35,10 +35,10 @@ handler = (app) ->
     payment = new Payment req.body
     if payment.validate()
       UsersController.createPayment payment, (err, result)->
-      if err
-        res.status(400).send(err)
-      else
-        res.status(200).send(result)
+        if err
+          res.status(400).send(err)
+        else
+          res.status(200).send(result)
     else
       res.json 400, error: "Invalid parameters."
 
