@@ -30,7 +30,6 @@ class ConfirmPayment
     @
 
   handler: (params) ->
-    console.info "params"
     paymentDetails =
       transactionID: params.transactionID
       timeStamp: params.timeStamp
