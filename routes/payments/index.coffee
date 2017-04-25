@@ -35,19 +35,19 @@ handler = (app) ->
     payment = new Payment req.body
     if payment.validate()
       UsersController.createPayment payment, (err, result)->
-        if err
-          res.send 400, err
-        else
-          res.send 200, result
+      if err
+        res.status(400).send(err)
+      else
+        res.status(200).send(result)
     else
       res.json 400, error: "Invalid parameters."
 
   app.post "/v#{apiVersion}/payments/update/:trx_id", validate({secret: 'pewaa'}), (req, res) ->
     ContributorsController.updatePayment {status:req.body.status, userId:req.userId, trx_id:req.param.trx_id}, (err, result) ->
       if err
-        res.send 400, err
+        res.status(400).send(err)
       else
-        res.send 200, result
+        res.status(200).send(result)
 
   # for testing last POST response
   # if MERCHANT_ENDPOINT has not been provided
@@ -60,8 +60,8 @@ handler = (app) ->
 
     ContributorsController.updatePayment {status:trx_status, trx_id:req.body.response.request_id}, (err, result) ->
       if err
-        res.send 400, err
+        res.status(400).send(err)
       else
-        res.send 200, result
+        res.status(200).send(result)
 
 module.exports = handler
