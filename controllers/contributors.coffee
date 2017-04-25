@@ -251,6 +251,7 @@ class ContributorsController extends BaseController
         return
 
   notifyOfPayment: (params) ->
+    console.log params
     self = @
     statement = @payment.select(@payment.amount, @payment.user_id.as('payment_id'), @payment.status, @gift.star(), @user.name.as('creator_name'), @user.avatar.as('creator_avatar'), @user.phone.as('creator_phone'))
                   .where(@payment.trx_id.equals(params.trx_id))
@@ -268,7 +269,7 @@ class ContributorsController extends BaseController
         return
       else
         payment = rows[0]
-        self.notify payment.payment_id, "payment_completed", payment 
+        self.notify payment.payment_id, "payment_completed", payment
         return
 
 module.exports = ContributorsController.get()
