@@ -57,7 +57,8 @@ handler = (app) ->
       trx_status = "Success"
     else
       trx_status = "Failed"
-
+    
+    console.info trx_status
     ContributorsController.updatePayment {status:trx_status, trx_id:req.body.response.request_id}, (err, result) ->
       if err
         res.status(400).send(err)
