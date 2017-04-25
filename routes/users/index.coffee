@@ -24,7 +24,6 @@ storage = multer.diskStorage(
 upload = multer(storage: storage).single('image')
 
 handler = (app) ->
-
   app.post "/v#{apiVersion}/users/join", (req, res) ->
     user = new User req.body
     if user.validate()
@@ -34,7 +33,7 @@ handler = (app) ->
         else
           res.send 200, result
     else
-      res.json 400, error: "Invalid parameters."
+      res.json 400, error: "An error has occured. Please contact support."
 
   app.post "/v#{apiVersion}/users/avatar", validate({secret: 'pewaa'}), (req, res) ->
     upload req, res, (err) ->
@@ -93,15 +92,6 @@ handler = (app) ->
 
   app.post "/v#{apiVersion}/users/deleteAccount", validate({secret: 'pewaa'}), (req, res) ->
     UsersController.prepareDeleteAccount req.body.phone, (err, result)->
-      if err
-        res.send 400, err
-      else
-        res.send 200, result
-
-  app.post "/v#{apiVersion}/users/testNotification", validate({secret: 'pewaa'}), (req, res) ->
-    console.info "Query param: ", req.userId
-    # sendNotifications
-    UsersController.testNotification req.userId, (err, result)->
       if err
         res.send 400, err
       else

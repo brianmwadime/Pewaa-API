@@ -64,10 +64,13 @@ app.oauth = new OAuthServer({
   model: require "#{__dirname}/models/session"
 })
 
+# get an instance of the router for api routes
+router = express.Router() # eslint-disable-line new-cap
+
 _.each [users, wishlists, gifts, payments, contributors, notifications], (s) ->
   s app
 
-app.use app.router
+app.use router
 
 # use this prettify the error stack string into an array of stack traces
 

@@ -13,13 +13,13 @@ _                       = require 'underscore'
 apiVersion 	            = process.env.API_VERSION
 
 handler = (app) ->
+  paymentRequestHandler = (req, res) -> PaymentRequest.handler(req, res)
 
   # check the status of the API system
   app.get "/v#{apiVersion}/status", (req, res) ->
     res.json({ status: 200 })
 
-  app.post "/v#{apiVersion}/payments/request", [validate({secret: 'pewaa'}), checkForRequiredParams], (req, res) ->
-    PaymentRequest.handler(req, res)
+  app.post "/v#{apiVersion}/payments/request", [validate({secret: 'pewaa'}), checkForRequiredParams], paymentRequestHandler
 
   app.get "/v#{apiVersion}/payments/confirm/:trx_id", validate({secret: 'pewaa'}), (req, res) ->
     ConfirmPayment.handler(req, res)

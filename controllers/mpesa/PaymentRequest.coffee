@@ -1,5 +1,6 @@
 'use strict'
 uuid            = require "node-uuid"
+ConfirmPayment  = require "#{__dirname}/../../controllers/mpesa/ConfirmPayment"
 ParseResponse   = require "#{__dirname}/../../components/mpesa/ParseResponse"
 SOAPRequest     = require "#{__dirname}/../../components/mpesa/SOAPRequest"
 responseError   = require "#{__dirname}/../../handlers/mpesa_error_handler"
@@ -43,7 +44,7 @@ class PaymentRequest
         merchantTransactionID: req.body.merchantTransactionID or uuid.v1()
         amountInDoubleFloat: req.body.totalAmount
         clientPhoneNumber: req.body.phoneNumber
-        extraPayload: req.body.extraPayload
+        extraPayload: req.body.extraPayload or {}
         timeStamp: req.timeStamp
         encryptedPassword: req.encryptedPassword
         callbackURL: "#{req.protocol}://#{process.env.API_DOMAIN}/v#{process.env.API_VERSION}/payments/complete"
@@ -61,13 +62,27 @@ class PaymentRequest
         delete paymentDetails[key]
 
       # make the payment requets and process response
-      request.post()
-        .then (result) ->
-          res.status(200).json response: Object.assign({}, result, returnThesePaymentDetails)
-          return
+      finalResponse = undefined
 
-        .catch (error) ->
-          responseError error, res
-          return
+      request.post().then((response) ->
+        finalResponse =
+            response: Object.assign({}, response, returnThesePaymentDetails)
+        console.info finalResponse
+        params =
+          transactionID: response.trx_id
+          timeStamp: req.timeStamp
+          encryptedPassword: req.encryptedPassword
+
+        ConfirmPayment.handler(params)
+        # res.status(200).json response: Object.assign({}, response, returnThesePaymentDetails)
+        # return
+      ).then((response) ->
+        console.info response
+        Object.assign finalResponse.response, response
+        return res.status(200).json finalResponse
+      ).catch (error) ->
+        responseError error, res
+        return
+
 
 module.exports = new PaymentRequest(soapRequest, parseResponse)

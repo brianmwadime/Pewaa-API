@@ -29,20 +29,15 @@ class ConfirmPayment
 
     @
 
-  handler: (req, res) ->
+  handler: (params) ->
+    console.info "params"
     paymentDetails =
-        transactionID: req.params.trx_id
-        timeStamp: req.timeStamp
-        encryptedPassword: req.encryptedPassword
+      transactionID: params.transactionID
+      timeStamp: params.timeStamp
+      encryptedPassword: params.encryptedPassword
     payment = @buildSoapBody(paymentDetails)
     confirm = @soapRequest.construct(payment, @parser)
     # process ConfirmPayment response
-    confirm.post().then((response) ->
-      res.status(200).json response: response
-      return
-
-    ).catch (error) ->
-      responseError error, res
-      return
+    return confirm.post()
 
 module.exports = new ConfirmPayment(soapRequest, parseResponse)
