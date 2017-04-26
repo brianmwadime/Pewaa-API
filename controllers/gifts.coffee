@@ -99,14 +99,17 @@ class GiftsController extends BaseController
   getForWishlist: (wishlist_id, callback)->
     statement = @gift
                 # .select(@payment.wishlist_item_id, @payment.status, @payment.amount.case([@payment.status.equals('Success')],[@payment.amount.sum()],0).as('contributed'), @payment.amount.sum().as('contributed'), @gift.star(), @user.name.as('creator_name'), @user.avatar.as('creator_avatar'), @user.phone.as('creator_phone'))
-                .select(@gift.star(), @user.name.as('creator_name'), @user.avatar.as('creator_avatar'), @user.phone.as('creator_phone'))
+                .select(@gift.id, @payment.amount.sum().as('total_contribution'), @gift.name, @gift.avatar, @gift.price, @gift.description, @gift.code, @user.name.as('creator_name'), @user.avatar.as('creator_avatar'), @user.phone.as('creator_phone'))
                 .where(@gift.wishlist_id.equals wishlist_id)
                 .and(@gift.is_deleted.equals false)
-                # .group(@payment.wishlist_item_id, @payment.amount, @payment.status, @gift.id, @user.id)
+                .and @payment.status.equals "Success"
+                .group(@payment.wishlist_item_id, @user.name, @user.avatar, @user.phone, @gift.id)
                 .from(
                   @gift
                     .join @user
                     .on @gift.user_id.equals @user.id
+                    .leftJoin @payment
+                    .on @gift.id.equals @payment.wishlist_item_id
                 )
 
     @query statement, (err, rows)->
