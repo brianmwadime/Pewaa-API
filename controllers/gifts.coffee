@@ -91,10 +91,10 @@ class GiftsController extends BaseController
         cashout_request =
           'success' : true,
           'gift'    : {id: params.gift_id, name: params.gift_name, amount: params.gift_amount}
-          'message' : 'Your cashout request has been acknowledged and is pending approval.'
+          'message' : 'Your cash out request for gift '+ params.gift_name + ' has been acknowledged and is pending approval.'
 
         self.notify params.user_id, "cashout_request", cashout_request
-        callback null, {'success': true, 'message': 'Your cashout request has been acknowledged and is pending approval.'}
+        callback null, {'success': true, 'message': 'Your cashout request for gift '+ params.gift_name + ' has been acknowledged and is pending approval.'}
 
   getForWishlist: (wishlist_id, callback)->
     statement = @gift
