@@ -99,7 +99,7 @@ class GiftsController extends BaseController
   getForWishlist: (wishlist_id, callback)->
     statement = @gift
                 # .select(@payment.wishlist_item_id, @payment.status, @payment.amount.case([@payment.status.equals('Success')],[@payment.amount.sum()],0).as('contributed'), @payment.amount.sum().as('contributed'), @gift.star(), @user.name.as('creator_name'), @user.avatar.as('creator_avatar'), @user.phone.as('creator_phone'))
-                .select(@gift.id, @payment.amount.sum().as('total_contribution'), @gift.wishlist_id, @gift.created_on, @gift.updated_on, @gift.name, @gift.avatar, @gift.price, @gift.description, @gift.code, @user.name.as('creator_name'), @user.avatar.as('creator_avatar'), @user.phone.as('creator_phone'))
+                .select(@gift.star(), @payment.amount.sum().as('total_contribution'), @user.name.as('creator_name'), @user.avatar.as('creator_avatar'), @user.phone.as('creator_phone'))
                 .where(@gift.wishlist_id.equals wishlist_id)
                 .and(@gift.is_deleted.equals false)
                 .and @payment.status.equals "Success"
