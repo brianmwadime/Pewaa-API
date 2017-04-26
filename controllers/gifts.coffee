@@ -80,21 +80,24 @@ class GiftsController extends BaseController
       callback err
 
   cashoutRequest: (params, callback) ->
-    statement = @gift.update({cashout_status: 'PENDING'})
-                .where(@gift.id.equals params.gift_id)
-                .and(@gift.user_id.equals params.user_id)
-                .and(@gift.is_deleted.equals false)
+    self = @
+    statement = (@gift.update {cashout_status: 'PENDING'})
+                .where @gift.id.equals params.gift_id
+                .and @gift.user_id.equals params.user_id
+                .and @gift.is_deleted.equals false
+    
     @query statement, (err)->
       if err
         callback err
       else
         cashout_request =
           'success' : true,
-          'gift'    : {id: params.gift_id, name: params.gift_name, amount: params.gift_amount}
-          'message' : 'Your cash out request for gift '+ params.gift_name + ' has been acknowledged and is pending approval.'
+          'gift'    : {id: params.gift_id}
+          'message' : 'Your cash out request has been acknowledged and is pending approval.'
 
         self.notify params.user_id, "cashout_request", cashout_request
-        callback null, {'success': true, 'message': 'Your cashout request for gift '+ params.gift_name + ' has been acknowledged and is pending approval.'}
+
+        callback null, {'success': true, 'message': 'Your cashout request has been acknowledged and is pending approval.'}
 
   getForWishlist: (wishlist_id, callback)->
     statement = @gift
