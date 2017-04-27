@@ -66,7 +66,8 @@ class GiftsController extends BaseController
         callback null, new Gift rows[0]
 
   deleteOne: (key, callback)->
-    statement = (@gift.update {is_deleted:true}).from @gift.where @gift.id.equals key
+    statement = (@gift.update {is_deleted:true})
+                .from @gift.where @gift.id.equals key
     @query statement, (err)->
       if err
         callback err
@@ -81,18 +82,18 @@ class GiftsController extends BaseController
 
   cashoutRequest: (params, callback) ->
     self = @
-    statement = (@gift.update {cashout_status: 'PENDING'})
+    statement = (@gift.update {cashout_status: 'PENDING'}).returning '*'
                 .where @gift.id.equals params.gift_id
                 .and @gift.user_id.equals params.user_id
                 .and @gift.is_deleted.equals false
     
-    @query statement, (err)->
+    @query statement, (err, rows)->
       if err
         callback err
       else
         cashout_request =
           'success' : true,
-          'gift'    : {id: params.gift_id}
+          'gift'    : rows[0]
           'message' : 'Your cash out request has been acknowledged and is pending approval.'
 
         self.notify params.user_id, "cashout_request", cashout_request
