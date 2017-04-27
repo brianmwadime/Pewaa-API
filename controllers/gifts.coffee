@@ -94,11 +94,23 @@ class GiftsController extends BaseController
         cashout_request =
           'success' : true,
           'gift'    : rows[0]
-          'message' : 'Your cash out request has been acknowledged and is pending approval.'
+          'message' : 'Your cash out request for '+ rows[0].name +' has been acknowledged and is pending approval.'
 
         self.notify params.user_id, "cashout_request", cashout_request
 
-        callback null, {'success': true, 'message': 'Your cashout request has been acknowledged and is pending approval.'}
+        gift =
+          'success' : true,
+          'id': rows[0].id,
+          'wishlist_id': rows[0].wishlist_id,
+          'name': rows[0].name,
+          'description': rows[0].description,
+          'avatar': rows[0].avatar,
+          'price': rows[0].price,
+          'creator_id': rows[0].user_id,
+          'cashout_status': rows[0].cashout_status,
+          'message' : 'Your cashout request has been acknowledged and is pending approval.'
+
+        callback null, gift
 
   getForWishlist: (wishlist_id, callback)->
     statement = @gift
@@ -120,7 +132,7 @@ class GiftsController extends BaseController
       if err
         callback err
       else
-        callback err, rows
+        callback null, rows
 
   notifyContributors: (gift) ->
     self = @
