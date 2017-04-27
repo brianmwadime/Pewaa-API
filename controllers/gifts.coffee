@@ -103,12 +103,12 @@ class GiftsController extends BaseController
     
     @query statement, (err, rows)->
       if err
-        callback err
+        callback {success: false, message: "Could not complete your cashout request. Please contact Pewaa! support <info@pewaa.com>", err: api}
       else
         cashout_request =
-          'success' : true,
-          'gift'    : rows[0]
-          'message' : 'Your cash out request for ' + rows[0].name + ' has been acknowledged and is pending approval.'
+          success : true,
+          gift    : rows[0]
+          message : 'Your cash out request for ' + rows[0].name + ' has been acknowledged and is pending approval.'
 
         self.notify params.user_id, "cashout_request", cashout_request
 
