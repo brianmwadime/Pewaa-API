@@ -82,10 +82,11 @@ class GiftsController extends BaseController
 
   cashoutRequest: (params, callback) ->
     self = @
-    statement = (@gift.update {cashout_status: 'PENDING'}).returning '*'
+    statement = (@gift.update {cashout_status: 'PENDING'})
                 .where @gift.id.equals params.gift_id
                 .and @gift.user_id.equals params.user_id
                 .and @gift.is_deleted.equals false
+                .returning '*'
     
     @query statement, (err, rows)->
       if err
