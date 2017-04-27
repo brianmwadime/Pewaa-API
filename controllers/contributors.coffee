@@ -268,7 +268,7 @@ class ContributorsController extends BaseController
         return
       else
         payment = rows[0]
-        self.notify payment.payment_id, "payment_completed", payment
+        self.notify [payment.payment_id, rows[0].user_id], "payment_completed", payment
         return
 
 module.exports = ContributorsController.get()

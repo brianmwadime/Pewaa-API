@@ -122,6 +122,8 @@ class GiftsController extends BaseController
           'price': rows[0].price,
           'creator_id': rows[0].user_id,
           'cashout_status': rows[0].cashout_status,
+          'updated_on': rows[0].updated_on,
+          'created_on': rows[0].created_on,
           'message' : 'Your cashout request has been acknowledged and is pending approval.'
 
         callback null, gift
