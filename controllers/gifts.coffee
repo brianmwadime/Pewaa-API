@@ -67,18 +67,31 @@ class GiftsController extends BaseController
 
   deleteOne: (key, callback)->
     statement = (@gift.update {is_deleted:true})
-                .from @gift.where @gift.id.equals key
+                .where @gift.id.equals key
+                .returning '*'
     @query statement, (err)->
       if err
         callback err
       else
-        callback null, {'success': true, 'message': 'Gift removed successfully.'}
+        gift =
+          'success': true,
+          'gift': rows[0]
+
+        callback null, gift
 
   deleteForWishlist: (wishlist_id, callback)->
     statement = @gift.update({is_deleted: true})
                 .where @gift.wishlist_id.equals wishlist_id
-    @query statement, (err) ->
-      callback err
+                .returning '*'
+    @query statement, (err, rows) ->
+      if err
+        callback err
+      else
+        gift =
+          'success': true,
+          'gift': rows[0]
+
+        callback null, gift
 
   cashoutRequest: (params, callback) ->
     self = @
@@ -92,7 +105,6 @@ class GiftsController extends BaseController
       if err
         callback err
       else
-        console.info rows
         cashout_request =
           'success' : true,
           'gift'    : rows[0]
@@ -116,7 +128,6 @@ class GiftsController extends BaseController
 
   getForWishlist: (wishlist_id, callback)->
     statement = @gift
-                # .select(@payment.wishlist_item_id, @payment.status, @payment.amount.case([@payment.status.equals('Success')],[@payment.amount.sum()],0).as('contributed'), @payment.amount.sum().as('contributed'), @gift.star(), @user.name.as('creator_name'), @user.avatar.as('creator_avatar'), @user.phone.as('creator_phone'))
                 .select(@gift.star(), @payment.amount.sum().as('total_contribution'), @user.name.as('creator_name'), @user.avatar.as('creator_avatar'), @user.phone.as('creator_phone'))
                 .where(@gift.wishlist_id.equals wishlist_id)
                 .and(@gift.is_deleted.equals false)
