@@ -92,10 +92,11 @@ class GiftsController extends BaseController
       if err
         callback err
       else
+        console.info rows
         cashout_request =
           'success' : true,
           'gift'    : rows[0]
-          'message' : 'Your cash out request for '+ rows[0].name +' has been acknowledged and is pending approval.'
+          'message' : 'Your cash out request for ' + rows[0].name + ' has been acknowledged and is pending approval.'
 
         self.notify params.user_id, "cashout_request", cashout_request
 
