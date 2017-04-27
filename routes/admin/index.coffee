@@ -1,50 +1,48 @@
 'use strict'
 require("#{__dirname}/../../environment")
-_ 						= require 'underscore'
-express 				= require 'express'
+_ 						      = require 'underscore'
+express 				    = require 'express'
 oauthServer   			= require 'oauth2-server'
-Request 				= oauthServer.Request;
-Response 				= oauthServer.Response;
+Request 				    = oauthServer.Request
+Response 				    = oauthServer.Response
 checkForRequiredParams 	= require '#{__dirname}/../../validators/checkForRequiredParams'
 AdminsController 		= require '#{__dirname}/../../controllers/admins'
-Admin 					= require '#{__dirname}/../../models/admin'
-WishlistsController 	= require '#{__dirname}/../../controllers/wishlists'
+Admin 					    = require '#{__dirname}/../../models/admin'
+WishlistsController = require '#{__dirname}/../../controllers/wishlists'
 GiftsController 		= require '#{__dirname}/../../controllers/gifts'
-
-Wishlist 				= require '#{__dirname}/../../models/wishlist'
-Gift 					= require '#{__dirname}/../../models/gift'
-authenticate 			= require '#{__dirname}/../../components/oauth/authenticate'
-apiVersion 	        	= process.env.API_VERSION
+Wishlist 				    = require '#{__dirname}/../../models/wishlist'
+Gift 					      = require '#{__dirname}/../../models/gift'
+authenticate 			  = require '#{__dirname}/../../components/oauth/authenticate'
+apiVersion 	        = process.env.API_VERSION
 
 handler = (app) ->
+  app.post "/v#{apiVersion}/oauth/token", (req, res, next) ->
+    response = new Response(res)
+    request = new Request(req)
+    # new Request(req), new Response(res)
+    app.oauth.token(request, response).then((token) ->
+      res.json token
+    ).catch (err) ->
+      res.status(500).json err
 
-	app.post "/v#{apiVersion}/oauth/token", (req, res, next) ->
-		response = new Response(res)
-		request = new Request(req)
-		#   new Request(req), new Response(res)
-		app.oauth.token(request, response).then((token) ->
-			res.json token
-		).catch (err) ->
-			res.status(500).json err
+  app.post "/v#{apiVersion}/register", (req, res) ->
+    admin = new Admin req.body
+    if admin.validate()
+      AdminsController.create admin, (err, admin)->
+        if err
+          res.json
+            status: 400
+            error: 'admin already exists'
 
-	app.post "/v#{apiVersion}/register", (req, res) ->
-		admin = new Admin req.body
-		if admin.validate()
-			AdminsController.create admin, (err, admin)->
-				if err
-					res.json 
-						status: 400
-						error: 'admin already exists'
-
-				else
-					pub_admin = admin.publicObject()
-					res.json
-						status: 200
-						data: pub_admin
-		else
-			res.json 
-				status: 400
-				error: "Invalid parameters."
+        else
+          pub_admin = admin.publicObject()
+          res.json
+            status: 200
+            data: pub_admin
+    else
+      res.json
+        status: 400
+        error: "Invalid parameters."
 
 module.exports = handler
 # module.exports = (app, router) ->
@@ -111,7 +109,7 @@ module.exports = handler
 # 		if admin.validate()
 # 			AdminsController.create admin, (err, admin)->
 # 				if err
-# 					res.json 
+# 					res.json
 # 						status: 400
 # 						error: 'admin already exists'
 # 					return
@@ -122,7 +120,7 @@ module.exports = handler
 # 						data: pub_admin
 # 					return
 # 		else
-# 			res.json 
+# 			res.json
 # 				status: 400
 # 				error: "Invalid parameters."
 # 			return
