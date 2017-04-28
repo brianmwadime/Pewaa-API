@@ -10,13 +10,12 @@ validate            = require '#{__dirname}/../../validators/tokenValidator'
 apiVersion 	        = process.env.API_VERSION
 
 handler = (app) ->
-
   app.get "/v#{apiVersion}/wishlists", validate({secret: 'pewaa'}), (req, res) ->
     WishlistsController.getWishlistsForUser req.userId, (err, wishlists) ->
       if err
-        res.send 400, err
+        res.status(400).send(err)
       else
-        res.send wishlists
+        res.status(200).send(wishlists)
 
   app.post "/v#{apiVersion}/wishlists", validate({secret: 'pewaa'}), (req, res) ->
     wishlist = new Wishlist req.body
@@ -24,49 +23,49 @@ handler = (app) ->
     if wishlist.validate()
       WishlistsController.create wishlist, (err, result) ->
         if err
-          res.send 400, err
+          res.status(400).send(err)
         else
-          res.send result
+          res.status(200).send(result)
     else
-      res.send 400, 'Invalid parameters'
+      res.status(400).send('Invalid Parameters')
 
   app.get "/v#{apiVersion}/wishlists/:id", validate({secret: 'pewaa'}), (req, res) ->
     WishlistsController.getOne req.params.id, (err, wishlist)->
       if err or not wishlist.validate()
-        res.send 404, err
+        res.status(404).send(err)
       else
-        res.send wishlist.publicObject()
+        res.status(200).send(wishlist.publicObject())
 
   app.put "/v#{apiVersion}/wishlists/:id", validate({secret: 'pewaa'}), (req, res) ->
     wishlist = new Wishlist req.body
     wishlist.wishlistId = req.params.id
     WishlistsController.update wishlist, (err, wishlist)->
       if err or not wishlist.validate()
-        res.send 404, err
+        res.status(404).send(err)
       else
-        res.send wishlist.publicObject()
+        res.status(200).send(wishlist.publicObject())
 
   app.delete "/v#{apiVersion}/wishlists/:id", validate({secret: 'pewaa'}), (req, res) ->
     WishlistsController.deleteOne req.params.id, (err) ->
       if err
-        res.send 404, err
+        res.status(404).send(err)
       else
         GiftsController.deleteForWishlist req.params.id, (err)->
           if err
-            res.send 400, err
+            res.status(400).send(err)
           else
-            res.send 200
+            res.status(200).send('OK')
 
   app.get "/v#{apiVersion}/wishlists/:id/gifts", validate({secret: 'pewaa'}), (req, res) ->
     wishlistId = req.params.id
     WishlistsController.exists wishlistId, (err, exists) ->
       if err
-        res.send 404, err
+        res.status(400).send(err)
       else
         GiftsController.getForWishlist wishlistId, (err, gifts) ->
           if err
-            res.send 400, err
+            res.status(400).send(err)
           else
-            res.send gifts
+            res.status(200).send(gifts)
 
 module.exports = handler

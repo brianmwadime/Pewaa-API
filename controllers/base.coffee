@@ -7,7 +7,8 @@ class BaseController extends Singleton
     db (err, client, done) ->
       if err
         return callback err
-      client.query statement.toQuery(), (err, result)->
+      statement = if typeof statement.toQuery is 'function' then statement.toQuery() else statement
+      client.query statement, (err, result)->
         done()
         callback err, if rows then result?.rows else result
 

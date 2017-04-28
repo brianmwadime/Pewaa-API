@@ -9,6 +9,9 @@ Push            = require "#{__dirname}/../models/push_credential"
 GcmNotifications= require "#{__dirname}/../components/gcm/notifications"
 
 class GiftsController extends BaseController
+
+  sql.setDialect('postgres')
+
   gift: sql.define
     name: 'wishlist_items'
     columns: (new Gift).columns()
@@ -129,19 +132,22 @@ class GiftsController extends BaseController
         callback null, gift
 
   getForWishlist: (wishlist_id, callback)->
-    statement = @gift
-                .select(@gift.star(), @payment.id.count().as('contributor_count'), @payment.amount.sum().as('total_contribution'), @user.name.as('creator_name'), @user.avatar.as('creator_avatar'), @user.phone.as('creator_phone'))
-                .where(@gift.wishlist_id.equals wishlist_id)
-                .and(@gift.is_deleted.equals false)
-                .and @payment.status.equals "Success"
-                .group(@payment.wishlist_item_id, @user.name, @user.avatar, @user.phone, @gift.id)
-                .from(
-                  @gift
-                    .join @user
-                    .on @gift.user_id.equals @user.id
-                    .leftJoin @payment
-                    .on @gift.id.equals @payment.wishlist_item_id
-                )
+    # statement = @gift
+    #             .select(@gift.star(), @payment.count().as('contributor_count'), @payment.amount.sum().as('total_contribution'), @user.name.as('creator_name'), @user.avatar.as('creator_avatar'), @user.phone.as('creator_phone'))
+    #             .from(
+    #               @gift
+    #                 .join @user
+    #                 .on @gift.user_id.equals(@user.id)
+    #                 .leftJoin @payment
+    #                 .on(@gift.id.equals(@payment.wishlist_item_id) and @payment.status.equals("Success"))
+                    
+    #             )
+    #             .where(@gift.wishlist_id.equals wishlist_id)
+    #             .and(@gift.is_deleted.equals false)
+    #             .group(@payment.wishlist_item_id, @user.name, @user.avatar, @user.phone, @gift.id)
+
+    statement = "SELECT wishlist_items.*, SUM(payments.amount) AS contribution_total, COUNT(payments.id) AS contributor_count, users.name AS creator_name, users.avatar AS creator_avatar, users.phone AS creator_phone FROM wishlist_items JOIN users ON wishlist_items.user_id = users.id LEFT JOIN payments ON wishlist_items.id = payments.wishlist_item_id AND payments.status = 'Success' WHERE wishlist_items.wishlist_id = '#{wishlist_id}' AND wishlist_items.is_deleted IS FALSE GROUP BY wishlist_items.id, users.name, users.avatar, users.phone, payments.wishlist_item_id;"
+    # console.info statement.toQuery().text
 
     @query statement, (err, rows)->
       if err
