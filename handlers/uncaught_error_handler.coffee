@@ -7,6 +7,6 @@ module.exports = (err, req, res, next)->
     message.indexOf(k) isnt -1
 
   if any ['tokens', 'credentials'], check_errors
-    res.send 401
+    res.status(401).send("Unauthorized request.")
   else
     next err

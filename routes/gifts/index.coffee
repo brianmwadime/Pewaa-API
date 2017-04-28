@@ -1,16 +1,16 @@
 'use strict'
 require("#{__dirname}/../../environment")
-gcm                 = require "node-gcm"
-GiftsController     = require "#{__dirname}/../../controllers/gifts"
-ContributorsController = require "#{__dirname}/../../controllers/contributors"
-Gift                = require "#{__dirname}/../../models/gift"
-Contributor         = require "#{__dirname}/../../models/contributor"
-crypto              = require "crypto"
-mime                = require "mime"
-_                   = require 'underscore'
-validate            = require "#{__dirname}/../../validators/tokenValidator"
-multer              = require "multer"
-apiVersion 	        = process.env.API_VERSION
+gcm                     = require "node-gcm"
+GiftsController         = require "#{__dirname}/../../controllers/gifts"
+ContributorsController  = require "#{__dirname}/../../controllers/contributors"
+Gift                    = require "#{__dirname}/../../models/gift"
+Contributor             = require "#{__dirname}/../../models/contributor"
+crypto                  = require "crypto"
+mime                    = require "mime"
+_                       = require 'underscore'
+validate                = require "#{__dirname}/../../validators/tokenValidator"
+multer                  = require "multer"
+apiVersion 	            = process.env.API_VERSION
 
 storage = multer.diskStorage(
   destination: (req, file, cb) ->
@@ -29,16 +29,16 @@ handler = (app) ->
   app.get "/v#{apiVersion}/gifts", validate({secret: 'pewaa'}), (req, res) ->
     if typeof req.query.wishlistId isnt 'undefined'
       GiftsController.getForWishlist req.query.wishlistId, (err, gifts)->
-        res.send _.map gifts, (t) -> (new Gift t).publicObject()
+        res.status(200).send(_.map gifts, (t) -> (new Gift t).publicObject())
     else
-      res.send 404
+      res.status(400).send(err)
 
   app.get "/v#{apiVersion}/gifts/:id/contributors", validate({secret: 'pewaa'}), (req, res) ->
     ContributorsController.getContributors req.params.id, (err, contributors) ->
       if err
-        res.send 400, err
+        res.status(400).send(err)
       else
-        res.send contributors # _.map contributors, (p) -> (new Wishlist p).publicObject()
+        res.status(200).send(contributors) # _.map contributors, (p) -> (new Wishlist p).publicObject()
 
   app.post "/v#{apiVersion}/gifts", validate({secret: 'pewaa'}), (req, res) ->
     upload req, res, (err) ->
@@ -47,7 +47,7 @@ handler = (app) ->
         failed =
           'success' : false,
           'message' : 'Oops! Something went wrong'
-        res.send 400, failed
+        res.status(404).send(failed)
       # Gift avatar uploaded successfully
       req.body.user_id = req.userId
       if req.file
@@ -64,7 +64,7 @@ handler = (app) ->
           else
             res.status(200).send(result)
       else
-        res.send 400, 'some error'
+        res.status(404).send("Please contact Pewaa! support.")
     return
 
   app.post "/v#{apiVersion}/gifts/:id/cashout", validate({secret: 'pewaa'}), (req, res) ->
@@ -77,23 +77,23 @@ handler = (app) ->
         failed =
           'success' : false,
           'message' : err
-        res.send 400, failed
+        res.status(404).send(failed)
       else
-        res.send result
+        res.status(200).send(result)
     return
 
   app.get "/v#{apiVersion}/gifts/:id", validate({secret: 'pewaa'}), (req, res) ->
     GiftsController.getOne req.params.id, (err, gift)->
       if err
-        res.send 404, "#{req.params.id} not found"
+        res.status(404).send("#{req.params.id} not found")
       else
-        res.send gift
+        res.status(200).send(gift)
 
   app.delete "/v#{apiVersion}/gifts/:id", validate({secret: 'pewaa'}), (req, res) ->
     GiftsController.deleteOne req.params.id, (err)->
       if err
         res.status(404).send("#{req.params.id} not found")
       else
-        res.status(200)
+        res.status(200).send("OK")
 
 module.exports = handler
