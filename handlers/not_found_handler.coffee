@@ -1,5 +1,4 @@
 handler = (req, res, next) ->
   es = "#{req.path} was not found"
-  res.send 404, error: es
-
+  res.status(404).send(error: es)
 module.exports = handler
