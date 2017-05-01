@@ -89,7 +89,7 @@ handler = (app) ->
       else
         res.status(200).send(gift)
 
-  app.post "/v#{apiVersion}/gifts/:id/report", validate({secret: 'pewaa'}), (req, res) ->
+  app.put "/v#{apiVersion}/gifts/:id/report", validate({secret: 'pewaa'}), (req, res) ->
     gift = {}
     gift.id = req.params.id
     gift.flagged = req.body.flagged

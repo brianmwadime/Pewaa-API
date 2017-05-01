@@ -45,7 +45,7 @@ handler = (app) ->
       else
         res.status(200).send(wishlist.publicObject())
 
-  app.post "/v#{apiVersion}/wishlists/:id/report", validate({secret: 'pewaa'}), (req, res) ->
+  app.put "/v#{apiVersion}/wishlists/:id/report", validate({secret: 'pewaa'}), (req, res) ->
     wishlist = {}
     wishlist.id = req.params.id
     wishlist.flagged = req.body.flagged
