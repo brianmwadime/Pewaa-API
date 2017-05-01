@@ -107,6 +107,25 @@ class WishlistsController extends BaseController
 
         callback null, done
 
+  report: (params, callback) ->
+    statement = (@wishlist.update params)
+                  .where(@wishlist.id.equals params.id)
+                  .returning '*'
+    @query statement, (err, rows, result) ->
+      console.info err, rows
+      if err
+        error =
+          'success' : false,
+          'message' : 'Failed to report wishlist.'
+
+        callback error
+      else
+        done =
+          'success' : true,
+          'message' : 'wishlist reported successfully.'
+
+        callback null, done
+
   # deleteOne: (key, callback)->
   #   {gift} = GiftsController
   #   deleteWishlistGift = gift.delete().where(gift.wishlist_id.equals(key))

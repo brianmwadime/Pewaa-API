@@ -89,6 +89,17 @@ handler = (app) ->
       else
         res.status(200).send(gift)
 
+  app.post "/v#{apiVersion}/gifts/:id/report", validate({secret: 'pewaa'}), (req, res) ->
+    gift = {}
+    gift.id = req.params.id
+    gift.flagged = req.body.flagged
+    gift.flagged_description = req.body.flagged_description
+    GiftsController.report gift, (err, result)->
+      if err
+        res.status(404).send(err)
+      else
+        res.status(200).send(result)
+
   app.delete "/v#{apiVersion}/gifts/:id", validate({secret: 'pewaa'}), (req, res) ->
     GiftsController.deleteOne req.params.id, (err)->
       if err
