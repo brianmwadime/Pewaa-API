@@ -45,6 +45,18 @@ handler = (app) ->
       else
         res.status(200).send(wishlist.publicObject())
 
+  app.post "/v#{apiVersion}/wishlists/:id/report", validate({secret: 'pewaa'}), (req, res) ->
+    wishlist = {}
+    wishlist.id = req.params.id
+    wishlist.flagged = req.body.flagged
+    wishlist.flagged_description = req.body.flagged_description
+
+    WishlistsController.report wishlist, (err, result)->
+      if err
+        res.status(404).send(err)
+      else
+        res.status(200).send(result)
+
   app.delete "/v#{apiVersion}/wishlists/:id", validate({secret: 'pewaa'}), (req, res) ->
     WishlistsController.deleteOne req.params.id, (err) ->
       if err

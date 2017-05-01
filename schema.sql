@@ -357,6 +357,14 @@ ALTER TABLE wishlists ADD COLUMN cashout_status varchar(20) DEFAULT NULL;
 
 ALTER TABLE wishlist_items ADD COLUMN cashout_status varchar(20) DEFAULT NULL;
 
+ALTER TABLE wishlist_items ADD COLUMN flagged BOOLEAN NOT NULL DEFAULT false;
+
+ALTER TABLE wishlist_items ADD COLUMN flagged_description TEXT DEFAULT NULL;
+
+ALTER TABLE wishlists ADD COLUMN flagged BOOLEAN NOT NULL DEFAULT false;
+
+ALTER TABLE wishlists ADD COLUMN flagged_description TEXT DEFAULT NULL;
+
 ALTER TABLE wishlists DROP COLUMN cashout_status;
 
 --
