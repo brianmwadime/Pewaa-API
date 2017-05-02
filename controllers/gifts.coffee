@@ -146,7 +146,7 @@ class GiftsController extends BaseController
     #             .and(@gift.is_deleted.equals false)
     #             .group(@payment.wishlist_item_id, @user.name, @user.avatar, @user.phone, @gift.id)
 
-    statement = "SELECT wishlist_items.*, SUM(payments.amount) AS contribution_total, COUNT(payments.id) AS contributor_count, users.name AS creator_name, users.avatar AS creator_avatar, users.phone AS creator_phone FROM wishlist_items JOIN users ON wishlist_items.user_id = users.id LEFT JOIN payments ON wishlist_items.id = payments.wishlist_item_id AND payments.status = 'Success' WHERE wishlist_items.wishlist_id = '#{wishlist_id}' AND wishlist_items.is_deleted IS FALSE AND wishlist_items.is_flagged IS FALSE GROUP BY wishlist_items.id, users.name, users.avatar, users.phone, payments.wishlist_item_id;"
+    statement = "SELECT wishlist_items.*, SUM(payments.amount) AS contribution_total, COUNT(payments.id) AS contributor_count, users.name AS creator_name, users.avatar AS creator_avatar, users.phone AS creator_phone FROM wishlist_items JOIN users ON wishlist_items.user_id = users.id LEFT JOIN payments ON wishlist_items.id = payments.wishlist_item_id AND payments.status = 'Success' WHERE wishlist_items.wishlist_id = '#{wishlist_id}' AND wishlist_items.is_deleted IS FALSE AND wishlist_items.flagged IS FALSE GROUP BY wishlist_items.id, users.name, users.avatar, users.phone, payments.wishlist_item_id;"
 
     @query statement, (err, rows)->
       if err
