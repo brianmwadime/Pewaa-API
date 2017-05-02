@@ -35,7 +35,7 @@ class WishlistsController extends BaseController
                 .where(@userswishlists.user_id.equals user_id)
                 .and(@userswishlists.is_deleted.equals false)
                 .and(@wishlist.is_deleted.equals false)
-                .and(@wishlist.is_flagged.equals false)
+                .and(@wishlist.flagged.equals false)
                 .from(
                   @wishlist
                     .join @userswishlists
