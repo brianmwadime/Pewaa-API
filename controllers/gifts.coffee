@@ -7,6 +7,7 @@ Payment         = require "#{__dirname}/../models/payment"
 Contributor     = require "#{__dirname}/../models/contributor"
 Push            = require "#{__dirname}/../models/push_credential"
 GcmNotifications= require "#{__dirname}/../components/gcm/notifications"
+SendGrid        = require "#{__dirname}/../components/sendgrid"
 
 class GiftsController extends BaseController
 
@@ -155,6 +156,7 @@ class GiftsController extends BaseController
         callback null, rows
 
   report: (params, callback) ->
+    self = @
     statement = (@gift.update params)
                   .where @gift.id.equals params.id
                   .returning '*'
@@ -169,7 +171,8 @@ class GiftsController extends BaseController
         done =
           'success' : true,
           'message' : 'gift reported successfully.'
-
+        
+        self.sendEmail 'report@pewaa.com', 'nsdalizu@gmail.com', 'Flagged Gift item ID: ' + rows[0].id + ' Name: '  + rows[0].name, "The following item has been flagged with description: " + if rows[0].flagged_description then rows[0].flagged_description else 'N/A'
         callback null, done
 
   notifyContributors: (gift) ->
@@ -217,6 +220,11 @@ class GiftsController extends BaseController
   sendNotification: (device_ids, message, data) ->
     sender = new GcmNotifications(process.env.GCM_KEY)
     sender.sendMessage message, data, device_ids
+    return
+
+  sendEmail: (from, to, subject, content) ->
+    sender = new SendGrid()
+    sender.sendEmail from, to, subject, content
     return
 
 module.exports = GiftsController.get()

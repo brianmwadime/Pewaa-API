@@ -14,6 +14,7 @@ process.env.PASSKEY='aa0986a3784875583199c78a9db6c4c0e76f02b4611bc90dc3c6359ae3b
 process.env.ANDROID_PACKAGE='com.fortunekidew.pewaad'
 process.env.GCM_KEY='AIzaSyA6aHF1DOgiopy7KauoaxVHj0N29-ITcjo'
 process.env.API_DOMAIN='api.pewaa.com'
+process.env.SENDGRID_API_KEY='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'
 
 # if an env has not been provided, default to development
 if !('NODE_ENV' of process.env)
