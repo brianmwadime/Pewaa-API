@@ -172,7 +172,7 @@ class GiftsController extends BaseController
           'success' : true,
           'message' : 'gift reported successfully.'
         
-        self.sendEmail 'report@pewaa.com', 'nsdalizu@gmail.com', 'Flagged Gift item ID: ' + rows[0].id + ' Name: '  + rows[0].name, "The following item has been flagged with description: " + if rows[0].flagged_description then rows[0].flagged_description else 'N/A'
+        self.sendEmail 'report@pewaa.com', 'report@pewaa.com', 'Flagged Gift item ID: ' + rows[0].id + ' Name: '  + rows[0].name, "The following item has been flagged with description: " + if rows[0].flagged_description then rows[0].flagged_description else 'N/A'
         callback null, done
 
   notifyContributors: (gift) ->
