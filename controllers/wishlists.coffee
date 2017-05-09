@@ -7,6 +7,7 @@ Push            = require "#{__dirname}/../models/push_credential"
 notifications   = require "#{__dirname}/../components/gcm/notifications"
 GcmNotifications= require "#{__dirname}/../components/gcm/notifications"
 GiftsController = require "#{__dirname}/gifts"
+SendGrid        = require "#{__dirname}/../components/sendgrid"
 
 class WishlistsController extends BaseController
   wishlist: sql.define
@@ -109,6 +110,7 @@ class WishlistsController extends BaseController
         callback null, done
 
   report: (params, callback) ->
+    self = @
     statement = (@wishlist.update params)
                   .where(@wishlist.id.equals params.id)
                   .returning '*'
@@ -124,6 +126,8 @@ class WishlistsController extends BaseController
         done =
           'success' : true,
           'message' : 'wishlist reported successfully.'
+
+        self.sendEmail 'no-reply@pewaa.com', 'report@pewaa.com', 'Flagged Wishlist item ID: ' + rows[0].id + ' Name: '  + rows[0].name, "The following wishlist has been flagged with description: " + if rows[0].flagged_description then rows[0].flagged_description else 'N/A'
 
         callback null, done
 
@@ -183,6 +187,11 @@ class WishlistsController extends BaseController
   sendNotification: (device_ids, message, data) ->
     sender = new GcmNotifications(process.env.GCM_KEY)
     sender.sendMessage message, data, device_ids
+    return
+
+  sendEmail: (from, to, subject, content) ->
+    sender = new SendGrid()
+    sender.sendEmail from, to, subject, content
     return
 
 module.exports = WishlistsController.get()
