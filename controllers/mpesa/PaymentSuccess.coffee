@@ -8,7 +8,7 @@ class PaymentSuccess
 
   handler: (req, res, next) ->
     response = {}
-    baseURL = "#{req.protocol}://#{process.env.API_DOMAIN}"
+    baseURL = "#https://#{process.env.API_DOMAIN}"
     endpoint = "#{baseURL}/v1/mpesa/payment"
     if 'MERCHANT_ENDPOINT' of process.env
       endpoint = process.env.MERCHANT_ENDPOINT
