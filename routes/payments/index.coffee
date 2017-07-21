@@ -40,7 +40,7 @@ handler = (app) ->
         else
           res.status(200).send(result)
     else
-      res.json 400, error: "Invalid parameters."
+      res.status(400).json({error: "Invalid parameters."})
 
   app.post "/v#{apiVersion}/payments/update/:trx_id", validate({secret: 'pewaa'}), (req, res) ->
     ContributorsController.updatePayment {status:req.body.status, userId:req.userId, trx_id:req.param.trx_id}, (err, result) ->
