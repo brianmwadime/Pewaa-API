@@ -367,6 +367,8 @@ ALTER TABLE wishlists ADD COLUMN flagged_description TEXT DEFAULT NULL;
 
 ALTER TABLE wishlists DROP COLUMN cashout_status;
 
+ALTER TABLE payments ADD COLUMN is_anonymous BOOLEAN NOT NULL DEFAULT false;
+
 --
 -- PostgreSQL database dump complete
 --
