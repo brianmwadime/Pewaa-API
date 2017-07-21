@@ -2,7 +2,6 @@
 require("#{__dirname}/../../environment")
 Payment                 = require "#{__dirname}/../../models/payment"
 PaymentRequest          = require "#{__dirname}/../../controllers/mpesa/PaymentRequest"
-ConfirmPayment          = require "#{__dirname}/../../controllers/mpesa/ConfirmPayment"
 PaymentStatus           = require "#{__dirname}/../../controllers/mpesa/PaymentStatus"
 PaymentSuccess          = require "#{__dirname}/../../controllers/mpesa/PaymentSuccess"
 checkForRequiredParams  = require "#{__dirname}/../../validators/checkForRequiredParams"
@@ -20,9 +19,6 @@ handler = (app) ->
     res.json({ status: 200 })
 
   app.post "/v#{apiVersion}/payments/request", [validate({secret: 'pewaa'}), checkForRequiredParams], paymentRequestHandler
-
-  app.get "/v#{apiVersion}/payments/confirm/:trx_id", validate({secret: 'pewaa'}), (req, res) ->
-    ConfirmPayment.handler(req, res)
 
   app.get "/v#{apiVersion}/payments/status/:trx_id", (req, res) ->
     PaymentStatus.handler(req, res)
