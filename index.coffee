@@ -1,5 +1,6 @@
 require('./environment')
 express     	= require 'express'
+path          = require 'path'
 _             = require 'underscore'
 Request       = require('oauth2-server').Request
 config      	= require './config/database' # get db config file
@@ -20,20 +21,35 @@ gifts         = require './routes/gifts'
 contributors  = require './routes/contributors'
 notifications = require './routes/notifications'
 pingInterval  = 30 * 1000
+swaggerize    = require 'swaggerize-express'
+swaggerUi     = require 'swaggerize-ui'
 Socket        = require 'socket.io'
 
 {
   not_found_handler
   uncaught_error_handler
-} = require './handlers'
+} = require __dirname + '/handlers'
 
-payments      = require './routes/payments'
-genTransactionPassword = require './components/mpesa/genTransactionPassword'
+payments      = require __dirname + '/routes/payments'
+genTransactionPassword = require __dirname + '/components/mpesa/genTransactionPassword'
 apiVersion 	  = process.env.API_VERSION
 
 debugging_mode = false
 done = null
 app = express()
+
+app.use bodyParser.json()
+
+app.use swaggerize(
+  api: require(__dirname + '/pewaa.json')
+  docspath: "/docs"
+  # handlers: './handlers'
+)
+
+app.use '/docs', swaggerUi(
+  docs: "/docs"
+  # swaggerUiPath: ''
+)
 
 app_key_secret = "7d3d3b6c5d3683bf25bbb51533ec6dac"
 
@@ -41,7 +57,6 @@ app_key_secret = "7d3d3b6c5d3683bf25bbb51533ec6dac"
 app.use morgan 'dev'
 #   body parsers
 app.use bodyParser(limit: '10mb')
-app.use bodyParser.json()
 app.use bodyParser.urlencoded(extended: false)
 app.use cookieParser()
 app.use cors()
@@ -91,9 +106,7 @@ app.use (err, req, res, next) ->
 app.use not_found_handler
 app.use uncaught_error_handler
 
-
 server = http.createServer(app)
-# io = require('socket.io').listen(server)
 io = Socket(server,
   'pingInterval': pingInterval
   'pingTimeout': 6000)
