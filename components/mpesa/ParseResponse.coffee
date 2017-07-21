@@ -32,7 +32,7 @@ module.exports = class ParseResponse
     $ = cheerio.load(@response, xmlMode: true)
     # Get the children tagName and its values
     $(@bodyTagName).children().each (i, el) ->
-      if el.children.length === 1
+      if el.children.length == 1
         value = el.children[0].data.replace(/\s{2,}/gi, ' ')
         value = value.replace(/\n/gi, '').trim()
         self.json[el.name] = value
@@ -45,4 +45,4 @@ module.exports = class ParseResponse
 
   extractCode: () ->
     self = @
-    return statusCodes.find (sts) -> sts.return_code === parseInt(self.json.return_code, 10)
+    return statusCodes.find (sts) -> sts.return_code == parseInt(self.json.return_code, 10)
