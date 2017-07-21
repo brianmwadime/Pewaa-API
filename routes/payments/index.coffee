@@ -21,9 +21,6 @@ handler = (app) ->
 
   app.post "/v#{apiVersion}/payments/request", [validate({secret: 'pewaa'}), checkForRequiredParams], paymentRequestHandler
 
-  app.get "/v#{apiVersion}/payments/confirm/:trx_id", validate({secret: 'pewaa'}), (req, res) ->
-    ConfirmPayment.handler(req, res)
-
   app.get "/v#{apiVersion}/payments/status/:trx_id", (req, res) ->
     PaymentStatus.handler(req, res)
 
