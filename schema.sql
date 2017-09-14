@@ -367,7 +367,7 @@ ALTER TABLE wishlists ADD COLUMN flagged_description TEXT DEFAULT NULL;
 
 ALTER TABLE payments ADD COLUMN is_anonymous BOOLEAN NOT NULL DEFAULT false;
 
-ALTER TABLE wishlist_items ADD CONSTRAINT DF_WishlistItem _cashout_status DEFAULT '' FOR cashout_status
+ALTER TABLE wishlist_items ADD CONSTRAINT DF_WishlistItem_cashout_status DEFAULT '' FOR cashout_status
 
 --
 -- PostgreSQL database dump complete
