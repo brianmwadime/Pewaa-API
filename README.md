@@ -1,6 +1,8 @@
 ![](http://www.pewaa.com/img/core-img/logo.png)
 # Pewaa-API
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/brianmwadime/Pewaa-API.svg?token=c47efb4a3c86e5c26d2e69b8b2971f943739075c904f45769bc487ae1691f2f0&ts=1508504849472)](https://greenkeeper.io/)
+
 ## Table of Contents
 
 * [Installation](#Installation)
