@@ -236,3 +236,4 @@ uploads/*
 *.xcscmblueprint
 demo.http
 demo.rest
+environment.coffee
